@@ -1,6 +1,9 @@
 class OrderItemsController < ApplicationController
+  after_save :update_total
   def create
     @order = current_order
+    @order.status = "Pending"
+    # @order.total_price = calculate_total
     @item = @order.order_items.new(item_params)
     @item.save
     session[:order_id] = @order.id
@@ -13,6 +16,10 @@ class OrderItemsController < ApplicationController
     flash[:notice] = "#{@item.product.name} successfully removed from basket"
     redirect_to cart_path
   end
+
+  # def calculate_total
+  #   @order_items.map { |item| item.product.price * item.quantity.to_i }.sum
+  # end
 
   private
 

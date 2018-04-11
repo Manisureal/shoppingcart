@@ -22,7 +22,7 @@
   <% end %>
   <tr>
     <td colspan="6" class="text-right"><b>Your Order Total:</b></td>
-    <td colspan="7"><b><%= @order_items.map { |item| item.product.price * item.quantity.to_i }.sum  %></b></td>
+    <td colspan="7"><b> <%= current_order.calculate_total %><%#= @order_items.map { |item| item.product.price * item.quantity.to_i }.sum  %></b></td>
   </tr>
   <% else %>
     <p>You Shopping cart is currently empty.</p>
