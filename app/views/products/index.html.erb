@@ -1,0 +1,14 @@
+<!-- iterate over each product -->
+<% @products.each do |p| %>
+<!-- print products name and price with the help of ruby currency helper -->
+<%= p.name %> | <%= number_to_currency p.price %>
+<!-- create a form for the order item that is created from the product -->
+  <%= form_for @order_item do |f| %>
+  <!-- using hidden field we will associate a product_id with the order item so we know this order item belongs to this product -->
+    <%= f.hidden_field :product_id, value: p.id %>
+    <!-- the quantity of order items that we are created from this product -->
+    <%= f.number_field :quantity %>
+    <!-- finally the cart button which will help add it to the cart - in other words to the order_items -->
+    <%= f.submit 'Add to Cart' %>
+  <% end %>
+<% end %>
