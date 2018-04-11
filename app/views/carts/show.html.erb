@@ -1,2 +1,48 @@
-<h1>Carts#show</h1>
-<p>Find me in app/views/carts/show.html.erb</p>
+<table>
+  <tr>
+    <th>Product Code</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Unit Price</th>
+    <th>Quantity</th>
+    <th>Pack Size</th>
+    <th>Total Price</th>
+  </tr>
+<% if @order_items.any? %>
+<% @order_items.each do |item| %>
+  <tr>
+    <td><%= item.product.product_code %></td>
+    <td><%= item.product.name %> | <%= link_to "Delete", order_item_path(item), :data => {:confirm => "You Sure?", :method => "delete"} %></td>
+    <td><%= item.product.description %></td>
+    <td><%= number_to_currency item.product.price %></td>
+    <td><%= item.quantity %></td>
+    <td><%= item.product.pack_size %></td>
+    <td><%= item.product.price * item.quantity.to_i %></td>
+  </tr>
+  <% end %>
+  <tr>
+    <td colspan="6" class="text-right"><b>Your Order Total:</b></td>
+    <td colspan="7"><b><%= @order_items.map { |item| item.product.price * item.quantity.to_i }.sum  %></b></td>
+  </tr>
+  <% else %>
+    <p>You Shopping cart is currently empty.</p>
+  <% end %>
+</table>
+
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>

@@ -7,6 +7,13 @@ class OrderItemsController < ApplicationController
     redirect_to products_path
   end
 
+  def destroy
+    @item = OrderItem.find(params[:id])
+    @item.destroy
+    flash.now[:notice] = "Item has successfully been deleted!"
+    redirect_to cart_path
+  end
+
   private
 
   def item_params

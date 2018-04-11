@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-  get 'carts/show'
-
-  get 'carts_controller/show'
+  # get 'carts/show'
 
   get 'order_items/create'
 
@@ -10,4 +8,5 @@ Rails.application.routes.draw do
   root to: 'pages#home'
   resources :products
   resources :order_items
+  resource :cart, only: [:show]
 end
