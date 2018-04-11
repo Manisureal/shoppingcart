@@ -10,7 +10,7 @@ class OrderItemsController < ApplicationController
   def destroy
     @item = OrderItem.find(params[:id])
     @item.destroy
-    flash.now[:notice] = "Item has successfully been deleted!"
+    flash[:notice] = "#{@item.product.name} successfully removed from basket"
     redirect_to cart_path
   end
 
