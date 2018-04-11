@@ -1,5 +1,5 @@
 class OrderItemsController < ApplicationController
-  after_save :update_total
+
   def create
     @order = current_order
     @order.status = "Pending"
