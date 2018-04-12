@@ -2,7 +2,7 @@ class OrderItemsController < ApplicationController
 
   def create
     @order = current_order
-    @order.status = "Pending"
+    @order.status = "Initiated"
     # @order.total_price = calculate_total
     @item = @order.order_items.new(item_params)
     @item.save
