@@ -10,9 +10,14 @@ class Order < ApplicationRecord
 
   before_create :update_status
 
+  def total_quantity
+    self.order_items.map { |oi| oi.quantity }.sum
+  end
+
+
   # public methods can be used in views/controllers if needed to be
   def calculate_total
-    self.order_items.map { |item| item.product.price*item.quantity }.sum
+    self.order_items.map { |item| item.product.price*item.quantity.to_i }.sum
   end
 
   private
