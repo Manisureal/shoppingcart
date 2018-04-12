@@ -1,12 +1,12 @@
 class Order < ApplicationRecord
   has_many :order_items
   # before_save :update_total
-  before_save :update_total
+  # before_save :update_total
   after_save :update_total
-  around_save :update_total
-  before_create :update_total
-  after_create :update_total
-  around_create :update_total
+  # around_save :update_total
+  # before_create :update_total
+  # after_create :update_total
+  # around_create :update_total
 
   before_create :update_status
 
