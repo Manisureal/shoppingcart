@@ -3,7 +3,7 @@
 </div>
 
 <div class="container">
-  <% if !@orders.nil? %>
+  <%# if !@orders.nil? %>
   <% @orders.each do |o| %>
     <%= link_to order_path(o) do %>
       <div class="message">
@@ -12,19 +12,19 @@
           <p><%= o.created_at.strftime("%m/%d/%Y") %></p>
         </div>
         <div class="message-body">
-          <p><strong>Total Quantities: <%= current_order.total_quantity %></strong></p>
+          <p><strong>Total Quantities: <%= o.total_quantity %></strong></p>
           <p>
             <b>Delivery Address:</b> Unit 5 Brickfield Trading Estate - SO53 4DR
           </p>
         </div>
         <div class="message-status">
           <p class="status pending"><%= o.status %></p>
-          <p class="price"><%= number_to_currency current_order.calculate_total %></p>
+          <p class="price"><%= number_to_currency o.calculate_total %></p>
         </div>
       </div>
     <% end %>
   <% end %>
-  <% end %>
+  <%# end %>
 </div>
 
 

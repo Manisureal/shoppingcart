@@ -8,6 +8,6 @@ Rails.application.routes.draw do
   root to: 'pages#home'
   resources :products
   resources :order_items
-  resource :cart, only: [:show, :destroy]
+  resource :cart, only: [:show, :destroy, :create]
   resources :orders, only: [:index, :show]
 end

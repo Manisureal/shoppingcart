@@ -4,16 +4,20 @@ class Order < ApplicationRecord
   # before_save :update_total
   after_save :update_total
   # around_save :update_total
-  # before_create :update_total
-  # after_create :update_total
+  before_create :update_total
+  after_create :update_total
+  # after_create :reset_current_session
   # around_create :update_total
 
   before_create :update_status
 
+  # def reset_current_session
+  #   self.session[:order_id] = nil
+  # end
+
   def total_quantity
     self.order_items.map { |oi| oi.quantity }.sum
   end
-
 
   # public methods can be used in views/controllers if needed to be
   def calculate_total
