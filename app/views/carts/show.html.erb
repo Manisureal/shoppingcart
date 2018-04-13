@@ -23,7 +23,7 @@
   <tr>
     <th><%= link_to "Add More", products_path, class: "btn btn-warning" %></th>
     <th><%= link_to "My Orders", orders_path, class: "btn btn-success" %></th>
-    <th><%= link_to "Empty Cart", cart_path(@cart) ,method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-success" %></th>
+    <th><%= link_to "Empty Cart", cart_path(current_order) ,method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-success" %></th>
     <td colspan="3" class="text-right"><b>Your Order Total:</b></td>
     <td colspan="4"><b> <%= current_order.calculate_total %><%#= @order_items.map { |item| item.product.price * item.quantity.to_i }.sum  %></b></td>
   </tr>

@@ -1,13 +1,21 @@
 class CartsController < ApplicationController
   def show
-    @cart = current_order
+
     @order_items = current_order.order_items
+    # require
   end
 
   def destroy
-    @cart = current_order
-    @cart.destroy
-    session[:order_id] = nil
+    @cart_items = current_order.order_items
+    @cart_items.destroy_all
+    if current_order.id != nil?
+      session[:order_id] = nil
+    end
+    Order.first.delete
     redirect_to products_path
+  end
+
+  def create
+
   end
 end
