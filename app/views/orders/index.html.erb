@@ -3,6 +3,7 @@
 </div>
 
 <div class="container">
+  <% if !@orders.nil? %>
   <% @orders.each do |o| %>
     <%= link_to order_path(o) do %>
       <div class="message">
@@ -22,6 +23,7 @@
         </div>
       </div>
     <% end %>
+  <% end %>
   <% end %>
 </div>
 
