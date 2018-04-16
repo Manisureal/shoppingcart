@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_order
   helper_method :reset_session
   before_action :configure_permitted_parameters, if: :devise_controller?
+  protect_from_forgery
+  before_action :authenticate_user!
 
   def configure_permitted_parameters
     # For additional fields in app/views/devise/registrations/new.html.erb

@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  # skip_before_action :authenticate_user!
   def index
     # if !session[:order_id].nil?
       # reset_session
