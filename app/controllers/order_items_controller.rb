@@ -7,6 +7,8 @@ class OrderItemsController < ApplicationController
     @item = @order.order_items.new(item_params)
     @item.save
     session[:order_id] = @order.id
+    @order.user_id = current_user.id
+    # require
     redirect_to products_path
   end
 
