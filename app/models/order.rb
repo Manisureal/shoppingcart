@@ -1,5 +1,6 @@
 class Order < ApplicationRecord
   has_many :order_items
+  has_one :user
   # before_save :update_total
   # before_save :update_total
   after_save :update_total

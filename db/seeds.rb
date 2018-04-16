@@ -12,3 +12,11 @@ Product.create name: "Papers", price: 8, description: "Few Papers", pack_size: 1
 Product.create name: "Clips", price: 6, description: "Dozen Clips", pack_size: 20, product_code: "SKU89562"
 Product.create name: "Multis", price: 4, description: "Multis in the form", pack_size: 12, product_code: "SKU29561"
 Product.create name: "Unities", price: 12, description: "Unities paper forms", pack_size: 18, product_code: "SKU74815"
+
+
+Order.delete_all
+OrderItem.delete_all
+
+User.delete_all
+User.create forname: "Mansoor", surname: "Zaman", email: "mansoor@caremeds.co.uk", password: "123456", password_confirmation: "123456"
+User.create forname: "Andy", surname: "Withers", email: "andy@caremeds.co.uk", password: "456789", password_confirmation: "456789"

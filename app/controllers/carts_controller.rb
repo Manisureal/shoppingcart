@@ -1,5 +1,6 @@
 class CartsController < ApplicationController
   def show
+    # @user = current_user
     @order_items = current_order.order_items
     #
     # require
@@ -17,6 +18,8 @@ class CartsController < ApplicationController
 
   def create
     @order = current_order
+    @order.user_id = current_user.id
+    # require
     # @order_items = OrderItem.find(current_order)
     # @order_items = current_order.order_items
     @order.status = "pending"
