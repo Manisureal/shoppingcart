@@ -3,8 +3,9 @@
 </div>
 
 <div class="container">
-  <%# if !@orders.nil? %>
-  <% @orders.each do |o| %>
+  <%# if @orders.current_user? %>
+  <% current_user.orders.each do |o| %>
+   <%# if policy(o).index %>
     <%= link_to order_path(o) do %>
       <div class="message">
         <div class="message-name">
@@ -23,6 +24,7 @@
           <%#= link_to "Delete", orders_path(o) ,method: :destroy, data: {confirm: "Are you sure?"}, class: "btn btn-success" %>
         </div>
       </div>
+    <%# end %>
     <% end %>
   <% end %>
   <%# end %>
