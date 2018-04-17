@@ -33,6 +33,7 @@ class CartsController < ApplicationController
     # @order.total_price = calculate_total
 
     @order.save!
+    authorize @order
     # @cart_items = current_order.order_items
     # @cart_items.destroy_all
     # require
