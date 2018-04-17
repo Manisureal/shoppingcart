@@ -1,8 +1,9 @@
 class CartsController < ApplicationController
   def show
+    # reset_session
     # @user = current_user
     @order_items = current_order.order_items
-    #
+    authorize @order_items
     # require
   end
 
