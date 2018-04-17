@@ -1,2 +1,25 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container">
+  <div class="row pad-top">
+    <div class="col-xs-12 col-md-4 text-center">
+      <div class="well">
+        <%= link_to "Buy New Products", products_path, class: "btn btn-success btn-lg" %>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-4 text-center">
+      <div class="well">
+        <%= link_to "My Orders", orders_path, class: "btn btn-primary btn-lg" %>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-4 text-center">
+      <div class="well">
+        <%= link_to "My Cart", cart_path, class: "btn btn-warning btn-lg" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .pad-top {
+    padding-top: 50px;
+  }
+</style>

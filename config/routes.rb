@@ -2,12 +2,12 @@ Rails.application.routes.draw do
   devise_for :users
   # get 'carts/show'
 
-  get 'order_items/create'
+  # get 'order_items/create'
 
-  get 'products/index'
+  # get 'products/index'
 
   root to: 'pages#home'
-  resources :products
+  resources :products, only: [:index]
   resources :order_items
   resource :cart, only: [:show, :destroy, :create]
   resources :orders, only: [:index, :show, :destroy]
