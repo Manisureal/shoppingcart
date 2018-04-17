@@ -13,6 +13,7 @@ class CartsController < ApplicationController
     if current_order.id != nil?
       session[:order_id] = nil
     end
+    authorize @cart_items
     Order.last.destroy
     redirect_to products_path
   end
