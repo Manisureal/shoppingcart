@@ -1,16 +1,9 @@
 class OrdersController < ApplicationController
   def index
-    # if !current_order.order_items.empty?
-    # if current_order.save
     # require
-    # @user = current_user
       @orders = policy_scope(Order)
-      # authorize @orders
       # require
       @order_items = current_order.order_items
-    # end
-    # authorize @order_items
-  # end
   end
 
   def show
