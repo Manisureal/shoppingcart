@@ -5,6 +5,7 @@ class OrderItemsController < ApplicationController
     @order.status = "Initiated"
     # @order.total_price = calculate_total
     @item = @order.order_items.new(item_params)
+    authorize @item
     @item.save
     session[:order_id] = @order.id
     @order.user_id = current_user.id
