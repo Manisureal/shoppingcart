@@ -3,15 +3,19 @@ class OrdersController < ApplicationController
     # if !current_order.order_items.empty?
     # if current_order.save
     # require
-      @orders = Order.all
+    # @user = current_user
+      @orders = policy_scope(Order)
+      # authorize @orders
       # require
       @order_items = current_order.order_items
     # end
+    # authorize @order_items
   # end
   end
 
   def show
     @order = Order.find(params[:id])
+    authorize @order
     @order_items = @order.order_items
   end
 
