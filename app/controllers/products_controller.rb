@@ -1,12 +1,8 @@
 class ProductsController < ApplicationController
-  # skip_before_action :authenticate_user!
-  def index
-    # if !session[:order_id].nil?
-      # reset_session
-    # end
 
-    @products = Product.all
-    # @user = current_user
+  def index
+      # reset_session
+    @products = policy_scope(Product)
     @order_item = current_order.order_items.new
   end
 end
