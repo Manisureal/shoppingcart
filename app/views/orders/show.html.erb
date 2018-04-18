@@ -19,13 +19,13 @@
     <td><%= number_to_currency item.product.price %></td>
     <td><%= item.quantity %></td>
     <td><%= item.product.pack_size %></td>
-    <td><%= item.product.price * item.quantity.to_i %></td>
+    <td><%= number_to_currency item.product.price * item.quantity.to_i %></td>
   </tr>
   <% end %>
   <tr>
     <th><%= link_to "My Orders", orders_path, class: "btn btn-warning" %></th>
     <td colspan="5" class="text-right"><b>Your Order Total:</b></td>
-    <td colspan="6"><b> <%= @order.calculate_total %> <%#= current_order.calculate_total %></b></td>
+    <td colspan="6"><b> <%=number_to_currency @order.calculate_total %> <%#= current_order.calculate_total %></b></td>
   </tr>
   <% end %>
 </table>
