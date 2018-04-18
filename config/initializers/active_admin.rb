@@ -10,7 +10,7 @@ ActiveAdmin.setup do |config|
   #
   config.site_title = "Shoppingcart"
 
-  config.authorization_adapter = ActiveAdmin::PunditAdapter
+  # config.authorization_adapter = ActiveAdmin::PunditAdapter
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.

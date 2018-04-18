@@ -9,7 +9,11 @@ gem 'rails', '5.1.6'
 gem 'redis'
 gem 'devise'
 gem 'pundit'
-gem 'activeadmin'
+# gem 'activeadmin'
+gem 'activeadmin', github: 'activeadmin/activeadmin'
+gem 'inherited_resources', github: 'activeadmin/inherited_resources'
+gem 'coffee-rails', '~> 4.1', '>= 4.2.2'
+
 
 gem 'autoprefixer-rails'
 gem 'bootstrap-sass', '~> 3.3'
