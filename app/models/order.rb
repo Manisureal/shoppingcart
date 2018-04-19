@@ -1,6 +1,5 @@
 class Order < ApplicationRecord
   has_many :order_items
-  # has_one :user
   belongs_to :user
   # before_save :update_total
   # before_save :update_total
@@ -14,11 +13,6 @@ class Order < ApplicationRecord
   before_create :update_status
   accepts_nested_attributes_for :order_items, allow_destroy: true, reject_if: lambda { |oi| oi[:product_id].blank? }
   validates :order_items, presence: :true
-
-
-  # def reset_current_session
-  #   self.session[:order_id] = nil
-  # end
 
   def total_quantity
     self.order_items.map { |oi| oi.quantity }.sum

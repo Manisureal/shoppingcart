@@ -1,9 +1,6 @@
 class OrdersController < ApplicationController
   def index
-    # require
-    # reset_session
       @orders = policy_scope(Order)
-      # require
       @order_items = current_order.order_items
   end
 
@@ -46,7 +43,7 @@ class OrdersController < ApplicationController
   def edit
     @order = current_user.orders.find(params[:id])
     (10 - @order.order_items.count).times do
-          @order.order_items << OrderItem.new
+      @order.order_items << OrderItem.new
     end
     authorize @order
   end
@@ -58,7 +55,7 @@ class OrdersController < ApplicationController
       authorize @order
     else
       (10 - @order.order_items.count).times do
-          @order.order_items << OrderItem.new
+        @order.order_items << OrderItem.new
       end
       render :edit
       authorize @order
