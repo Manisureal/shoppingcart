@@ -17,5 +17,17 @@ class OrderPolicy < ApplicationPolicy
     true
   end
 
+  def new?
+    true
+  end
+
+  def edit?
+    true
+  end
+
+  def update?
+    true
+  end
+
 
 end

@@ -19,10 +19,13 @@
           </p>
         </div>
         <div class="message-status">
+          <%= o.status %>
           <% if o.status == "pending" %>
           <p class="status pending"><%= o.status %></p>
           <% elsif o.status == "Completed" || "completed" %>
           <p class="status accepted"><%= o.status %></p>
+          <% else %>
+          <p class="status pending"> sdsd<%= o.status %> </p>
           <% end %>
           <p class="price"><%= number_to_currency o.calculate_total %></p>
           <%#= link_to "Delete", orders_path(o) ,method: :destroy, data: {confirm: "Are you sure?"}, class: "btn btn-success" %>
@@ -93,6 +96,6 @@ body {
   color: red;
 }
 .status.pending {
-  color: lightgrey;
+  color: black;
 }
 </style>

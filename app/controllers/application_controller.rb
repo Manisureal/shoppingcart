@@ -29,9 +29,9 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:forname, :surname])
   end
 
-  def active_admin_controller?
-    is_a?(ActiveAdmin::BaseController)
-  end
+  # def active_admin_controller?
+  #   is_a?(ActiveAdmin::BaseController)
+  # end
 
   def current_order
     if session[:order_id] && current_user

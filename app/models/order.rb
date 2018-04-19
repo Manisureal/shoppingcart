@@ -4,14 +4,17 @@ class Order < ApplicationRecord
   belongs_to :user
   # before_save :update_total
   # before_save :update_total
-  after_save :update_total
+  # after_save :update_total
   # around_save :update_total
-  before_create :update_total
-  after_create :update_total
+  # before_create :update_total
+  # after_create :update_total
   # after_create :reset_current_session
   # around_create :update_total
 
   before_create :update_status
+  accepts_nested_attributes_for :order_items, allow_destroy: true, reject_if: lambda { |oi| oi[:product_id].blank? }
+  validates :order_items, presence: :true
+
 
   # def reset_current_session
   #   self.session[:order_id] = nil
@@ -30,8 +33,8 @@ class Order < ApplicationRecord
   # Methods should always be private if they will be used within a model onlu
 
   def update_status
-    if self.status == nil?
-      self.status = "In Progress"
+    if self.status.nil?
+      self.status = "Ordered"
     end
   end
 
