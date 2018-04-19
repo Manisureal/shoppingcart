@@ -1,17 +1,11 @@
 Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   devise_for :users
-  # get 'carts/show'
-
-  # get 'order_items/create'
-
-  # get 'products/index'
 
   root to: 'pages#home'
   resources :products, only: [:index]
   resources :order_items
   resource :cart, only: [:show, :destroy, :create]
-  resources :orders, only: [:index, :show, :destroy]
-  # resource :orders, only: [:show, :destroy]
-  # delete "orders/:id", to: "orders#destroy"
+  resources :orders#, only: [:index, :show, :destroy, :new]
+
 end

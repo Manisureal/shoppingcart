@@ -1,0 +1,2 @@
+<%= oi.select(:product_id, Product.all.collect { |p| [p.name, p.id] }, include_blank: "Select One" ) %>
+  <%= oi.number_field :quantity %>

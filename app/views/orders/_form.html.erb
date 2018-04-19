@@ -1,0 +1,18 @@
+<%= simple_form_for @order do |f| %>
+<% if @order.errors.any? %>
+    <div class="errors-container">
+      <ul>
+        <% @order.errors.full_messages.each do |order| %>
+          <li><%= order %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= f.text_area :notes %>
+  <%= f.fields_for :order_items do |oi| %>
+  <div id="order-item-container">
+  <%= render partial: "order_item", locals: { oi: oi } %>
+  </div>
+  <% end %>
+  <%= f.submit "Submit Order" %>
+<% end %>
