@@ -23,7 +23,6 @@
   </tr>
   <% end %>
   <tr>
-
     <th><%= link_to "My Orders", orders_path, class: "btn btn-warning" %></th>
     <% if @order.status == "Ordered" %>
     <th><%= link_to "Edit Orders", edit_order_path(@order), class: "btn btn-warning" %></th><% end %>
