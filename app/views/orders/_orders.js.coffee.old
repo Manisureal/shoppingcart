@@ -1,0 +1,21 @@
+window.onload = ->
+  $(document).ready ->
+    $('.mats-widget').change ->
+      counter_id = $(this).data('counter-id')
+      $('#pack-size-' + counter_id).val $(this).find(':selected').data('pack-size')
+      $('#price-' + counter_id).val $(this).find(':selected').data('price')
+      $('#product-code-' + counter_id).val $(this).find(':selected').data('product-code')
+      return
+    $('.quan-tot').change ->
+      console.log 'hello'
+      counter_id = $(this).data('counter-id')
+      console.log 'hello'
+      # var quantity = $(this).data("quantity");
+      # console.log("hello");
+      price = $('#price-' + counter_id).val() * $(this).val()
+      console.log price
+      $('#total-' + counter_id).val price
+      console.log 'hello'
+      return
+    return
+  return

@@ -1,18 +1,30 @@
-<%= simple_form_for @order do |f| %>
-<% if @order.errors.any? %>
-    <div class="errors-container">
-      <ul>
-        <% @order.errors.full_messages.each do |order| %>
-          <li><%= order %></li>
-        <% end %>
-      </ul>
-    </div>
+<div class="col-xs-12 col-md-8">
+  <%= form_for @order do |f| %>
+    <% if @order.errors.any? %>
+      <div class="errors-container">
+        <ul>
+          <% @order.errors.full_messages.each do |order| %>
+            <li><%= order %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <%= f.text_area :notes %>
+    <% my_counter = 0 %>
+    <%= f.fields_for :order_items do |oi| %>
+      <div id="order-item-container">
+      <%= render partial: "order_item", locals: { oi: oi, counter: my_counter } %>
+      <% my_counter = my_counter.to_i + 1 %>
+      </div>
+    <% end %>
+    <strong>Total: </strong><input type="text" value="<%= @order.calculate_total %>" id="total-order-value" disabled><br>
+    <%= f.submit "Submit Order" %>
   <% end %>
-  <%= f.text_area :notes %>
-  <%= f.fields_for :order_items do |oi| %>
-  <div id="order-item-container">
-  <%= render partial: "order_item", locals: { oi: oi } %>
-  </div>
-  <% end %>
-  <%= f.submit "Submit Order" %>
-<% end %>
+</div>
+
+<script>
+  <%= raw render partial: "orders.js" %>
+</script>
+
+
+

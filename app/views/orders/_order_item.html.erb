@@ -1,2 +1,10 @@
-<%= oi.select(:product_id, Product.all.collect { |p| [p.name, p.id] }, include_blank: "Select One" ) %>
-  <%= oi.number_field :quantity %>
+<%= oi.select(:product_id, Product.all.collect { |p| [p.name, p.id] }, {include_blank: "Select One"}, {class: "product-selector", data: {counter_id: counter}} ) %>
+
+<%= oi.text_field :quantity, class: "quan-tot", data: {counter_id: counter } %>
+
+<input id="pack-size-<%= counter %>" value="<%= oi.object.product ? oi.object.product.pack_size : "" %>"  disabled>
+<input id="price-<%= counter %>" value="<%= oi.object.product ? oi.object.product.price : "" %>" disabled>
+<input id="product-code-<%= counter %>" value="<%= oi.object.product ? oi.object.product.product_code : "" %>" disabled>
+<input class="order-item-total" id="total-<%= counter %>" value="<%= oi.object.total %>" disabled>
+
+
