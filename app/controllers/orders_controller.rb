@@ -1,4 +1,5 @@
 class OrdersController < ApplicationController
+  skip_before_action :verify_authenticity_token
   def index
       @orders = policy_scope(Order)
       @order_items = current_order.order_items
@@ -28,6 +29,7 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
     @order.user = current_user
       if @order.save
+        @order.errors.full_messages
         redirect_to orders_path
         authorize @order
       else

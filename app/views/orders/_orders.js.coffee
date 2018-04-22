@@ -2,6 +2,9 @@
 
 window.onload = ->
   $(document).ready ->
+    #$('.selectpicker').selectpicker
+      #style: 'btn-info'
+      #size: 4
     $('.product-selector').change ->
       counter_id = $(this).data('counter-id')
       product_id = $(this).find(':selected').val()
