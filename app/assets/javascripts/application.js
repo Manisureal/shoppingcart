@@ -1,10 +1,6 @@
 
 //= require jquery
-//= require bootstrap
 //= require rails-ujs
+//= require bootstrap
+//= require bootstrap-select.min
 //= require_tree .
-
-$("#mats-widget").change(function() {
-
-  alert("Pack Size:" + $(this).data("pack_size"));
-});

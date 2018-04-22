@@ -1,55 +1,102 @@
-
-  <div class="container">
-
-      <table>
-        <tr>
-          <th>Product</th>
-          <th>Quantity</th>
-          <th>Code</th>
-          <th>Pack Size</th>
-          <th>Price</th>
-          <th>Current Total</th>
-          <!-- <th><%#= link_to "Check Out", cart_path, class: "btn btn-primary" %></th> -->
-        </tr>
-        <%= form_for @order do |f| %>
-          <% my_counter = 0 %>
-          <%= f.fields_for :order_items do |oi| %>
-          <tr>
-            <td><%= oi.select(:product_id, Product.all.collect { |p| [p.name, p.id] }, {include_blank: "Select One"}, {class: "product-selector selectpicker", data: {counter_id: my_counter}} ) %></td>
-            <td><%= oi.text_field :quantity, class: "quan-tot", data: {counter_id: my_counter } %></td>
-            <td><input id="product-code-<%= my_counter %>" value="<%= oi.object.product ? oi.object.product.product_code : "" %>" disabled></td>
-            <td><input id="pack-size-<%= my_counter %>" value="<%= oi.object.product ? oi.object.product.pack_size : "" %>"  disabled></td>
-            <td><input id="price-<%= my_counter %>" value="<%= oi.object.product ? oi.object.product.price : "" %>" disabled></td>
-            <td><input class="order-item-total" id="total-<%= my_counter %>" value="<%= oi.object.total %>" disabled></td>
-          </tr>
-          <% my_counter = my_counter.to_i + 1 %>
-          <% end %>
-        <% end %>
-      </table>
+<div class="container">
+  <div class="row text-center">
+    <div class="col-md-2">
+        <h4>Product</h4>
     </div>
+    <div class="col-md-2">
+        <h4>Quantity</h4>
+    </div>
+    <div class="col-md-2">
+        <h4>Code</h4>
+    </div>
+    <div class="col-md-2">
+        <h4>Pack Size</h4>
+    </div>
+    <div class="col-md-2">
+        <h4>Price</h4>
+    </div>
+    <div class="col-md-2">
+        <h4>Current Total</h4>
+    </div>
+  </div>
+  <%= form_for @order do |f| %>
+  <% my_counter = 0 %>
+    <%= f.fields_for :order_items do |oi| %>
+  <div class="row">
+    <div class="col-md-2">
+      <td><%= oi.select(:product_id, options_for_select(Product.all.collect { |p| [p.name, p.id] }), {include_blank: "Select One"}, {class: "product-selector form-control selectpicker", id: "selectpicker", data: {counter_id: my_counter}} ) %></td>
+    </div>
+    <div class="col-md-2">
+      <%= oi.text_field :quantity, class: "quan-tot form-control", data: {counter_id: my_counter } %>
+    </div>
+    <div class="col-md-2">
+      <input id="product-code-<%= my_counter %>" class="form-control" value="<%= oi.object.product ? oi.object.product.product_code : "" %>" disabled>
+    </div>
+    <div class="col-md-2">
+      <input id="pack-size-<%= my_counter %>" class="form-control" value="<%= oi.object.product ? oi.object.product.pack_size : "" %>"  disabled>
+    </div>
+    <div class="col-md-2">
+      <input id="price-<%= my_counter %>" class="form-control" value="<%= oi.object.product ? oi.object.product.price : "" %>" disabled>
+    </div>
+    <div class="col-md-2">
+      <div class="input-group"><span class="input-group-addon">£</span><input class="order-item-total form-control" id="total-<%= my_counter %>" value="<%= oi.object.total %>" disabled></div>
+    </div>
+  </div>
+    <% my_counter = my_counter.to_i + 1 %>
+    <% end %>
+  <div class="row">
+    <div class="col-md-4">
+      <%= f.submit "Submit Order", class: "btn btn-primary"%>
+  <% end %>
+    </div>
+    <div class="col-md-4">
+      <strong>Total: </strong>
+    </div>
+    <div class="col-md-4">
+      <div class="input-group">
+        <span class="input-group-addon">£</span>
+        <input type="text" class="form-control" value="<%= @order.calculate_total %>" id="total-order-value" disabled>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-
-<style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-</style>
-
+<!-- <div class="col-xs-12 col-md-8">
+  <%#= form_for @order do |f| %>
+    <%# if @order.errors.any? %>
+      <div class="errors-container">
+        <ul>
+          <%# @order.errors.full_messages.each do |order| %>
+            <li><%#= order %></li>
+          <%# end %>
+        </ul>
+      </div>
+    <%# end %>
+    <%#= f.text_area :notes %>
+    <%# my_counter = 0 %>
+    <%#= f.fields_for :order_items do |oi| %>
+      <div id="order-item-container">
+      <%#= render partial: "order_item", locals: { oi: oi, counter: my_counter } %>
+      <%# my_counter = my_counter.to_i + 1 %>
+      </div>
+    <%# end %>
+    <strong>Total: </strong><input type="text" value="<%= @order.calculate_total %>" id="total-order-value" disabled><br>
+    <%#= f.submit "Submit Order" %>
+  <%# end %>
+</div> -->
 
 <script>
   <%= raw render partial: "orders.js" %>
 </script>
 
+<!-- <script>
+  window.onload = function() {
+  $('document').ready(function(){
+    $('.selectpicker').selectpicker({
+      style: 'btn-info',
+      size: 4
+    });
+  });
+}
+</script> -->
