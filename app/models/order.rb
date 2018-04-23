@@ -1,6 +1,7 @@
 class Order < ApplicationRecord
   has_many :order_items
   belongs_to :user
+  belongs_to :company
   before_create :update_status
   accepts_nested_attributes_for :order_items, allow_destroy: true, reject_if: lambda { |oi| oi[:product_id].blank? }
   validates :order_items, presence: :true

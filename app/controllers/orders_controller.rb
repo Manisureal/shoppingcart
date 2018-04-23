@@ -1,8 +1,8 @@
 class OrdersController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
-      @orders = policy_scope(Order)
-      @order_items = current_order.order_items
+      @orders = policy_scope(Order).order("created_at desc")
+      # @order_items = current_order.order_items
   end
 
   def show
@@ -19,6 +19,7 @@ class OrdersController < ApplicationController
 
   def new
     @order = Order.new
+    @order.address = current_user.company ? current_user.company.address + current_user.company.postcode : ""
     10.times do
       @order.order_items << OrderItem.new
     end
@@ -28,8 +29,10 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.user = current_user
+    @order.company = current_user.company
       if @order.save
         @order.errors.full_messages
+        flash[:notice] = "Order# #{@order.id}, Created Successfully"
         redirect_to orders_path
         authorize @order
       else
@@ -53,6 +56,7 @@ class OrdersController < ApplicationController
   def update
     @order = current_user.orders.find(params[:id])
     if @order.update(order_params)
+      flash[:notice] = "Order# #{@order.id}, Updated Successfully"
       redirect_to orders_path
       authorize @order
     else
@@ -67,6 +71,6 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.require(:order).permit(:notes, order_items_attributes: [:id, :product_id, :quantity])
+    params.require(:order).permit(:notes, :address, order_items_attributes: [:id, :product_id, :quantity])
   end
 end

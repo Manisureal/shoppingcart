@@ -6,13 +6,14 @@ ActiveAdmin.register_page "Dashboard" do
     columns do
       column do
         panel "Recent Orders" do
-          table_for Order.order("id desc").limit(10) do
+          table_for Order.where(status: "Ordered").order("id desc").limit(10) do
             column("Order#") { |order| link_to(order.id, admin_order_path(order)) }
             column("Order Date") { |order| order.created_at }
             column("Status") { |order| status_tag(order.status, class: order.status == "Ordered" ? "error" : "done") }
             column("Customer") { |order| link_to(order.user.forname + ' ' + order.user.surname, admin_user_path(order.user)) }
             # require
             column("Total")   { |order| number_to_currency order.total_price }
+            column("Actions") { |order| link_to("Take Order", admin_order_path(order) + "?take_order=true" ) }
           end
         end
       end

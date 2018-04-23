@@ -1,5 +1,5 @@
 ActiveAdmin.register User do
-  permit_params :forname, :surname, :email, :password, :password_confirmation, :admin
+  permit_params :forname, :surname, :email, :password, :password_confirmation, :admin, :company_id
 
   index do
     selectable_column
@@ -9,6 +9,7 @@ ActiveAdmin.register User do
     column :surname
     column :created_at
     column :admin
+    column :company
     actions
   end
 end
