@@ -4,6 +4,10 @@ class Order < ApplicationRecord
   before_create :update_status
   accepts_nested_attributes_for :order_items, allow_destroy: true, reject_if: lambda { |oi| oi[:product_id].blank? }
   validates :order_items, presence: :true
+  after_update :update_total
+  after_create :update_total
+  before_create :update_total
+  before_save :update_total
 
   def total_quantity
     self.order_items.map { |oi| oi.quantity }.sum
@@ -23,7 +27,7 @@ class Order < ApplicationRecord
     end
   end
 
-  # def update_total
-  #   self.total_price = calculate_total
-  # end
+  def update_total
+    self.total_price = calculate_total
+  end
 end

@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="row text-center">
+  <div class="row text-center dark-grey" style="background-color:;">
     <div class="col-md-2">
         <h4>Product</h4>
     </div>
@@ -22,7 +22,7 @@
   <%= form_for @order do |f| %>
   <% my_counter = 0 %>
     <%= f.fields_for :order_items do |oi| %>
-  <div class="row">
+  <div class="row bg-color">
     <div class="col-md-2">
       <td><%= oi.select(:product_id, options_for_select(Product.all.collect { |p| [p.name, p.id] }), {include_blank: "Select One"}, {class: "product-selector form-control selectpicker", id: "selectpicker", data: {counter_id: my_counter}} ) %></td>
     </div>
@@ -44,15 +44,18 @@
   </div>
     <% my_counter = my_counter.to_i + 1 %>
     <% end %>
-  <div class="row">
-    <div class="col-md-4">
+  <div class="row pad-top-bot" style="background-color:#fffafa;">
+    <div class="col-md-2">
       <%= f.submit "Submit Order", class: "btn btn-primary"%>
   <% end %>
     </div>
-    <div class="col-md-4">
-      <strong>Total: </strong>
+    <div class="col-md-2"><%= link_to "My Orders", orders_path, class: "btn btn-warning" %></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-2 text-right">
+      <strong class="dark-grey">Total: </strong>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
       <div class="input-group">
         <span class="input-group-addon">£</span>
         <input type="text" class="form-control" value="<%= @order.calculate_total %>" id="total-order-value" disabled>
@@ -60,7 +63,6 @@
     </div>
   </div>
 </div>
-
 
 <!-- <div class="col-xs-12 col-md-8">
   <%#= form_for @order do |f| %>
@@ -100,3 +102,29 @@
   });
 }
 </script> -->
+
+<style>
+  .pad-top-bot {
+    padding: 10px 0;
+  }
+
+  .dark-grey {
+    color:#8b8989;
+  }
+
+  .container {
+    width:100%;
+  }
+  /*.bg-color:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  .bg-color:nth-child(odd) {
+    background-color: white;
+  }*/
+
+  .bg-color {
+    background-color: white;
+    padding: 10px 0;
+  }
+</style>
