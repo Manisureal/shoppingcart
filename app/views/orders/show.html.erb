@@ -1,6 +1,6 @@
-<h1>Order# <%= @order.id %> Summary</h1>
+<h1 style="color:#696969;">Order# <%= @order.id %> Summary</h1>
 
-<table>
+<table style="color:#696969;">
   <tr>
     <th>Product Code</th>
     <th>Name</th>
@@ -23,11 +23,12 @@
   </tr>
   <% end %>
   <tr>
-    <th><%= link_to "My Orders", orders_path, class: "btn btn-warning" %></th>
-    <% if @order.status == "Ordered" %>
-    <th><%= link_to "Edit Orders", edit_order_path(@order), class: "btn btn-warning" %></th><% end %>
+    <th><%= link_to "My Orders", orders_path, class: "btn btn-info" %></th>
+    <td><% if @order.status == "Ordered" %>
+    <%= link_to "Edit Orders", edit_order_path(@order), class: "btn btn-warning" %>
+    <% end %></td>
     <td colspan="4" class="text-right"><b>Your Order Total:</b></td>
-    <td colspan="5"><b> <%=number_to_currency @order.calculate_total %> <%#= current_order.calculate_total %></b></td>
+    <td colspan="6"><b> <%=number_to_currency @order.calculate_total %> <%#= current_order.calculate_total %></b></td>
   </tr>
   <% end %>
 </table>
