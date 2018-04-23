@@ -16,11 +16,12 @@
         <div class="message-name">
           <h3>Order# <%= o.id %></h3>
           <p><%= o.created_at.strftime("%m/%d/%Y") %></p>
+          <p><%= o.created_at.strftime("%H:%M:%S") %></p>
         </div>
         <div class="message-body">
           <p><strong>Total Quantities: <%= o.total_quantity %></strong></p>
           <p>
-            <b>Delivery Address:</b> Unit 5 Brickfield Trading Estate - SO53 4DR
+            <b>Delivery Address:</b> <%= o.address %>
           </p>
         </div>
         <div class="message-status">
