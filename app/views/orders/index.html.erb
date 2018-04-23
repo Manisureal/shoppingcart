@@ -1,8 +1,13 @@
 <div class="container">
-  <h1>Your Orders</h1>
-</div>
+  <div class="message">
+    <div class="col-xs-12 col-md-6" style="font-size:2.2em;color:#696969;">
+      <b><%= current_user.forname %>'s Orders</b>
+    </div>
+    <div class="col-xs-12 col-md-6 text-right">
+      <%= link_to "New Order", new_order_path, class: "btn btn-success" %>
+    </div>
+  </div>
 
-<div class="container">
   <%# if @orders.current_user? %>
   <% current_user.orders.each do |o| %>
    <%# if policy(o).index %>
@@ -19,8 +24,7 @@
           </p>
         </div>
         <div class="message-status">
-          <%= o.status %>
-          <% if o.status == "pending" %>
+          <% if o.status == "Ordered" %>
           <p class="status pending"><%= o.status %></p>
           <% elsif o.status == "Completed" || "completed" %>
           <p class="status accepted"><%= o.status %></p>
@@ -39,11 +43,12 @@
 
 
 <style>
+
 body {
   background-color: #fff;
 }
-  .message {
-    background-color: #F8F8FF;
+.message {
+  background-color: #F8F8FF;
   display: flex;
   align-items: center;
   padding: 20px;
@@ -96,6 +101,6 @@ body {
   color: red;
 }
 .status.pending {
-  color: black;
+  color: grey;
 }
 </style>
