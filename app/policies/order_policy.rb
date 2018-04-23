@@ -6,7 +6,7 @@ class OrderPolicy < ApplicationPolicy
   end
 
   def index?
-    false
+    true
   end
 
   def show?
@@ -28,6 +28,5 @@ class OrderPolicy < ApplicationPolicy
   def update?
     true
   end
-
 
 end

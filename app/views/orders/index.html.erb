@@ -9,7 +9,7 @@
   </div>
 
   <%# if @orders.current_user? %>
-  <% current_user.orders.each do |o| %>
+  <% @orders.each do |o| %>
    <%# if policy(o).index %>
     <%= link_to order_path(o) do %>
       <div class="message">

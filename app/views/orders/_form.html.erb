@@ -1,4 +1,11 @@
+<%= form_for @order do |f| %>
 <div class="container">
+  <h4>Shipping Address</h4>
+  <%= f.text_area :address %>
+  <h4>Order Notes</h4>
+  <%= f.text_area :notes %>
+
+
   <div class="row text-center dark-grey" style="background-color:;">
     <div class="col-md-2">
         <h4>Product</h4>
@@ -19,12 +26,11 @@
         <h4>Current Total</h4>
     </div>
   </div>
-  <%= form_for @order do |f| %>
   <% my_counter = 0 %>
     <%= f.fields_for :order_items do |oi| %>
   <div class="row bg-color">
     <div class="col-md-2">
-      <td><%= oi.select(:product_id, options_for_select(Product.all.collect { |p| [p.name, p.id] }), {include_blank: "Select One"}, {class: "product-selector form-control selectpicker", id: "selectpicker", data: {counter_id: my_counter}} ) %></td>
+      <td><%= oi.select(:product_id, Product.all.collect { |p| [p.name, p.id] }, {include_blank: "Select One"}, {class: "product-selector form-control selectpicker", data: {counter_id: my_counter}} ) %></td>
     </div>
     <div class="col-md-2">
       <%= oi.text_field :quantity, class: "quan-tot form-control", data: {counter_id: my_counter } %>
