@@ -1,9 +1,22 @@
-<%= form_for @order do |f| %>
+<%= simple_form_for @order do |f| %>
 <div class="container">
-  <h4>Shipping Address</h4>
-  <%= f.text_area :address %>
-  <h4>Order Notes</h4>
-  <%= f.text_area :notes %>
+  <div class="row pad-top-bot">
+    <div class="col-md-4 dark-grey">
+      <h4>Shipping Address</h4>
+      <%= f.text_area :address %>
+    </div>
+    <div class="col-md-4 text-center dark-grey"><br><br>
+      <h4>Order for <b><%= current_user.forname %></b></h4>
+      <h4>Company: <b><%= current_user.company ? current_user.company.name : "Nil" %></b></h4>
+      <h4>Order Date: <b><%= Time.now.strftime("%A, %b %d") %></b></h4>
+      <h4>Order Time: <b><%= Time.now.strftime("%H:%M:%S") %></b></h4>
+
+    </div>
+    <div class="col-md-4 text-right dark-grey">
+      <h4>Order Notes</h4>
+      <%= f.text_area :notes %>
+    </div>
+  </div>
 
 
   <div class="row text-center dark-grey" style="background-color:;">
@@ -111,15 +124,28 @@
 
 <style>
   .pad-top-bot {
-    padding: 10px 0;
+    padding: 20px 0;
   }
 
   .dark-grey {
-    color:#8b8989;
+    /*color:#8b8989;*/
+    color:#696969;
   }
 
   .container {
     width:100%;
+  }
+
+  textarea {
+    width:250px;
+    height:180px;
+    padding:10px;
+    border:none;
+    box-shadow:3px 4px 24px -4px rgba(92,92,92,0.79);
+  }
+  textarea:focus {
+    background: grey;
+    color:white;
   }
   /*.bg-color:nth-child(even) {
     background-color: #dddddd;
