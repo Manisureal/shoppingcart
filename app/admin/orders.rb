@@ -17,8 +17,7 @@ ActiveAdmin.register Order do
   end
 
   action_item :print, only: :show do
-    link_to 'Print', window.print();
-  end
 
+  end
 
 end
