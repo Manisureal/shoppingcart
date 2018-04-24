@@ -12,4 +12,22 @@ ActiveAdmin.register User do
     column :company
     actions
   end
+
+  form do |f|
+    f.inputs "Identity" do
+      f.input :company
+      f.input :email
+      f.input :forname
+      f.input :surname
+      f.input :password
+    end
+    f.inputs "Admin" do
+      f.input :admin
+    end
+    f.actions
+  end
+
+
+
+
 end
