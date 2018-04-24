@@ -8,7 +8,7 @@ ActiveAdmin.setup do |config|
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = "Shoppingcart"
+  config.site_title = "Caremeds Order Management System"
 
   # config.authorization_adapter = ActiveAdmin::PunditAdapter
 
@@ -275,7 +275,7 @@ ActiveAdmin.setup do |config|
   # hand side with a filter for each attribute of the registered model.
   # You can enable or disable them for all resources here.
   #
-  # config.filters = true
+  config.filters = false
   #
   # By default the filters include associations in a select, which means
   # that every record will be loaded for each association.
@@ -289,7 +289,7 @@ ActiveAdmin.setup do |config|
   # By default, the footer shows the current Active Admin version. You can
   # override the content of the footer here.
   #
-  # config.footer = 'my custom footer text'
+  config.footer = 'Created with love at Caremeds'
 
   # == Sorting
   #
