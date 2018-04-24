@@ -1,0 +1,52 @@
+<% @order = Order.find(params[:id]) %>
+<% @order_items = @order.order_items %>
+
+<h1 style="color:#696969;">Order# <%= @order.id %> Summary</h1>
+
+<table style="color:#696969;">
+  <tr>
+    <th>Product Code</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Unit Price</th>
+    <th>Quantity</th>
+    <th>Pack Size</th>
+    <th>Total Price</th>
+  </tr>
+<% if @order_items.any? %>
+<% @order_items.each do |item| %>
+  <tr>
+    <td><%= item.product.product_code %></td>
+    <td><%= item.product.name %></td>
+    <td><%= item.product.description %></td>
+    <td><%= number_to_currency item.product.price %></td>
+    <td><%= item.quantity %></td>
+    <td><%= item.product.pack_size %></td>
+    <td><%= number_to_currency item.product.price * item.quantity.to_i %></td>
+  </tr>
+  <% end %>
+  <tr>
+    <td colspan="6" style="text-align:right;"><b>Your Order Total:</b></td>
+    <td colspan="7"><b> <%=number_to_currency @order.calculate_total %></b></td>
+  </tr>
+  <% end %>
+</table>
+
+
+<style>
+table {
+    /*font-family: arial, sans-serif;*/
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
