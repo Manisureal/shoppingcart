@@ -1,6 +1,8 @@
 ActiveAdmin.register Order do
   permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by,
-                order_items_attributes: [:id, :product_id, :quantity, :quantity_dispatched]
+    order_items_attributes: [:id, :product_id, :quantity, :quantity_dispatched]
+
+
 
   index do
     column "Order#", :id do |o|
@@ -32,7 +34,7 @@ ActiveAdmin.register Order do
     f.inputs "Identity" do
       f.input :user
       f.input :company
-      f.input :status, collection: ["In Progress", "Completed", "Dispatched", "Cancelled"]
+      f.input :status, collection: ["Ordered","In Progress", "Completed", "Dispatched", "Cancelled", "Incomplete"]
       f.input :total_price
       f.input :notes
       f.input :name
@@ -40,6 +42,7 @@ ActiveAdmin.register Order do
       f.input :phone
       f.input :delivery_date
       f.input :taken_by
+      # f.input :quantity_dispatched
     end
     f.actions
   end

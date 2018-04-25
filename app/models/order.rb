@@ -4,11 +4,15 @@ class Order < ApplicationRecord
   belongs_to :company
   before_create :update_status
   accepts_nested_attributes_for :order_items, allow_destroy: true, reject_if: lambda { |oi| oi[:product_id].blank? }
+  # accepts_nested_attributes_for :order_items, allow_destroy: true
   validates :order_items, presence: :true
   after_update :update_total
   after_create :update_total
   before_create :update_total
   before_save :update_total
+  before_save :check_quantity_match
+  # before_update :check_quantity_match
+
 
   def total_quantity
     self.order_items.map { |oi| oi.quantity }.sum
@@ -18,6 +22,9 @@ class Order < ApplicationRecord
   def calculate_total
     self.order_items.map { |item| item.total }.sum
   end
+
+  # @order = Order.find(params[:id])
+  # @order_items = @order.order_items
 
   private
   # Methods should always be private if they will be used within a model onlu
@@ -30,5 +37,15 @@ class Order < ApplicationRecord
 
   def update_total
     self.total_price = calculate_total
+  end
+
+  def check_quantity_match
+    if self.status == "In Progress" || self.status == "Incomplete"
+      complete = true
+      self.order_items.each do |oi|
+        complete = false if oi.quantity != oi.quantity_dispatched
+      end
+      self.status = complete ? "Dispatched" : "Incomplete"
+    end
   end
 end
