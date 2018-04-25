@@ -5,7 +5,9 @@ ActiveAdmin.register Order do
     column "Order#", :id do |o|
       link_to o.id, admin_order_path(o)
     end
-    column :status
+    column :status do |s|
+      status_tag(s.status, class: s.status == "Ordered" ? "error" : "done")
+    end
     column :total_price
     column :created_at
     column "Customer", :user_id do |u|
@@ -19,7 +21,7 @@ ActiveAdmin.register Order do
 
   scope :all
   scope("In Progress") { |scope| scope.where(status: "In Progress")}
-  scope("Completed") { |scope| scope.where(status: ["Completed"])}
+  scope("Completed") { |scope| scope.where(status: ["Completed", "Dispatched"])}
 
   show do
     @order = Order.find(params[:id])
