@@ -6,7 +6,7 @@ ActiveAdmin.register_page "Dashboard" do
     columns do
       column do
         panel "Recent Orders" do
-          table_for Order.where(status: "Ordered").order("id desc").limit(10) do
+          table_for Order.where(status: ["Ordered", "Incomplete"]).order("id desc").limit(10) do
             column("Order#") { |order| link_to(order.id, admin_order_path(order)) }
             column("Order Date") { |order| order.created_at }
             column("Status") { |order| status_tag(order.status, class: order.status == "Ordered" ? "error" : "done") }

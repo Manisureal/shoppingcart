@@ -25,6 +25,7 @@
     <td><%= oi.object.product.pack_size %></td>
     <td><%= number_to_currency oi.object.product.price * oi.object.quantity.to_i %></td>
     <td><%= oi.number_field :quantity_dispatched %></td>
+    <%= oi.hidden_field :product_id %>
   </tr>
 <% end %>
   <tr>
