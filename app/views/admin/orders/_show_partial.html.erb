@@ -1,6 +1,7 @@
 <% @order = Order.find(params[:id]) %>
 <% @order_items = @order.order_items %>
 
+<%= form_for [:admin, @order] do |f| %>
 <h1 style="color:#696969;">Order# <%= @order.id %> Summary</h1>
 
 <table style="color:#696969;">
@@ -12,25 +13,28 @@
     <th>Quantity</th>
     <th>Pack Size</th>
     <th>Total Price</th>
+    <th>Quantity Confirmed</th>
   </tr>
-<% if @order_items.any? %>
-<% @order_items.each do |item| %>
+<%= f.fields_for :order_items do |oi| %>
   <tr>
-    <td><%= item.product.product_code %></td>
-    <td><%= item.product.name %></td>
-    <td><%= item.product.description %></td>
-    <td><%= number_to_currency item.product.price %></td>
-    <td><%= item.quantity %></td>
-    <td><%= item.product.pack_size %></td>
-    <td><%= number_to_currency item.product.price * item.quantity.to_i %></td>
+    <td><%= oi.object.product.product_code %></td>
+    <td><%= oi.object.product.name %></td>
+    <td><%= oi.object.product.description %></td>
+    <td><%= number_to_currency oi.object.product.price %></td>
+    <td><%= oi.object.quantity %></td>
+    <td><%= oi.object.product.pack_size %></td>
+    <td><%= number_to_currency oi.object.product.price * oi.object.quantity.to_i %></td>
+    <td><%= oi.number_field :quantity_dispatched %></td>
   </tr>
-  <% end %>
+<% end %>
   <tr>
     <td colspan="6" style="text-align:right;"><b>Your Order Total:</b></td>
     <td colspan="7"><b> <%=number_to_currency @order.calculate_total %></b></td>
   </tr>
-  <% end %>
 </table>
+<%= f.submit "Dispatch Order" %>
+<% end %>
+
 <button onclick="window.print()">Print this page</button>
 
 

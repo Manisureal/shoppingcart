@@ -1,5 +1,6 @@
 ActiveAdmin.register Order do
-  permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by
+  permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by,
+                order_items_attributes: [:id, :product_id, :quantity, :quantity_dispatched]
 
   index do
     column "Order#", :id do |o|
@@ -11,7 +12,6 @@ ActiveAdmin.register Order do
     column :total_price
     column :created_at
     column "Customer", :user_id do |u|
-      # require
       link_to u.user.forname + " " + u.user.surname, admin_user_path(u.user_id)
     end
     column :company
