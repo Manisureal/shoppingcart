@@ -2,16 +2,17 @@ ActiveAdmin.register Order do
   permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by,
     order_items_attributes: [:id, :product_id, :quantity, :quantity_dispatched]
 
-
-
   index do
+    selectable_column
     column "Order#", :id do |o|
       link_to o.id, admin_order_path(o)
     end
     column :status do |s|
-      status_tag(s.status, class: s.status == "Ordered" ? "error" : "done")
+      status_tag(s.status, class: (s.status == "Ordered") ? "error" : (s.status == "In Progress") ? "blue" : (s.status == "Incomplete") ? "warning" : "done")
     end
-    column :total_price
+    column :total_price do |tp|
+      number_to_currency tp.total_price
+    end
     column :created_at
     column "Customer", :user_id do |u|
       link_to u.user.forname + " " + u.user.surname, admin_user_path(u.user_id)
@@ -22,7 +23,9 @@ ActiveAdmin.register Order do
   end
 
   scope :all
+  scope("Ordered") { |scope| scope.where(status: "Ordered")}
   scope("In Progress") { |scope| scope.where(status: "In Progress")}
+  scope("In Complete") { |scope| scope.where(status: "Incomplete")}
   scope("Completed") { |scope| scope.where(status: ["Completed", "Dispatched"])}
 
   show do
@@ -42,7 +45,6 @@ ActiveAdmin.register Order do
       f.input :phone
       f.input :delivery_date
       f.input :taken_by
-      # f.input :quantity_dispatched
     end
     f.actions
   end
@@ -55,6 +57,20 @@ ActiveAdmin.register Order do
         order.taken_by = current_user.forname + " " + current_user.surname
         order.save
       end
+    end
+
+    def update
+    @order = Order.find(params[:id])
+    if @order.update_attributes(permitted_params[:order])
+      if @order.status == "Incomplete"
+        redirect_to admin_root_path, alert: "Order# #{@order.id} has been marked as Incomplete"
+      elsif @order.status == "Dispatched"
+        redirect_to admin_root_path, notice: "Order# #{@order.id} was successfully marked as Dispatched"
+      end
+      # redirect_to admin_orders_path, alert: (@order.status == "Incomplete") ? "Order has been marked as Incomplete"  : (@order.status == "Dispatched") ? "Order was successfully marked Dispatched" : "null"
+    else
+      render :edit
+    end
     end
   end
 
