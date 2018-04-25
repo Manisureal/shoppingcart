@@ -26,6 +26,22 @@ ActiveAdmin.register Order do
     render 'show_partial', { order: @order }
   end
 
+  form do |f|
+    f.inputs "Identity" do
+      f.input :user
+      f.input :company
+      f.input :status, collection: ["In Progress", "Completed", "Dispatched", "Cancelled"]
+      f.input :total_price
+      f.input :notes
+      f.input :name
+      f.input :address
+      f.input :phone
+      f.input :delivery_date
+      f.input :taken_by
+    end
+    f.actions
+  end
+
   controller do
     def show
       if params[:take_order] == "true"
