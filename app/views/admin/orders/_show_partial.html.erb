@@ -13,7 +13,8 @@
     <th>Quantity</th>
     <th>Pack Size</th>
     <th>Total Price</th>
-    <th>Quantity Confirmed</th>
+    <th>Quantity Disptached</th>
+    <th>Quantity To Dispatch</th>
   </tr>
 <%= f.fields_for :order_items do |oi| %>
   <tr>
@@ -24,7 +25,8 @@
     <td><%= oi.object.quantity %></td>
     <td><%= oi.object.product.pack_size %></td>
     <td><%= number_to_currency oi.object.product.price * oi.object.quantity.to_i %></td>
-    <td><%= oi.number_field :quantity_dispatched %></td>
+    <td><%= oi.object.quantity_dispatched %></td>
+    <td><%= oi.number_field :to_dispatch %></td>
     <%= oi.hidden_field :product_id %>
   </tr>
 <% end %>

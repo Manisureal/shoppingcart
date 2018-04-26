@@ -29,4 +29,8 @@ class OrderPolicy < ApplicationPolicy
     true
   end
 
+  def order_again?
+    true
+  end
+
 end

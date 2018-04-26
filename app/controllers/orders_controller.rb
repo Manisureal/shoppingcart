@@ -68,6 +68,26 @@ class OrdersController < ApplicationController
     end
   end
 
+  def order_again
+    @old_order = current_user.orders.find(params[:id])
+    @order = @old_order.dup
+    @order.status = "Ordered"
+    @order.created_at = nil
+    @order.updated_at = nil
+    @old_order.order_items.each do |oi|
+      noi = oi.dup
+      noi.created_at = nil
+      noi.updated_at = nil
+      noi.quantity_dispatched = nil
+      @order.order_items << noi
+    end
+    (10 - @old_order.order_items.count).times do
+      @order.order_items << OrderItem.new
+    end
+    authorize @order
+    render :new
+  end
+
   private
 
   def order_params
