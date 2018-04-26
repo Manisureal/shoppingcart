@@ -14,6 +14,9 @@ ActiveAdmin.register Order do
       number_to_currency tp.total_price
     end
     column :created_at
+    # column "Disptached At", :updated_at do |ua|
+    #   (ua.status == "Dispatched") ? ua.updated_at : "Not Yet Dispatched - #{ua.status}"
+    # end
     column "Customer", :user_id do |u|
       link_to u.user.forname + " " + u.user.surname, admin_user_path(u.user_id)
     end
