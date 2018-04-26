@@ -8,11 +8,11 @@ class OrderItem < ApplicationRecord
   end
   #Retrives the quantity to dispatch
   def to_dispatch
-    self.quantity - self.quantity_dispatched
+    self.quantity - self.quantity_dispatched.to_i
   end
   #Updates the new retrieved quantity value with the remaining to be dispatched to close the order and mark as disptached
   def to_dispatch=(q)
-    self.quantity_dispatched += q.to_i
+    self.quantity_dispatched.nil? ? self.quantity_dispatched = q : self.quantity_dispatched += q.to_i
   end
 
 end
