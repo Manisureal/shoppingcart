@@ -24,6 +24,7 @@
   <% end %>
   <tr>
     <th><%= link_to "My Orders", orders_path, class: "btn btn-info" %></th>
+    <th><%= link_to "Order Again", reorder_path, class: "btn btn-info" %></th>
     <td><% if @order.status == "Ordered" %>
     <%= link_to "Edit Orders", edit_order_path(@order), class: "btn btn-warning" %>
     <% end %></td>
