@@ -3,7 +3,9 @@ ActiveAdmin.register Consignment do
 
   index do
     selectable_column
-    column :id
+    column :id do |i|
+      link_to i.id, admin_consignment_path(i)
+    end
     column :shipped_at
     column :tracking_no
     column :user
@@ -15,4 +17,9 @@ ActiveAdmin.register Consignment do
     end
     actions
   end
+
+  show do
+    render 'show_partial'
+  end
+
 end
