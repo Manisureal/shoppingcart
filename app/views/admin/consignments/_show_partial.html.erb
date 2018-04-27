@@ -1,8 +1,11 @@
 <% @consignment = Consignment.find(params[:id]) %>
+<% @consignment_items = @consignment.consignment_items %>
 
 <table style="color:#696969;">
   <tr>
-    <th>ConsignmentItem ID</th>
+    <th>Consignment Item's ID</th>
+    <th>Product Code</th>
+    <th>Product Desc</th>
     <th>Quantity Dispatched</th>
     <th>Quantity Requested</th>
     <th>Date Dispatched</th>
@@ -11,6 +14,8 @@
 <% @consignment.consignment_items.each do |ci| %>
   <tr>
     <td><%= ci.id %></td>
+    <td><%= ci.order_item.product.product_code %></td>
+    <td><%= ci.order_item.product.description %></td>
     <td><%= ci.quantity %></td>
     <td><%= ci.order_item.quantity %></td>
     <td><%= ci.created_at %></td>
@@ -19,6 +24,25 @@
 <% end %>
   <tr>
     <td colspan="6" style="text-align:right;"><b>Your Order Total:</b></td>
-    <td colspan="7"><b></b></td>
+    <td colspan="7"><b><%=number_to_currency @consignment.consign_total %></b></td>
   </tr>
 </table>
+
+
+<style>
+table {
+    /*font-family: arial, sans-serif;*/
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
