@@ -1,0 +1,24 @@
+<% @consignment = Consignment.find(params[:id]) %>
+
+<table style="color:#696969;">
+  <tr>
+    <th>ConsignmentItem ID</th>
+    <th>Quantity Dispatched</th>
+    <th>Quantity Requested</th>
+    <th>Date Dispatched</th>
+    <th>Price</th>
+  </tr>
+<% @consignment.consignment_items.each do |ci| %>
+  <tr>
+    <td><%= ci.id %></td>
+    <td><%= ci.quantity %></td>
+    <td><%= ci.order_item.quantity %></td>
+    <td><%= ci.created_at %></td>
+    <td><%= ci.order_item.product.price %></td>
+  </tr>
+<% end %>
+  <tr>
+    <td colspan="6" style="text-align:right;"><b>Your Order Total:</b></td>
+    <td colspan="7"><b></b></td>
+  </tr>
+</table>
