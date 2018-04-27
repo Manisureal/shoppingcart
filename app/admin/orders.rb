@@ -63,18 +63,23 @@ ActiveAdmin.register Order do
     end
 
     def update
-    @order = Order.find(params[:id])
-    if @order.update_attributes(permitted_params[:order])
-      if @order.status == "Incomplete"
-        redirect_to admin_root_path, alert: "Order# #{@order.id} has been marked as Incomplete"
-      elsif @order.status == "Dispatched"
-        redirect_to admin_root_path, notice: "Order# #{@order.id} was successfully marked as Dispatched"
+      @order = Order.find(params[:id])
+      if @order.update_attributes(permitted_params[:order])
+        if @order.status == "Incomplete"
+          @new_consignment = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: nil)
+          # @new_consignment.order_id = @order.id
+          require
+          redirect_to admin_root_path, alert: "Order# #{@order.id} has been marked as Incomplete"
+        elsif @order.status == "Dispatched"
+          @new_consignment = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: nil)
+          redirect_to admin_root_path, notice: "Order# #{@order.id} was successfully marked as Dispatched"
+        end
+        # redirect_to admin_orders_path, alert: (@order.status == "Incomplete") ? "Order has been marked as Incomplete"  : (@order.status == "Dispatched") ? "Order was successfully marked Dispatched" : "null"
+      else
+        render :edit
       end
-      # redirect_to admin_orders_path, alert: (@order.status == "Incomplete") ? "Order has been marked as Incomplete"  : (@order.status == "Dispatched") ? "Order was successfully marked Dispatched" : "null"
-    else
-      render :edit
     end
-    end
+
   end
 
   action_item :print, only: :show do

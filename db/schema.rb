@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180425094752) do
+ActiveRecord::Schema.define(version: 20180426150010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,27 @@ ActiveRecord::Schema.define(version: 20180425094752) do
     t.string "xero_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "consignment_items", force: :cascade do |t|
+    t.integer "quantity"
+    t.bigint "consignment_id"
+    t.bigint "order_item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["consignment_id"], name: "index_consignment_items_on_consignment_id"
+    t.index ["order_item_id"], name: "index_consignment_items_on_order_item_id"
+  end
+
+  create_table "consignments", force: :cascade do |t|
+    t.datetime "shipped_at"
+    t.string "tracking_no"
+    t.bigint "user_id"
+    t.bigint "order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_consignments_on_order_id"
+    t.index ["user_id"], name: "index_consignments_on_user_id"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -99,6 +120,10 @@ ActiveRecord::Schema.define(version: 20180425094752) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "consignment_items", "consignments"
+  add_foreign_key "consignment_items", "order_items"
+  add_foreign_key "consignments", "orders"
+  add_foreign_key "consignments", "users"
   add_foreign_key "orders", "companies"
   add_foreign_key "users", "companies"
 end

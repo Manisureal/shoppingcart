@@ -17,6 +17,9 @@ Product.create name: "Unities", price: 12, description: "Unities paper forms", p
 Order.delete_all
 OrderItem.delete_all
 
+Company.delete_all
+Company.create name: "Caremeds", address: "CareMeds Ltd, Unit 5 Brickfield Trading Estate, Brickfield Lane, Chandlers Ford, Eastleigh", postcode: "SO53 4DR", contact_name: "John Rowley", phone: "07888945621", email: "support@caremeds.co.uk"
+
 User.delete_all
-User.create forname: "Mansoor", surname: "Zaman", email: "mansoor@caremeds.co.uk", password: "123456", password_confirmation: "123456"
-User.create forname: "Andy", surname: "Withers", email: "andy@caremeds.co.uk", password: "456789", password_confirmation: "456789"
+User.create forname: "Mansoor", surname: "Zaman", email: "mansoor@caremeds.co.uk", password: "123456", password_confirmation: "123456", company_id: 5
+User.create forname: "Andy", surname: "Withers", email: "andy@caremeds.co.uk", password: "456789", password_confirmation: "456789", company_id: 5
