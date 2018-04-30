@@ -13,7 +13,11 @@ ActiveAdmin.register Consignment do
       link_to o.order.id, admin_order_path(o.order.id)
     end
     column "Status", :order do |o|
-      status_tag(o.order.status, class: o.order.status == "Ordered" ? "error" : "warning")
+      # if status == "Incomplete"
+        status_tag(o.order.status, class: o.order.status == "Incomplete" ? "warning" : "done")
+      # else
+        # status_tag(o.order.status, class: o.order.status == "Ordered" ? "error" : "warning")
+      # end
     end
     actions
   end
