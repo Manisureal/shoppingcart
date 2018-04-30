@@ -6,4 +6,5 @@ class Consignment < ApplicationRecord
   def consign_total
     self.consignment_items.map { |ci| ci.quantity * ci.order_item.product.price }.sum
   end
+
 end
