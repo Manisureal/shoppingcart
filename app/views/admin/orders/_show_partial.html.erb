@@ -1,8 +1,31 @@
 <% @order = Order.find(params[:id]) %>
 <% @order_items = @order.order_items %>
 
+<table style="color:#696969;">
+  <tr>
+    <th>Shipping Address</th>
+    <th>Customer/Order Details</th>
+    <th>Order Notes</th>
+  </tr>
+  <tr>
+    <% @split = @order.address.split(',') %>
+    <td> <p><%= raw @split.join("<br />") %></p> </td>
+    <td>
+      <p>Order for <b><%= @order.user.forname %></b><br>
+      Company: <b><%= @order.user.company ? @order.user.company.name : "Nil" %></b><br>
+      Order Date: <b><%= @order.created_at.strftime("%A, %b %d") %></b><br>
+      Order Time: <b><%= @order.created_at.strftime("%H:%M:%S") %></b>
+      </p>
+    </td>
+    <td>
+      <%= @order.notes %>
+    </td>
+  </tr>
+
+</table>
+
 <%= form_for [:admin, @order] do |f| %>
-<h1 style="color:#696969;">Order# <%= @order.id %> Summary</h1>
+<!-- <h1 style="color:#696969;">Order# <%#= @order.id %> Summary</h1> -->
 
 <table style="color:#696969;">
   <tr>
@@ -31,15 +54,13 @@
   </tr>
 <% end %>
   <tr>
+    <td><%= f.submit "Dispatch Order" %></td>
     <td colspan="6" style="text-align:right;"><b>Your Order Total:</b></td>
     <td colspan="7"><b> <%=number_to_currency @order.calculate_total %></b></td>
   </tr>
 </table>
-<%= f.submit "Dispatch Order" %>
 <% end %>
-
-<button onclick="window.print()">Print this page</button>
-
+   <button onclick="window.print();">Print Order</button>
 
 <style>
 table {
