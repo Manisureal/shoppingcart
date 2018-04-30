@@ -3,34 +3,59 @@
 
 <table style="color:#696969;">
   <tr>
-    <th>Consignment Item's ID</th>
+    <th>Customer</th>
+    <th>Company</th>
+    <th>Order#</th>
     <th>Product Code</th>
     <th>Product Desc</th>
-    <th>Quantity Dispatched</th>
-    <th>Quantity Requested</th>
+    <th>Requested</th>
+    <th>Dispatched</th>
+    <th>Status</th>
     <th>Date Dispatched</th>
     <th>Price</th>
   </tr>
 <% @consignment.consignment_items.each do |ci| %>
   <tr>
-    <td><%= ci.id %></td>
+    <td><%= ci.order_item.order.user.forname + " " + ci.order_item.order.user.surname %></td>
+    <td><%= ci.order_item.order.user.company.name %></td>
+    <td><%= ci.order_item.order.id %></td>
     <td><%= ci.order_item.product.product_code %></td>
     <td><%= ci.order_item.product.description %></td>
-    <td><%= ci.quantity %></td>
     <td><%= ci.order_item.quantity %></td>
-    <td><%= ci.order_item.order.status %></td>
-    <td><%= ci.created_at %></td>
-    <td><%= ci.order_item.product.price %></td>
+    <td><%= ci.quantity %></td>
+    <% if ci.consignment.status == "Incomplete" %>
+    <td class="Incomplete"><%= ci.consignment.status.upcase %></td>
+    <% else ci.consignment.status == "Dispatched" %>
+    <td class="Dispatched"><%= ci.consignment.status.upcase %></td>
+    <% end %>
+    <td><%= ci.created_at.strftime("%A, %e %b - %H:%M %p") %></td>
+    <td><b><%= number_to_currency ci.order_item.product.price %></b></td>
   </tr>
 <% end %>
   <tr>
-    <td colspan="6" style="text-align:right;"><b>Your Order Total:</b></td>
-    <td colspan="7"><b><%=number_to_currency @consignment.consign_total %></b></td>
+    <td colspan="1"><button onclick="window.print()">Print this page</button></td>
+    <td colspan="7" style="text-align:right;"><b>Your Order Total:</b></td>
+    <td colspan="8"><b><%=number_to_currency @consignment.consign_total %></b></td>
   </tr>
 </table>
 
 
+
 <style>
+.Incomplete {
+  background:#FFA339;
+  font-weight:bold;
+  letter-spacing: 0.15em;
+  color:white;
+  /*color:#918f8a;*/
+}
+.Dispatched {
+  background:#8BAA8B;
+  font-weight: bold;
+  letter-spacing: 0.15em;
+  color:white;
+
+}
 table {
     /*font-family: arial, sans-serif;*/
     border-collapse: collapse;

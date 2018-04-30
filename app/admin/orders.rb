@@ -14,9 +14,6 @@ ActiveAdmin.register Order do
       number_to_currency tp.total_price
     end
     column :created_at
-    # column "Disptached At", :updated_at do |ua|
-    #   (ua.status == "Dispatched") ? ua.updated_at : "Not Yet Dispatched - #{ua.status}"
-    # end
     column "Customer", :user_id do |u|
       link_to u.user.forname + " " + u.user.surname, admin_user_path(u.user_id)
     end
@@ -65,20 +62,19 @@ ActiveAdmin.register Order do
     def update
       @order = Order.find(params[:id])
       if @order.update_attributes(permitted_params[:order])
+
         if @order.status == "Incomplete"
-          @new_consignment_for_incmp = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: nil, status: @order.status)
-          # @order.status = "Incomplete"
+          @new_consignment_for_incmp = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: @order.tracking_no, status: @order.status)
           @new_consignment_for_incmp.order.order_items.each do |oi|
             nci = @new_consignment_for_incmp.consignment_items.new
             nci.quantity = oi.quantity_dispatched
             nci.order_item_id = oi.id
             @new_consignment_for_incmp.consignment_items << nci
           end
-          # require
           redirect_to admin_root_path, alert: "Order# #{@order.id} has been marked as Incomplete"
+
         elsif @order.status == "Dispatched"
-          @new_consignment_for_disptch = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: nil, status: @order.status)
-          # @order.status = "Dispatched"
+          @new_consignment_for_disptch = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: @order.tracking_no, status: @order.status)
           @new_consignment_for_disptch.order.order_items.each do |ci|
             nci = @new_consignment_for_disptch.consignment_items.new
             nci.quantity = ci.quantity_dispatched
@@ -87,12 +83,11 @@ ActiveAdmin.register Order do
           end
           redirect_to admin_root_path, notice: "Order# #{@order.id} was successfully marked as Dispatched"
         end
-        # redirect_to admin_orders_path, alert: (@order.status == "Incomplete") ? "Order has been marked as Incomplete"  : (@order.status == "Dispatched") ? "Order was successfully marked Dispatched" : "null"
+
       else
         render :edit
       end
     end
-
   end
 
   action_item :print, only: :show do
