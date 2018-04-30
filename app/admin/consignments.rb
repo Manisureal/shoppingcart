@@ -6,7 +6,9 @@ ActiveAdmin.register Consignment do
     column "Consignment Summary", :id do |i|
       link_to "View Summary", admin_consignment_path(i)
     end
-    column :shipped_at
+    column :shipped_at do |s|
+      s.shipped_at.strftime("%A, %e %b - %H:%M %p")
+    end
     column :tracking_no
     column "Admin", :user do |u|
       link_to (u.user.forname + " " + u.user.surname), admin_user_path(u.user)
