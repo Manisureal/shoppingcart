@@ -66,17 +66,25 @@ ActiveAdmin.register Order do
       @order = Order.find(params[:id])
       if @order.update_attributes(permitted_params[:order])
         if @order.status == "Incomplete"
-          @new_consignment = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: nil)
-          @order.order_items.each do |oi|
-            nci = @new_consignment.consignment_items.new
+          @new_consignment_for_incmp = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: nil)
+          @order.status = "Incomplete"
+          @new_consignment_for_incmp.order.order_items.each do |oi|
+            nci = @new_consignment_for_incmp.consignment_items.new
             nci.quantity = oi.quantity_dispatched
             nci.order_item_id = oi.id
-            @new_consignment.consignment_items << nci
+            @new_consignment_for_incmp.consignment_items << nci
           end
           # require
           redirect_to admin_root_path, alert: "Order# #{@order.id} has been marked as Incomplete"
         elsif @order.status == "Dispatched"
-          @new_consignment = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: nil)
+          @new_consignment_for_disptch = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: nil)
+          @order.status = "Dispatched"
+          @new_consignment_for_disptch.order.order_items.each do |ci|
+            nci = @new_consignment_for_disptch.consignment_items.new
+            nci.quantity = ci.quantity_dispatched
+            nci.order_item_id = ci.id
+            @new_consignment_for_disptch.consignment_items << nci
+          end
           redirect_to admin_root_path, notice: "Order# #{@order.id} was successfully marked as Dispatched"
         end
         # redirect_to admin_orders_path, alert: (@order.status == "Incomplete") ? "Order has been marked as Incomplete"  : (@order.status == "Dispatched") ? "Order was successfully marked Dispatched" : "null"
