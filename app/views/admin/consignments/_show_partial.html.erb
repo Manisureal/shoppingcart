@@ -37,8 +37,10 @@
     <td colspan="1"><b>Tracking No:</b></td>
     <td colspan="1"><%= f.input_field :tracking_no, placeholder: "IB1533597344K" %></td>
     <% end %>
-    <td colspan="7" style="text-align:right;"><b>Your Order Total:</b></td>
-    <td colspan="8"><b><%=number_to_currency @consignment.consign_total %></b></td>
+    <td><b>Admin Notes:</td>
+    <td><%= @consignment.order.admin_notes %></td>
+    <td colspan="5" style="text-align:right;"><b>Your Order Total:</b></td>
+    <td colspan="6"><b><%=number_to_currency @consignment.consign_total %></b></td>
   </tr>
 </table>
     <button onclick="window.print()">Print this page</button>
