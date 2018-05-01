@@ -33,11 +33,15 @@
   </tr>
 <% end %>
   <tr>
-    <td colspan="1"><button onclick="window.print()">Print this page</button></td>
-    <td colspan="8" style="text-align:right;"><b>Your Order Total:</b></td>
-    <td colspan="9"><b><%=number_to_currency @consignment.consign_total %></b></td>
+    <%= simple_form_for [:admin, @consignment] do |f|  %>
+    <td colspan="1"><b>Tracking No:</b></td>
+    <td colspan="1"><%= f.input_field :tracking_no, placeholder: "IB1533597344K" %></td>
+    <% end %>
+    <td colspan="7" style="text-align:right;"><b>Your Order Total:</b></td>
+    <td colspan="8"><b><%=number_to_currency @consignment.consign_total %></b></td>
   </tr>
 </table>
+    <button onclick="window.print()">Print this page</button>
 
 
 
