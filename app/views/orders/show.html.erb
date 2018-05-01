@@ -1,16 +1,24 @@
 <h1 style="color:#696969;" class="text-center">Order# <%= @order.id %> <small>Summary</small></h1>
 
-<table style="color:#696969;">
+<table style="color:#696969;" onclick="toggle_visibility('foo')"><tr><td class="pointer text-center"><a>Click for Tracking Information</a></td></tr></table>
+
+<table style="color:#696969;" id="foo">
   <tr>
-<% @order.consignments.each do |c| %>
-    <td><b>Tracking No:</b> <%= c.tracking_no == "" ? "Provided Upon Disptach" : c.tracking_no %><br>
-      <b>Disptached:</b> <%= c.shipped_at.strftime("%A, %e %b - %H:%M %p") %><br>
-      <b>Quantity Disptached:</b> <%= c.dispatched_quantity %><br>
-      <b>Order Status:</b> <%= c.status %>
-    </td>
-<% end %>
+    <th>Tracking No</th>
+    <th>Quantity Disptached</th>
+    <th>Disptached</th>
+    <th>Order Status</th>
   </tr>
-  <tr><td></td></tr>
+<% @order.consignments.each do |c| %>
+  <tr>
+    <td><b></b> <%= c.tracking_no == "" ? "Provided Upon Disptach" : c.tracking_no %></td>
+    <td><b></b> <%= c.dispatched_quantity %></td>
+    <td><b></b> <%= c.shipped_at.strftime("%A, %e %b - %H:%M %p") %></td>
+    <td><b></b> <%= c.status %></td>
+  </tr>
+<% end %>
+  <tr><td></td><td></td><td></td><td></td></tr>
+
 </table>
 
 <table style="color:#696969;">
@@ -23,7 +31,7 @@
     <% @split = @order.address.split(',') %>
     <td> <p><%= raw @split.join("<br />") %></p> </td>
     <td>
-      Order for <b><%= current_user.forname %></b><br>
+      Order for: <b><%= current_user.forname %></b><br>
       Company: <b><%= current_user.company ? current_user.company.name : "Nil" %></b><br>
       Order Date: <b><%= @order.created_at.strftime("%A, %b %d") %></b><br>
       Order Time: <b><%= @order.created_at.strftime("%H:%M:%S") %></b><br>
@@ -68,8 +76,25 @@
   <% end %>
 </table>
 
+<script>
+  function toggle_visibility(id) {
+     var e = document.getElementById(id);
+     if(e.style.display == 'inline-table')
+        e.style.display = 'none';
+     else
+        e.style.display = 'inline-table';
+  }
+</script>
 
 <style>
+#foo {
+  display:none;
+  margin:0;
+}
+
+.pointer {
+  cursor:pointer;
+}
 table {
     /*font-family: arial, sans-serif;*/
     border-collapse: collapse;

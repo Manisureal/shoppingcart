@@ -23,8 +23,8 @@
           <p>
             <b>Delivery Address:</b> <%= o.address %>
           </p>
-          <% o.consignments.select { |oc| @t = oc.tracking_no }  %>
-            <p><b>Tracking No:</b> <%= @t == "" || nil ? "Provided Upon Dispatch" : @t %></p>
+          <%# o.consignments.select { |oc| @t = oc.tracking_no }  %>
+            <p><b>Tracking No:</b> <%= o.consignments.last.tracking_no == "" || nil ? "Provided Upon Dispatch" : o.consignments.last.tracking_no %></p>
         </div>
         <div class="message-status">
           <% if o.status == "Ordered" %>
