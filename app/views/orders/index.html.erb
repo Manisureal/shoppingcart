@@ -23,14 +23,16 @@
           <p>
             <b>Delivery Address:</b> <%= o.address %>
           </p>
+          <% o.consignments.select { |oc| @t = oc.tracking_no }  %>
+            <p><b>Tracking No:</b> <%= @t == "" || nil ? "Provided Upon Dispatch" : @t %></p>
         </div>
         <div class="message-status">
           <% if o.status == "Ordered" %>
           <p class="status pending"><%= o.status %></p>
-          <% elsif o.status == "Completed" || "completed" %>
+          <% elsif o.status == "Dispatched" %>
           <p class="status accepted"><%= o.status %></p>
-          <% else %>
-          <p class="status pending"> sdsd<%= o.status %> </p>
+          <% elsif o.status == "Incomplete" %>
+          <p class="status declined"><%= o.status %> </p>
           <% end %>
           <p class="price"><%= number_to_currency o.calculate_total %></p>
           <%#= link_to "Delete", orders_path(o) ,method: :destroy, data: {confirm: "Are you sure?"}, class: "btn btn-success" %>
@@ -99,7 +101,7 @@ body {
   color: #04A366;
 }
 .status.declined {
-  color: red;
+  color: #FFA14E;
 }
 .status.pending {
   color: grey;
