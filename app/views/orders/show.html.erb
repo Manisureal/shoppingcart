@@ -1,4 +1,38 @@
-<h1 style="color:#696969;">Order# <%= @order.id %> Summary</h1>
+<h1 style="color:#696969;" class="text-center">Order# <%= @order.id %> <small>Summary</small></h1>
+
+<table style="color:#696969;">
+  <tr>
+<% @order.consignments.each do |c| %>
+    <td><b>Tracking No:</b> <%= c.tracking_no == "" ? "Provided Upon Disptach" : c.tracking_no %><br>
+      <b>Disptached:</b> <%= c.shipped_at.strftime("%A, %e %b - %H:%M %p") %><br>
+      <b>Quantity Disptached:</b> <%= c.dispatched_quantity %><br>
+      <b>Order Status:</b> <%= c.status %>
+    </td>
+<% end %>
+  </tr>
+  <tr><td></td></tr>
+</table>
+
+<table style="color:#696969;">
+  <tr>
+    <th>Shipping Address</th>
+    <th>Details</th>
+    <th>Order Notes</th>
+  </tr>
+  <tr>
+    <% @split = @order.address.split(',') %>
+    <td> <p><%= raw @split.join("<br />") %></p> </td>
+    <td>
+      Order for <b><%= current_user.forname %></b><br>
+      Company: <b><%= current_user.company ? current_user.company.name : "Nil" %></b><br>
+      Order Date: <b><%= @order.created_at.strftime("%A, %b %d") %></b><br>
+      Order Time: <b><%= @order.created_at.strftime("%H:%M:%S") %></b><br>
+    </td>
+    <td>
+      <%= @order.notes %>
+    </td>
+  </tr>
+</table>
 
 <table style="color:#696969;">
   <tr>
@@ -24,12 +58,12 @@
   <% end %>
   <tr>
     <th><%= link_to "My Orders", orders_path, class: "btn btn-info" %></th>
-    <th><%= link_to "Order Again", reorder_path, class: "btn btn-info" %></th>
+    <th><%= link_to "Order Again", reorder_path, class: "btn btn-success" %></th>
     <td><% if @order.status == "Ordered" %>
     <%= link_to "Edit Orders", edit_order_path(@order), class: "btn btn-warning" %>
     <% end %></td>
-    <td colspan="4" class="text-right"><b>Your Order Total:</b></td>
-    <td colspan="6"><b> <%=number_to_currency @order.calculate_total %> <%#= current_order.calculate_total %></b></td>
+    <td colspan="3" class="text-right"><b>Your Order Total:</b></td>
+    <td colspan="5"><b> <%=number_to_currency @order.calculate_total %> <%#= current_order.calculate_total %></b></td>
   </tr>
   <% end %>
 </table>
