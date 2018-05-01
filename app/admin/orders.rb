@@ -65,7 +65,7 @@ ActiveAdmin.register Order do
       if @order.update_attributes(permitted_params[:order])
 
         if @order.status == "Incomplete"
-          @new_consignment_for_incmp = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: @consignment.tracking_no, status: @order.status)
+          @new_consignment_for_incmp = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: "", status: @order.status)
           @new_consignment_for_incmp.order.order_items.each do |oi|
             nci = @new_consignment_for_incmp.consignment_items.new
             nci.quantity = oi.quantity_dispatched
@@ -75,7 +75,7 @@ ActiveAdmin.register Order do
           redirect_to admin_root_path, alert: "Order# #{@order.id} has been marked as Incomplete"
 
         elsif @order.status == "Dispatched"
-          @new_consignment_for_disptch = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: @consignment.tracking_no, status: @order.status)
+          @new_consignment_for_disptch = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: "", status: @order.status)
           @new_consignment_for_disptch.order.order_items.each do |ci|
             nci = @new_consignment_for_disptch.consignment_items.new
             nci.quantity = ci.quantity_dispatched
