@@ -36,13 +36,16 @@
     <%= simple_form_for [:admin, @consignment] do |f|  %>
     <td colspan="1"><b>Tracking No:</b></td>
     <td colspan="1"><%= f.input_field :tracking_no, placeholder: "IB1533597344K" %></td>
-    <% end %>
     <td><b>Admin Notes:</td>
-    <td><%= @consignment.order.admin_notes %></td>
-    <td colspan="5" style="text-align:right;"><b>Your Order Total:</b></td>
-    <td colspan="6"><b><%=number_to_currency @consignment.consign_total %></b></td>
+    <td><%= f.text_field :notes %></td>
+    <td><b>Boxes Sent: </b></td>
+    <td><%= f.number_field :boxes %></td>
+    <td colspan="3" style="text-align:right;"><b>Your Order Total:</b></td>
+    <td colspan="4"><b><%=number_to_currency @consignment.consign_total %></b></td>
   </tr>
 </table>
+    <td><%= f.submit %></td>
+    <% end %>
     <button onclick="window.print()">Print this page</button>
 
 

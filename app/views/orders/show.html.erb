@@ -1,4 +1,4 @@
-<h1 style="color:#696969;" class="text-center">Order# <%= @order.id %> <small>Summary</small></h1>
+<table style="color:#696969;"><tr><td><h1 class="text-center">Order# <%= @order.id %> <small>Summary</small></h1></td></tr></table>
 
 <table style="color:#696969;" onclick="toggle_visibility('foo')"><tr><td class="pointer text-center"><a>Click for Tracking Information</a></td></tr></table>
 
@@ -8,16 +8,20 @@
     <th>Quantity Disptached</th>
     <th>Disptached</th>
     <th>Order Status</th>
+    <th>Boxes Sent</th>
+    <th>Notes</th>
   </tr>
 <% @order.consignments.each do |c| %>
   <tr>
-    <td><b></b> <%= c.tracking_no == "" ? "Provided Upon Disptach" : c.tracking_no %></td>
-    <td><b></b> <%= c.dispatched_quantity %></td>
-    <td><b></b> <%= c.shipped_at.strftime("%A, %e %b - %H:%M %p") %></td>
-    <td><b></b> <%= c.status %></td>
+    <td><%= c.tracking_no == "" ? "Provided Upon Disptach" : c.tracking_no %></td>
+    <td><%= "#{c.dispatched_quantity}/#{c.orderitem_quantity_req_tot}" %></td>
+    <td><%= c.shipped_at.strftime("%A, %e %b - %H:%M %p") %></td>
+    <td><%= c.status %></td>
+    <td><%= c.boxes %></td>
+    <td><%= c.notes %></td>
   </tr>
 <% end %>
-  <tr><td></td><td></td><td></td><td></td></tr>
+  <tr><td></td><td></td><td></td><td></td><td></td></tr>
 
 </table>
 
@@ -37,7 +41,7 @@
       Order Time: <b><%= @order.created_at.strftime("%H:%M:%S") %></b><br>
     </td>
     <td>
-      <%= @order.notes %>
+      <%= @order.notes.empty? ? "N/A" : @order.notes  %>
     </td>
   </tr>
 </table>
@@ -74,6 +78,15 @@
     <td colspan="5"><b> <%=number_to_currency @order.calculate_total %> <%#= current_order.calculate_total %></b></td>
   </tr>
   <% end %>
+</table>
+
+<table style="color:#696969;">
+  <tr style="float:left;">
+    <td><b>Latest Admin Notes:</b> <%= @order.consignments.last.notes %></td>
+  </tr>
+  <tr style="float:right;">
+    <td><b>Last Boxes Dispatched:</b> <%= @order.consignments.last.boxes.nil? ? "Confirmed on Dispatch" : @order.consignments.last.boxes %></td>
+  </tr>
 </table>
 
 <script>
