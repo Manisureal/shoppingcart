@@ -1,0 +1,28 @@
+<% ups = Trackerific::Services::UPS.new %>
+<% track = ups.track(@consign.tracking_no) %>
+
+<table>
+  <tr>
+    <th>Tracking No</th>
+    <th>Status</th>
+  </tr>
+  <tr>
+    <td><%= track[:package_id] %></td>
+    <td><%= track[:summary] %></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Description</th>
+    <th>Location</th>
+  </tr>
+  <% track[:events].each do |e| %>
+  <tr>
+    <td><%= e[:date].strftime("%a %e %b - %H:%M %p") %></td>
+    <td><%= e[:description] %></td>
+    <td><%= e[:location] %></td>
+  </tr>
+  <% end %>
+</table>
