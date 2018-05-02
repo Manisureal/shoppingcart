@@ -8,12 +8,19 @@
     <th>Quantity Disptached</th>
     <th>Disptached</th>
     <th>Order Status</th>
+    <!-- <th>Shipping Status</th> -->
     <th>Boxes Sent</th>
     <th>Notes</th>
   </tr>
 <% @order.consignments.each do |c| %>
   <tr>
-    <td><%= c.tracking_no == "" ? "Provided Upon Disptach" : c.tracking_no %></td>
+    <td>
+    <% if c.tracking_no == "" %>
+      Provided Upon Disptach
+    <% else %>
+      <a href="javascript:void();" onclick="$.ajax('<%= track_consignment_path(c) %>.js')"> <%= c.tracking_no %></a>
+    <% end %>
+    </td>
     <td><%= "#{c.dispatched_quantity}/#{c.orderitem_quantity_req_tot}" %></td>
     <td><%= c.shipped_at.strftime("%A, %e %b - %H:%M %p") %></td>
     <td><%= c.status %></td>
@@ -82,10 +89,10 @@
 
 <table style="color:#696969;">
   <tr style="float:left;">
-    <td><b>Latest Admin Notes:</b> <%= @order.consignments.last.notes %></td>
+    <td><b>Latest Admin Notes:</b> <%= @order.consignments.last and @order.consignments.last.notes.nil? ? "Confirmed on Dispatch" : @order.consignments.last.notes.nil? %></td>
   </tr>
   <tr style="float:right;">
-    <td><b>Last Boxes Dispatched:</b> <%= @order.consignments.last.boxes.nil? ? "Confirmed on Dispatch" : @order.consignments.last.boxes %></td>
+    <td><b>Last Boxes Dispatched:</b> <%= @order.consignments.last and @order.consignments.last.boxes.nil? ? "Confirmed on Dispatch" : @order.consignments.last.boxes %></td>
   </tr>
 </table>
 
