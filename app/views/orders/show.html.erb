@@ -1,14 +1,13 @@
-<table style="color:#696969;"><tr><td><h1 class="text-center">Order# <%= @order.id %> <small>Summary</small></h1></td></tr></table>
+<table class="t-color" ;"><tr><td><h1 class="text-center">Order# <%= @order.id %> <small>Summary</small></h1></td></tr></table>
 
-<table style="color:#696969;" onclick="toggle_visibility('foo')"><tr><td class="pointer text-center"><a>Click for Tracking Information</a></td></tr></table>
+<table class="t-color" ;" onclick="toggle_visibility('foo')"><tr><td class="pointer text-center"><a>Click for Tracking Information</a></td></tr></table>
 
-<table style="color:#696969;" id="foo">
+<table class="t-color" ;" id="foo">
   <tr>
     <th>Tracking No</th>
     <th>Quantity Disptached</th>
     <th>Disptached</th>
     <th>Order Status</th>
-    <!-- <th>Shipping Status</th> -->
     <th>Boxes Sent</th>
     <th>Notes</th>
   </tr>
@@ -32,7 +31,7 @@
 
 </table>
 
-<table style="color:#696969;">
+<table class="t-color" ;">
   <tr>
     <th>Shipping Address</th>
     <th>Details</th>
@@ -53,7 +52,7 @@
   </tr>
 </table>
 
-<table style="color:#696969;">
+<table class="t-color" ;">
   <tr>
     <th>Product Code</th>
     <th>Name</th>
@@ -87,7 +86,7 @@
   <% end %>
 </table>
 
-<table style="color:#696969;">
+<table class="t-color" ;">
   <tr style="float:left;">
     <td><b>Latest Admin Notes:</b> <%= @order.consignments.last and @order.consignments.last.notes.nil? ? "Confirmed on Dispatch" : @order.consignments.last.notes %></td>
   </tr>
@@ -95,39 +94,3 @@
     <td><b>Last Boxes Dispatched:</b> <%= @order.consignments.last and @order.consignments.last.boxes.nil? ? "Confirmed on Dispatch" : @order.consignments.last.boxes %></td>
   </tr>
 </table>
-
-<script>
-  function toggle_visibility(id) {
-     var e = document.getElementById(id);
-     if(e.style.display == 'inline-table')
-        e.style.display = 'none';
-     else
-        e.style.display = 'inline-table';
-  }
-</script>
-
-<style>
-#foo {
-  display:none;
-  margin:0;
-}
-
-.pointer {
-  cursor:pointer;
-}
-table {
-    /*font-family: arial, sans-serif;*/
-    border-collapse: collapse;
-    width: 100%;
-}
-
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-</style>
