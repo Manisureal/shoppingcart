@@ -89,7 +89,7 @@
 
 <table style="color:#696969;">
   <tr style="float:left;">
-    <td><b>Latest Admin Notes:</b> <%= @order.consignments.last and @order.consignments.last.notes.nil? ? "Confirmed on Dispatch" : @order.consignments.last.notes.nil? %></td>
+    <td><b>Latest Admin Notes:</b> <%= @order.consignments.last and @order.consignments.last.notes.nil? ? "Confirmed on Dispatch" : @order.consignments.last.notes %></td>
   </tr>
   <tr style="float:right;">
     <td><b>Last Boxes Dispatched:</b> <%= @order.consignments.last and @order.consignments.last.boxes.nil? ? "Confirmed on Dispatch" : @order.consignments.last.boxes %></td>
