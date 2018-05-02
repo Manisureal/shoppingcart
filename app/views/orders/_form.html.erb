@@ -83,6 +83,10 @@
   </div>
 </div>
 
+<script>
+  <%= raw render partial: "orders.js" %>
+</script>
+
 <!-- <div class="col-xs-12 col-md-8">
   <%#= form_for @order do |f| %>
     <%# if @order.errors.any? %>
@@ -107,9 +111,6 @@
   <%# end %>
 </div> -->
 
-<script>
-  <%= raw render partial: "orders.js" %>
-</script>
 
 <!-- <script>
   window.onload = function() {
@@ -121,42 +122,3 @@
   });
 }
 </script> -->
-
-<style>
-  .pad-top-bot {
-    padding: 20px 0;
-  }
-
-  .dark-grey {
-    /*color:#8b8989;*/
-    color:#696969;
-  }
-
-  .container {
-    width:100%;
-  }
-
-  textarea {
-    width:250px;
-    height:180px;
-    padding:10px;
-    border:none;
-    box-shadow:3px 4px 24px -4px rgba(92,92,92,0.79);
-  }
-  textarea:focus {
-    background: grey;
-    color:white;
-  }
-  /*.bg-color:nth-child(even) {
-    background-color: #dddddd;
-  }
-
-  .bg-color:nth-child(odd) {
-    background-color: white;
-  }*/
-
-  .bg-color {
-    background-color: white;
-    padding: 10px 0;
-  }
-</style>
