@@ -1,5 +1,5 @@
 ActiveAdmin.register Order do
-  permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by, :admin_notes,
+  permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by, :admin_notes, :boxes,
     order_items_attributes: [:id, :product_id, :quantity, :to_dispatch]
 
   index do

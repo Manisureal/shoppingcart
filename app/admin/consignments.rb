@@ -1,5 +1,5 @@
 ActiveAdmin.register Consignment do
-  permit_params :shipped_at, :tracking_no, :user, :order
+  permit_params :shipped_at, :tracking_no, :user, :order, :notes, :boxes
 
   index do
     selectable_column

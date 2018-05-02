@@ -55,10 +55,8 @@
 <% end %>
   <tr>
     <td><%= f.submit "Dispatch Order" %></td>
-    <td>Add Notes: </td>
-    <td><%= f.text_area :admin_notes %> </td>
-    <td colspan="5" style="text-align:right;"><b>Your Order Total:</b></td>
-    <td colspan="6"><b> <%=number_to_currency @order.calculate_total %></b></td>
+    <td colspan="7" style="text-align:right;"><b>Your Order Total:</b></td>
+    <td colspan="8"><b> <%=number_to_currency @order.calculate_total %></b></td>
   </tr>
 </table>
 <% end %>
