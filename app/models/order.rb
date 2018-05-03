@@ -11,6 +11,7 @@ class Order < ApplicationRecord
   before_create :update_total
   before_save :update_total
   before_save :check_quantity_match
+  audited
 
   def total_quantity
     self.order_items.map { |oi| oi.quantity }.sum

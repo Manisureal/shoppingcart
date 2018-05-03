@@ -14,7 +14,7 @@ gem 'activeadmin', github: 'activeadmin/activeadmin'
 gem 'inherited_resources', github: 'activeadmin/inherited_resources'
 gem 'coffee-rails', '~> 4.1', '>= 4.2.2'
 gem 'trackerific'
-
+gem 'audited', '~> 4.7'
 
 gem 'autoprefixer-rails'
 gem 'bootstrap-sass', '~> 3.3'
