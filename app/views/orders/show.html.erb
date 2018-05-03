@@ -83,6 +83,12 @@
     <td colspan="3" class="text-right"><b>Your Order Total:</b></td>
     <td colspan="5"><b> <%=number_to_currency @order.calculate_total %> <%#= current_order.calculate_total %></b></td>
   </tr>
+  <tr>
+    <%# storage = [] %>
+    <%# @order.order_items.each { |a| storage += a.audits } %>
+    <%# storage.flatten.each {|f| @f =f.audited_changes} %>
+    <%#= @f %>
+  </tr>
   <% end %>
 </table>
 
