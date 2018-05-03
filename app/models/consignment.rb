@@ -14,4 +14,15 @@ class Consignment < ApplicationRecord
   def dispatched_quantity
     self.consignment_items.map { |ci| ci.quantity }.sum
   end
+
+  def item_details
+    disp = ""
+    first = true
+    self.consignment_items.each do |ci|
+      disp += ", " unless first
+      first = false
+      disp += "#{ci.order_item.product.name} (#{ci.quantity} of #{ci.order_item.quantity})"
+    end
+    disp
+  end
 end

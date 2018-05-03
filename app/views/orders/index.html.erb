@@ -13,8 +13,13 @@
       <div class="message">
         <div class="message-name">
           <h3>Order# <%= o.id %></h3>
+          <% unless o.created_at %>
           <p><%= o.created_at.strftime("%m/%d/%Y") %></p>
           <p><%= o.created_at.strftime("%H:%M:%S") %></p>
+          <% else o.updated_at? %>
+          <p><%= o.updated_at.strftime("%m/%d/%Y") %></p>
+          <p><%= o.updated_at.strftime("%H:%M:%S") %></p>
+          <% end %>
         </div>
         <div class="message-body">
           <p><strong>Total Quantities: <%= o.total_quantity %></strong></p>
