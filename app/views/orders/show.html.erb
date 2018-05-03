@@ -5,7 +5,7 @@
 <table class="t-color" ;" id="foo">
   <tr>
     <th>Tracking No</th>
-    <th>Quantity Disptached</th>
+    <th>Items Disptached</th>
     <th>Disptached</th>
     <th>Order Status</th>
     <th>Boxes Sent</th>
@@ -20,7 +20,7 @@
       <a href="javascript:void();" onclick="$.ajax('<%= track_consignment_path(c) %>.js')"> <%= c.tracking_no %></a>
     <% end %>
     </td>
-    <td><%= "#{c.dispatched_quantity}/#{c.orderitem_quantity_req_tot}" %></td>
+    <td><%= c.item_details %> <br> <%= "Total: #{c.dispatched_quantity}/#{c.orderitem_quantity_req_tot}" %> </td>
     <td><%= c.shipped_at.strftime("%A, %e %b - %H:%M %p") %></td>
     <td><%= c.status %></td>
     <td><%= c.boxes %></td>
