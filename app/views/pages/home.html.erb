@@ -1,13 +1,23 @@
-<div class="container">
-  <div class="row pad-top">
-    <div class="col-xs-12 col-md-6 text-center">
-      <div class="well">
-        <%= link_to "Buy New Products", new_order_path, class: "btn btn-success btn-lg" %>
-      </div>
+<div class="bg">
+  <div class="container white">
+    <div class="row text-center">
+      <% @day = Time.now.strftime("%H:%M:%S").to_i %>
+      <h1 class="pad-top">Good <%= (@day < 12) ? "Morning" : (@day > 12) ? "Afternoon" : (@day > 5) ? "Evening" : nil %> <%= @current_user.forname %></h1>
+      <h2>Welcome to Caremeds Ordering System</h2>
+      <h4><%= Time.now.strftime("%A") %> - <%= Time.now.strftime("%I:%M %p") %></h4>
     </div>
-    <div class="col-xs-12 col-md-6 text-center">
-      <div class="well">
-        <%= link_to "My Orders", orders_path, class: "btn btn-warning btn-lg" %>
+    <div class="row pad-top">
+      <div class="col-xs-12 col-md-6 text-center">
+        <div class="wel">
+          <p>If you would like to place a new order, <br> please click below:</p>
+          <%= link_to "Place New Order", new_order_path, class: "btn btn-success btn-lg" %>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6 text-center">
+        <div class="wel">
+          <p>If you would like to view your current/past orders, <br> please click below:</p>
+          <%= link_to "My Orders", orders_path, class: "btn btn-warning btn-lg" %>
+        </div>
       </div>
     </div>
   </div>
