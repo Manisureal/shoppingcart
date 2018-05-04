@@ -22,7 +22,7 @@ window.getProductInfo = (product_id, counter_id) ->
   $.getJSON('<%= products_path %>/' + product_id + '.json').done (data) ->
     $('#pack-size-' + counter_id).val data.product.pack_size
     $('#price-' + counter_id).val data.product.price
-    $('#product-code-' + counter_id).val data.product.product_code
+    $('#product-description-' + counter_id).val data.product.description
     updateRowTotal(counter_id)
     updateTotalValue()
   return
