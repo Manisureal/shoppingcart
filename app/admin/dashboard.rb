@@ -22,8 +22,8 @@ ActiveAdmin.register_page "Dashboard" do
 
       column do
         panel "Recent Customers" do
-          table_for User.order("id desc").limit(10).each do |user|
-            column(:customer_name) { |user| user.forname + ' ' + user.surname }
+          table_for User.where(admin: false).order("id desc").limit(10).each do |user|
+            column(:customer_name) { |user| (user.forname ? user.forname : 'Unknown') + ' ' + (user.surname ? user.surname : 'User')}
             column(:customer_email) { |user| link_to(user.email, admin_user_path(user)) }
             column(:last_signed) { |user| user.last_sign_in_at }
           end
