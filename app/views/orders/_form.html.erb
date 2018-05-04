@@ -21,13 +21,13 @@
 
   <div class="row text-center dark-grey" style="background-color:;">
     <div class="col-md-2">
-        <h4>Product</h4>
+        <h4>Product Code</h4>
     </div>
     <div class="col-md-2">
         <h4>Quantity</h4>
     </div>
     <div class="col-md-2">
-        <h4>Code</h4>
+        <h4>Description</h4>
     </div>
     <div class="col-md-2">
         <h4>Pack Size</h4>
@@ -43,19 +43,22 @@
     <%= f.fields_for :order_items do |oi| %>
   <div class="row bg-color">
     <div class="col-md-2">
-      <td><%= oi.select(:product_id, Product.all.collect { |p| [p.name, p.id] }, {include_blank: "Select One"}, {class: "product-selector form-control selectpicker", data: {counter_id: my_counter}} ) %></td>
+      <td><%= oi.select(:product_id, Product.all.collect { |p| [p.product_code, p.id] }, {include_blank: "Select One"}, {class: "product-selector form-control selectpicker", data: {counter_id: my_counter}} ) %></td>
     </div>
     <div class="col-md-2">
       <%= oi.text_field :quantity, class: "quan-tot form-control", data: {counter_id: my_counter } %>
     </div>
     <div class="col-md-2">
-      <input id="product-code-<%= my_counter %>" class="form-control" value="<%= oi.object.product ? oi.object.product.product_code : "" %>" disabled>
+      <input id="product-description-<%= my_counter %>" class="form-control" value="<%= oi.object.product ? oi.object.product.description : "" %>" disabled>
     </div>
     <div class="col-md-2">
       <input id="pack-size-<%= my_counter %>" class="form-control" value="<%= oi.object.product ? oi.object.product.pack_size : "" %>"  disabled>
     </div>
     <div class="col-md-2">
-      <input id="price-<%= my_counter %>" class="form-control" value="<%= oi.object.product ? oi.object.product.price : "" %>" disabled>
+      <div class="input-group">
+        <span class="input-group-addon">£</span>
+        <input id="price-<%= my_counter %>" class="form-control" value="<%= oi.object.product ? oi.object.product.price : "" %>" disabled>
+      </div>
     </div>
     <div class="col-md-2">
       <div class="input-group"><span class="input-group-addon">£</span><input class="order-item-total form-control" id="total-<%= my_counter %>" value="<%= oi.object.total %>" disabled></div>

@@ -114,7 +114,6 @@ ActiveRecord::Schema.define(version: 20180503134153) do
   end
 
   create_table "products", force: :cascade do |t|
-    t.string "name"
     t.decimal "price"
     t.text "description"
     t.integer "pack_size"
