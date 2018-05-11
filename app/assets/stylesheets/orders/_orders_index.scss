@@ -57,3 +57,14 @@
 .status.pending {
   color: grey;
 }
+
+.no-order {
+  background-color: #F8F8FF;
+  color:#696969;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid rgba(220,224,244,0.4);
+  margin: 40px;
+}
