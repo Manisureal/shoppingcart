@@ -1,3 +1,4 @@
+<%= provide(:title, 'Order#' + ' ' + @order.id.to_s) %>
 <table class="t-color" ;"><tr><td><h1 class="text-center">Order# <%= @order.id %> <small>Summary</small></h1></td></tr></table>
 
 <table class="t-color" ;" onclick="toggle_visibility('foo')"><tr><td class="pointer text-center"><a>Click for Tracking Information</a></td></tr></table>
@@ -27,7 +28,7 @@
     <td><%= c.notes %></td>
   </tr>
 <% end %>
-  <tr><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 
 </table>
 
@@ -55,7 +56,6 @@
 <table class="t-color" ;">
   <tr>
     <th>Product Code</th>
-    <th>Name</th>
     <th>Description</th>
     <th>Unit Price</th>
     <th>Quantity</th>
@@ -66,7 +66,6 @@
 <% @order_items.each do |item| %>
   <tr>
     <td><%= item.product.product_code %></td>
-    <td><%= item.product.name %></td>
     <td><%= item.product.description %></td>
     <td><%= number_to_currency item.product.price %></td>
     <td><%= item.quantity %></td>
@@ -80,8 +79,8 @@
     <td><% if @order.status == "Ordered" %>
     <%= link_to "Edit Orders", edit_order_path(@order), class: "btn btn-warning" %>
     <% end %></td>
-    <td colspan="3" class="text-right"><b>Your Order Total:</b></td>
-    <td colspan="5"><b> <%=number_to_currency @order.calculate_total %> <%#= current_order.calculate_total %></b></td>
+    <td colspan="2" class="text-right"><b>Your Order Total:</b></td>
+    <td colspan=""><b> <%=number_to_currency @order.calculate_total %> <%#= current_order.calculate_total %></b></td>
   </tr>
   <tr>
     <%# storage = [] %>
