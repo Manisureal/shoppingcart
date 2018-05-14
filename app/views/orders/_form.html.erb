@@ -39,6 +39,15 @@
         <h4>Current Total</h4>
     </div>
   </div>
+  <% if @order.errors.any? %>
+    <div class="errors-container" style="color:red">
+      <ul>
+        <% @order.errors.each do |attr,message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
   <% my_counter = 0 %>
     <%= f.fields_for :order_items do |oi| %>
   <div class="row bg-color">
