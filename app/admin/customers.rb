@@ -1,11 +1,14 @@
-ActiveAdmin.register User, as: "Staff" do
+ActiveAdmin.register User, as: "Customer" do
   permit_params :forname, :surname, :email, :password, :password_confirmation, :admin, :company_id
 
   menu parent: "Users"
 
   controller do
     def scoped_collection
-     end_of_association_chain.where(admin: true)
+      # Without altering too much with the page and keep the context in its same format as active admin use the following:
+      end_of_association_chain.where(admin: false)
+      # If we want to avoid showing non-admin caremeds users, then the following:
+      # Company.includes(:users).where("name != ?", "Caremeds")
     end
   end
 
@@ -14,6 +17,9 @@ ActiveAdmin.register User, as: "Staff" do
     column :id
     column :email
     column :forname
+    # do |company|
+    #   company.contact_name.partition(" ").first
+    # end
     column :surname
     column :created_at
     column :admin
@@ -28,9 +34,6 @@ ActiveAdmin.register User, as: "Staff" do
       f.input :forname
       f.input :surname
       f.input :password
-    end
-    f.inputs "Admin" do
-      f.input :admin
     end
     f.actions
   end
