@@ -5,7 +5,7 @@ class Order < ApplicationRecord
   belongs_to :company
   before_create :update_status
   accepts_nested_attributes_for :order_items, allow_destroy: true, reject_if: lambda { |oi| oi[:product_id].blank? }
-  validates :order_items, presence: :true
+  validates :order_items, presence: { message: "Please choose an item" }
   after_update :update_total
   after_create :update_total
   before_create :update_total
