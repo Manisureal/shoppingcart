@@ -15,7 +15,7 @@ ActiveAdmin.register Order do
     end
     column :created_at
     column "Customer", :user_id do |u|
-      link_to u.user.forname + " " + u.user.surname, admin_user_path(u.user_id)
+      link_to u.user.forname + " " + u.user.surname, admin_staff_path(u.user_id)
     end
     column :company
     column "Admin Assigned", :taken_by

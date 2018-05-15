@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.5.0'
+ruby '2.5.1'
 
 gem 'figaro'
 gem 'jbuilder', '~> 2.0'
@@ -15,6 +15,7 @@ gem 'inherited_resources', github: 'activeadmin/inherited_resources'
 gem 'coffee-rails', '~> 4.1', '>= 4.2.2'
 gem 'trackerific'
 gem 'audited', '~> 4.7'
+gem 'chosen-rails'
 
 gem 'autoprefixer-rails'
 gem 'bootstrap-sass', '~> 3.3'
