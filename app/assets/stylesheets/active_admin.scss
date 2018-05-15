@@ -10,6 +10,8 @@
 // Active Admin's got SASS!
 @import "active_admin/mixins";
 @import "active_admin/base";
+@import "chosen";
+// @import "select2";
 
 // Overriding any non-variable SASS must be done after the fact.
 // For example, to change the default status-tag color:
@@ -18,3 +20,13 @@
  .done {background:#8DAA88;}
  .warning {background:orange;}
  .blue {background:#1a8fc6;}
+
+.f-label {
+  padding-left: 10px;
+  display: block;
+  width: 19.5%;
+  float: left;
+  font-size: 1.0em;
+  font-weight: bold;
+  color: #5E6469;
+}

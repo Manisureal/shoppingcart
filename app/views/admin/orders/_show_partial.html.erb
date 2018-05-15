@@ -30,7 +30,6 @@
 <table style="color:#696969;">
   <tr>
     <th>Product Code</th>
-    <th>Name</th>
     <th>Description</th>
     <th>Unit Price</th>
     <th>Quantity</th>
@@ -42,7 +41,6 @@
 <%= f.fields_for :order_items do |oi| %>
   <tr>
     <td><%= oi.object.product.product_code %></td>
-    <td><%= oi.object.product.name %></td>
     <td><%= oi.object.product.description %></td>
     <td><%= number_to_currency oi.object.product.price %></td>
     <td><%= oi.object.quantity %></td>
@@ -55,8 +53,8 @@
 <% end %>
   <tr>
     <td><%= f.submit "Dispatch Order" %></td>
-    <td colspan="7" style="text-align:right;"><b>Your Order Total:</b></td>
-    <td colspan="8"><b> <%=number_to_currency @order.calculate_total %></b></td>
+    <td colspan="6" style="text-align:right;"><b>Your Order Total:</b></td>
+    <td colspan="7"><b> <%=number_to_currency @order.calculate_total %></b></td>
   </tr>
 </table>
 <% end %>
