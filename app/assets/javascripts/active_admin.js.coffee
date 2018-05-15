@@ -12,4 +12,12 @@ $ ->
     allow_single_deselect: true
     no_results_text: 'No results matched'
     #width: '200px'
-    width: 'calc(80% - 22px)'
+    width: 'calc(80% - 10px)'
+
+$ ->
+  # enable chosen js
+  $('.chosen-select2').chosen
+    allow_single_deselect: true
+    no_results_text: 'No results matched'
+    #width: '200px'
+    width: '100%'

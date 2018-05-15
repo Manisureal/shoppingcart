@@ -2,11 +2,17 @@ ActiveAdmin.register User, as: "Customer" do
   permit_params :forname, :surname, :email, :password, :password_confirmation, :admin, :company_id
 
   menu parent: "Users"
-  # filter [:orders, :company, :audits, :email, :forname, :surname]
+
   remove_filter :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at,
                   :current_sign_in_at, :last_sign_in_at, :created_at, :updated_at, :admin
 
-  # filter :email, as: 'chosen-select', collection: User.all, input_html: { class: 'chosen-select' }
+  filter :email, as: :select, label: "Search by Email", prompt: "Select or Type", collection: User.all.collect { |u| [u.email] },
+         input_html: { class: 'chosen-select2' }
+  filter :forname, as: :select, label: "Search by Forname", prompt: "Select or Type", collection: User.all.collect { |u| u.forname },
+         input_html: { class: 'chosen-select2'}
+  filter :surname, as: :select, label: "Search by Surname", prompt: "Select or Type", collection: User.all.collect { |u| u.surname },
+         input_html: { class: 'chosen-select2'}
+
 
   controller do
     def scoped_collection
