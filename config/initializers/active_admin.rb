@@ -164,7 +164,7 @@ ActiveAdmin.setup do |config|
 
   # == Setting a Favicon
   #
-  # config.favicon = 'favicon.ico'
+  config.favicon = "https://png.icons8.com/ios/55/156DB1/circled-C.png"
 
   # == Meta Tags
   #
