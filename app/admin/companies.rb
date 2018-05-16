@@ -8,4 +8,17 @@ ActiveAdmin.register Company do
   filter :phone, as: :select, label: "Search by Phone Number", prompt: "Select or Type", collection: Company.all.collect { |c| c.phone }, input_html: { class: 'chosen-select2' }
   filter :email, as: :select, label: "Search by Email", prompt: "Select or Type", collection: Company.all.collect { |c| c.email }, input_html: { class: 'chosen-select2' }
 
+  index do
+    selectable_column
+    column :id do |c|
+      link_to c.id, admin_company_path(c)
+    end
+    column :name
+    column :address
+    column :postcode
+    column :contact_name
+    column :phone
+    column :email
+    actions
+  end
 end
