@@ -24,4 +24,4 @@ $ ->
 
 $ ->
   $('.admin_staffs #wrapper  #active_admin_content .sidebar').remove()
-  $("#collection_selection").width("130%")
+  $(".admin_staffs #collection_selection").width("130%")
