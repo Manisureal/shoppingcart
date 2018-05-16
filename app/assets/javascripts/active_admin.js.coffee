@@ -21,3 +21,7 @@ $ ->
     no_results_text: 'No results matched'
     #width: '200px'
     width: '100%'
+
+$ ->
+  $('.admin_staffs #wrapper  #active_admin_content .sidebar').remove()
+  $("#collection_selection").width("130%")
