@@ -35,9 +35,20 @@ ActiveAdmin.register Order do
 
   form do |f|
     f.inputs "Identity" do
-      f.input :user
-      f.input :company
-      f.input :status, collection: ["Ordered","In Progress", "Completed", "Dispatched", "Cancelled", "Incomplete"]
+      f.label :company, class: 'f-label'
+      f.select :company,
+               Company.all.collect { |c| [c.name, c.id ]},
+               {include_blank: true},
+               {
+                class: 'chosen-select company-select',
+                data: { placeholder: "Some Company" }
+               }
+      f.label :user, class: 'f-label margin-top'
+      f.select :user_id,
+              User.all.collect { |u| [u.forname, u.id, class: "user_selector company-#{u.company_id}"]},
+              { prompt: "Please Choose" },
+              { class: "user-select" }
+      f.input :status, prompt: "Please Choose", collection: ["Ordered","In Progress", "Completed", "Dispatched", "Cancelled", "Incomplete"]
       f.input :total_price
       f.input :notes
       f.input :name
