@@ -25,3 +25,13 @@ $ ->
 $ ->
   $('.admin_staffs #wrapper  #active_admin_content .sidebar').remove()
   $(".admin_staffs #collection_selection").width("130%")
+
+$ ->
+  $('.user_selector').hide()
+  $('.company-select').change ->
+    value = $(this).val()
+    console.log 'selected' + value
+    $('.user-select').val ''
+    $('.user_selector').hide()
+    $('.company-' + value).show()
+    return
