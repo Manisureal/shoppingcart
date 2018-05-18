@@ -23,6 +23,6 @@ ActiveAdmin.register Company do
   end
 
   action_item :view, only: :index, priority: 0 do
-    link_to 'Search', class: "search"
+    link_to image_tag('search.png', height: 25), class: "search"
   end
 end
