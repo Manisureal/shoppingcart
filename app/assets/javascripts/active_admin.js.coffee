@@ -35,3 +35,23 @@ $ ->
     $('.user_selector').hide()
     $('.company-' + value).show()
     return
+
+
+$ ->
+  hiddenSidebar = ->
+    $('#sidebar').hide()
+    $('.admin_customers #collection_selection').width '130%'
+    return
+
+  showSideBar = ->
+    hiddenSidebar()
+    grabSearchBtn = $('.action_items .action_item a').first().on('click', (evt) ->
+      evt.preventDefault()
+      $('#sidebar').show()
+      $('.admin_customers #collection_selection').width '100%'
+      return
+    )
+    return
+  showSideBar()
+
+
