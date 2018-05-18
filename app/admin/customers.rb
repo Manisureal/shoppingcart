@@ -60,9 +60,8 @@ ActiveAdmin.register User, as: "Customer" do
     f.actions
   end
 
-  action_item :view, priority: 0 do
-    link_to 'Search', class: "search"
-
+  action_item :view, only: :index, priority: 0 do
+    link_to image_tag('search.png', height: 25), class: "search"
   end
 
 end
