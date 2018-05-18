@@ -52,7 +52,7 @@
     <%= f.fields_for :order_items do |oi| %>
   <div class="row bg-color">
     <div class="col-md-2">
-      <td><%= oi.select(:product_id, Product.all.collect { |p| [p.product_code, p.id] }, {include_blank: "Select One"}, {class: "product-selector form-control selectpicker", data: {counter_id: my_counter}} ) %></td>
+      <td><%= oi.select(:product_id, Product.all.reverse.collect { |p| [p.product_code, p.id] }, {include_blank: "Select One"}, {class: "product-selector form-control selectpicker", data: {counter_id: my_counter}} ) %></td>
     </div>
     <div class="col-md-2">
       <%= oi.text_field :quantity, class: "quan-tot form-control", data: {counter_id: my_counter } %>
