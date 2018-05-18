@@ -40,7 +40,7 @@ $ ->
 $ ->
   hiddenSidebar = ->
     $('#sidebar').hide()
-    $('.admin_customers #collection_selection').width '130%'
+    $('#main_content_wrapper #collection_selection').width '130%'
     return
 
   showSideBar = ->
@@ -48,7 +48,7 @@ $ ->
     grabSearchBtn = $('.action_items .action_item a').first().on('click', (evt) ->
       evt.preventDefault()
       $('#sidebar').show()
-      $('.admin_customers #collection_selection').width '100%'
+      $('#main_content_wrapper #collection_selection').width '100%'
       return
     )
     return

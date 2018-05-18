@@ -21,4 +21,8 @@ ActiveAdmin.register Company do
     column :email
     actions
   end
+
+  action_item :view, only: :index, priority: 0 do
+    link_to 'Search', class: "search"
+  end
 end
