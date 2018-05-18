@@ -102,8 +102,9 @@ ActiveAdmin.register Order do
     end
   end
 
-  action_item :print, only: :show do
-    #Creates an additional action button next to edit, delete etc
+  action_item :view, only: :index, priority: 0 do
+    # link_to image_tag('Caremeds-logo.png'), class: "search"
+    link_to 'Search', class: "search"
   end
 
 end

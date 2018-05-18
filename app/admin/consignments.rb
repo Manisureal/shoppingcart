@@ -28,4 +28,8 @@ ActiveAdmin.register Consignment do
   show title: proc{|c| "Consignment##{c.id}" + " - " + "Order##{c.order_id}"} do
     render 'show_partial'
   end
+
+  action_item :view, only: :index, priority: 0 do
+    link_to 'Search', class: "search"
+  end
 end
