@@ -6,6 +6,8 @@ ActiveAdmin.register User, as: "Customer" do
   remove_filter :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at,
                   :current_sign_in_at, :last_sign_in_at, :created_at, :updated_at, :admin
 
+  filter :company, as: :select, label: "Search by Company", prompt: "Select or Type", collection: Company.all.collect { |u| [u.name, u.id] },
+         input_html: { class: 'chosen-select2' }
   filter :email, as: :select, label: "Search by Email", prompt: "Select or Type", collection: User.all.collect { |u| [u.email] },
          input_html: { class: 'chosen-select2' }
   filter :forname, as: :select, label: "Search by Forname", prompt: "Select or Type", collection: User.all.collect { |u| u.forname },
@@ -36,6 +38,7 @@ ActiveAdmin.register User, as: "Customer" do
     column :admin
     column :company
     actions
+
   end
 
   form do |f|
@@ -55,6 +58,11 @@ ActiveAdmin.register User, as: "Customer" do
       f.input :password
     end
     f.actions
+  end
+
+  action_item :view, priority: 0 do
+    link_to 'Search', class: "search"
+
   end
 
 end
