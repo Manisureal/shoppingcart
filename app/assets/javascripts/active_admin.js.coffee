@@ -45,7 +45,7 @@ $ ->
 
   showSideBar = ->
     hiddenSidebar()
-    grabSearchBtn = $('.action_items .action_item a').first().on('click', (evt) ->
+    grabSearchBtn = $('.action_items .action_item a img').on('click', (evt) ->
       evt.preventDefault()
       $('#sidebar').show()
       $('#main_content_wrapper #collection_selection').width '100%'
