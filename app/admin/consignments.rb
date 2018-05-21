@@ -16,7 +16,7 @@ ActiveAdmin.register Consignment do
     column "Customer", :user do |u|
       link_to (u.order.user.forname + " " + u.order.user.surname), admin_customer_path(u.order.user)
     end
-    column "Order #", :order do |o|
+    column "Order #", sortable: :order_id do |o|
       link_to o.order.id, admin_order_path(o.order.id)
     end
     column "Status", :consignment do |c|
