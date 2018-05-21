@@ -6,7 +6,7 @@ ActiveAdmin.register User, as: "Customer" do
   remove_filter :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at,
                   :current_sign_in_at, :last_sign_in_at, :created_at, :updated_at, :admin
 
-  filter :company, as: :select, label: "Search by Company", prompt: "Select or Type", collection: Company.all.collect { |u| [u.name, u.id] },
+  filter :company_id, as: :select, label: "Search by Company", prompt: "Select or Type", collection: Company.all.collect { |u| [u.name, u.id] },
          input_html: { class: 'chosen-select2' }
   filter :email, as: :select, label: "Search by Email", prompt: "Select or Type", collection: User.all.collect { |u| [u.email] },
          input_html: { class: 'chosen-select2' }
@@ -44,7 +44,7 @@ ActiveAdmin.register User, as: "Customer" do
   form do |f|
     f.inputs "Identity" do
       f.label :company, class: "f-label"
-      f.select :company,
+      f.select :company_id,
                Company.all.collect {|c| [ c.name, c.id ] },
                { include_blank: true},
                { multiple: false,
