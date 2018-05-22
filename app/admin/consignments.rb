@@ -11,10 +11,10 @@ ActiveAdmin.register Consignment do
     end
     column :tracking_no
     column "Admin", :user do |u|
-      link_to (u.user.forname + " " + u.user.surname), admin_staff_path(u.user)
+      link_to (u.user.forname.to_s + " " + u.user.surname.to_s), admin_staff_path(u.user)
     end
     column "Customer", :user do |u|
-      link_to (u.order.user.forname + " " + u.order.user.surname), admin_customer_path(u.order.user)
+      link_to (u.order.user.forname.to_s + " " + u.order.user.surname.to_s), admin_customer_path(u.order.user)
     end
     column "Order #", sortable: :order_id do |o|
       link_to o.order.id, admin_order_path(o.order.id)
