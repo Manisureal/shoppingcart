@@ -3,7 +3,7 @@
   <div class="container white">
     <div class="row text-center">
       <% @day = Time.now.strftime("%H:%M:%S").to_i %>
-      <h1 class="pad-top">Good <%= (@day < 12) ? "Morning" : (@day > 12) ? "Afternoon" : (@day > 5) ? "Evening" : nil %> <%= @current_user.forname %></h1>
+      <h1 class="pad-top">Good <%= (@day < 12) ? "Morning" : (@day > 12) ? "Afternoon" : (@day > 5) ? "Evening" : nil %> <%= @current_user.company.name.to_s %></h1>
       <h2>Welcome to Caremeds Ordering System</h2>
       <h4><%= Time.now.strftime("%A") %> - <%= Time.now.strftime("%I:%M %p") %></h4>
     </div>
