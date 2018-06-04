@@ -1,5 +1,5 @@
 ActiveAdmin.register Company do
-  permit_params :name, :address, :postcode, :contact_name, :phone, :fax, :email, :xero_id
+  permit_params :name, :address, :postcode, :contact_name, :phone, :fax, :email, :xero_id, :account_owner
 
   filter :name, as: :select, label: "Search by Name", prompt: "Select or Type", collection: Company.all.collect { |c| c.name }, input_html: { class: 'chosen-select2' }
   filter :address, as: :select, label: "Search by Address", prompt: "Select or Type", collection: Company.all.collect { |c| c.address }, input_html: { class: 'chosen-select2' }
@@ -20,6 +20,20 @@ ActiveAdmin.register Company do
     column :phone
     column :email
     actions
+  end
+
+  form do |f|
+    f.inputs "Details" do
+      f.input :name
+      f.input :address, as: :text
+      f.input :postcode
+      f.input :contact_name
+      f.input :phone
+      f.input :fax
+      f.input :email
+      f.input :account_owner, as: :select, collection: ["Caremeds","Sales - Kristian Bade"]
+      f.actions
+    end
   end
 
   action_item :view, only: :index, priority: 0 do
