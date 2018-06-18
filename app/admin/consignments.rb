@@ -16,6 +16,9 @@ ActiveAdmin.register Consignment do
     column "Customer", :user do |u|
       link_to (u.order.user.forname.to_s + " " + u.order.user.surname.to_s), admin_customer_path(u.order.user)
     end
+    column "Company", :company do |co|
+      link_to (co.order.company.name), admin_company_path(co.order.company)
+    end
     column "Order #", sortable: :order_id do |o|
       link_to o.order.id, admin_order_path(o.order.id)
     end
@@ -33,3 +36,4 @@ ActiveAdmin.register Consignment do
     link_to image_tag('search.png', height: 25), class: "search"
   end
 end
+
