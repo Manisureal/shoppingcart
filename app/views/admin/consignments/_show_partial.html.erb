@@ -16,7 +16,7 @@
   </tr>
 <% @consignment.consignment_items.each do |ci| %>
   <tr>
-    <td><%= ci.order_item.order.user.forname + " " + ci.order_item.order.user.surname %></td>
+    <td><%= ci.order_item.order.user.forname.to_s + " " + ci.order_item.order.user.surname.to_s %></td>
     <td><%= ci.order_item.order.user.company.name %></td>
     <td><%= ci.order_item.order.id %></td>
     <td><%= ci.order_item.product.product_code %></td>
