@@ -21,7 +21,7 @@ class Consignment < ApplicationRecord
     self.consignment_items.each do |ci|
       disp += ", " unless first
       first = false
-      disp += "#{ci.order_item.product.name} (#{ci.quantity} of #{ci.order_item.quantity})"
+      disp += "#{ci.order_item.product.description} (#{ci.quantity} of #{ci.order_item.quantity})"
     end
     disp
   end
