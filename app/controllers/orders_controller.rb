@@ -33,6 +33,7 @@ class OrdersController < ApplicationController
       if @order.save
         @order.errors.full_messages
         flash[:notice] = "Order# #{@order.id}, Created Successfully"
+        OrderMailer.order_submitted(@order).deliver_now
         redirect_to orders_path
         authorize @order
       else
