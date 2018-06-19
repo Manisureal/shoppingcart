@@ -5,9 +5,12 @@ class OrderMailer < ApplicationMailer
   #
   #   en.order_mailer.order_submitted.subject
   #
-  def order_submitted
-    @greeting = "Hi"
+  def order_submitted(order)
+    @order = order
 
-    mail to: "to@example.org"
+    mail(
+      to: 'mansoor@caremeds.co.uk',
+      subject: "New order from #{@order.user.forname} - Order# #{@order.id}"
+    )
   end
 end
