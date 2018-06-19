@@ -1,5 +1,75 @@
-<h4>Hi,</h4>
+<p>Hi,</p>
 
 <p>
-  Please check your admin Dashboard for a new order# <%= @order.id %> from <%= @order.user.forname %>.
+  Please check your admin Dashboard for a new <b>order# <%= @order.id %></b> from <b><%= @order.user.forname %></b> - <b><%= @order.user.company.name %></b>.
 </p>
+
+<h4>Order Summary:</h4>
+
+<table class="t-color" ;">
+  <tr>
+    <th>Shipping Address</th>
+    <th>Details</th>
+    <th>Order Notes</th>
+  </tr>
+  <tr>
+    <% @split = @order.address.split(',') %>
+    <td> <p><%= raw @split.join("<br />") %></p> </td>
+    <td>
+      Order for: <b><%= @order.user.forname %></b><br>
+      Company: <b><%= @order.user.company ? @order.user.company.name : "Nil" %></b><br>
+      Order Date: <b><%= @order.created_at.strftime("%A, %b %d") %></b><br>
+      Order Time: <b><%= @order.created_at.strftime("%H:%M:%S") %></b><br>
+    </td>
+    <td>
+      <%= @order.notes.empty? ? "N/A" : @order.notes  %>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th>Product Code</th>
+    <th>Description</th>
+    <th>Quantity</th>
+    <th>Total Price</th>
+  </tr>
+  <% @order.order_items.each do |oi| %>
+  <tr>
+    <td> <%= oi.product.product_code %></td>
+    <td> <%= oi.product.description %></td>
+    <td> <%= oi.quantity %></td>
+    <td> <%= number_to_currency oi.product.price * oi.quantity.to_i %></td>
+  </tr>
+  <% end %>
+
+  <tr>
+    <td colspan="3" class="right"><b>Order Total:</b></td>
+    <td colspan=""><b> <%=number_to_currency @order.calculate_total %> </b></td>
+  </tr>
+</table>
+
+<p>Regards,</p>
+<p>Caremeds Ordering System</p>
+
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  .right {
+    text-align: right;
+  }
+</style>
