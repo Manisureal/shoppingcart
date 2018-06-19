@@ -1,4 +1,5 @@
-<p>Hi,</p>
+<% @day = Time.now.strftime("%H:%M:%S").to_i %>
+<p>Good <%= (@day < 12) ? "Morning" : (@day >= 17) ? "Evening" : "Afternoon" %>,</p>
 
 <p>
   Please check your admin Dashboard for a new <b>order# <%= @order.id %></b> from <b><%= @order.user.forname %></b> - <b><%= @order.user.company.name %></b>.
