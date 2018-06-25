@@ -19,7 +19,7 @@ class OrdersController < ApplicationController
 
   def new
     @order = Order.new
-    @order.address = current_user.company ? current_user.company.address + "\n" + current_user.company.postcode : ""
+    @order.address = current_user.company ? current_user.company.address.to_s + "\n" + current_user.company.postcode.to_s : ""
     10.times do
       @order.order_items << OrderItem.new
     end
