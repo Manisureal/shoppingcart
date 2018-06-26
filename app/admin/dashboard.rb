@@ -5,7 +5,7 @@ ActiveAdmin.register_page "Dashboard" do
   content title: proc{ I18n.t("active_admin.dashboard") } do
     columns do
       column do
-        panel "Recent Orders" do
+        panel "Recent Orders", class: "orders" do
           table_for Order.where(status: ["Ordered", "Incomplete"]).order("id desc").limit(10) do
             column("Order#") { |order| link_to(order.id, admin_order_path(order)) }
             column("Order Date") { |order| order.created_at }
