@@ -54,15 +54,23 @@ $ ->
   showSideBar()
 
 # This shows the number of outstanding or new orders in chrome tab
+# This shows the number of outstanding or new orders in chrome tab
 $ ->
   title = document.title
   countNewOrders = ->
     countOrders = $('.orders tbody tr').length
     newTitle = '(' + countOrders + ') ' + title
-    document.title = newTitle
+    if countOrders > 0
+      document.title = newTitle
+      addFavicon()
     return
 
   changeTitle = ->
     setInterval countNewOrders, 5000
     return
   $('.orders tbody tr').onload = changeTitle()
+
+  addFavicon = ->
+    favicon = $('head link')[2]
+    favicon.href = '/assets/favicon.png'
+    return
