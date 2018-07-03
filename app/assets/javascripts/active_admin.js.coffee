@@ -38,16 +38,29 @@ $ ->
 
 $ ->
   hiddenSidebar = ->
-    $('#sidebar').hide()
+    $('.sidebar').hide()
     $('#main_content_wrapper #collection_selection').width '130%'
+    return
+
+  addHiddenClassName = ->
+    $('.sidebar').addClass('hidden')
     return
 
   showSideBar = ->
     hiddenSidebar()
+    addHiddenClassName()
     grabSearchBtn = $('.action_items .action_item a img').on('click', (evt) ->
       evt.preventDefault()
-      $('#sidebar').show()
-      $('#main_content_wrapper #collection_selection').width '100%'
+      if $('.sidebar').attr('class') == "sidebar hidden"
+        $('#main_content_wrapper #collection_selection').width '100%'
+        $('.sidebar').fadeIn 750, 'swing', ->
+          $('.sidebar').removeClass('hidden')
+          console.log('visible')
+      else
+        $('.sidebar').fadeOut 750, 'swing', ->
+          addHiddenClassName()
+          hiddenSidebar()
+          console.log('hidden')
       return
     )
     return
