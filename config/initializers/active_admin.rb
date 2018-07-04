@@ -224,7 +224,10 @@ ActiveAdmin.setup do |config|
   #
     config.namespace :admin do |admin|
       admin.build_menu :utility_navigation do |menu|
-        menu.add label: "My Profile", url: "/admin/staffs/#{User.last.id}"#, html_options: { target: :blank }
+        menu.add  :label  => 'Edit My Profile',#proc{ display_name current_active_admin_user },
+                  :url    =>  proc{  admin_staff_path(current_active_admin_user) }  ,#link_to current_active_admin_user,
+                  :id     => 'current_user',
+                  :if     => proc{ current_active_admin_user? }
         admin.add_logout_button_to_menu menu
       end
     end
