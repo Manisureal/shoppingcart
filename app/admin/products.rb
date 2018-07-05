@@ -12,6 +12,11 @@ ActiveAdmin.register Product do
     column :description
     column :pack_size
     column :product_code
+    column :current_stock
+    column "Stock", :id do |p|
+      link_to 'Add Stock', new_admin_product_stock_path(p)
+    end
     actions
   end
+
 end
