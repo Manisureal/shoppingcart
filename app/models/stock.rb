@@ -1,6 +1,6 @@
 class Stock < ApplicationRecord
   belongs_to :product
-  belongs_to :consignment_item
+  belongs_to :consignment_item, optional: true
   # Before Create only creates an instance once which is good otherwise
   # before_save can be used but this is called every time update is triggered
   before_create :do_before_create
