@@ -32,6 +32,20 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
     end
+
+    columns do
+      column do
+        panel "Stock Levels" do
+          table_for Product.all.limit(11).each do |product|
+            column(:description) { |product| link_to(product.description, admin_product_path(product))}
+            column(:pack_size)
+            column(:price) { |product| number_to_currency product.price}
+            column(:current_stock) { |product| status_tag(product.current_stock, class: "stock-level")}
+            column() { |p| link_to("Add Stock", new_admin_product_stock_path(p))}
+          end
+        end
+      end
+    end
   end
 end
 
