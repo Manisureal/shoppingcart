@@ -20,12 +20,17 @@
  .done {background:#8DAA88;}
  .warning {background:orange;}
  .blue {background:#1a8fc6;}
- .stock-level {background:#8DAA88;font-size:1.2em;}
+ .good-level {background:#8DAA88;font-size:1.2em;}
+ .okay-level {background:orange;font-size:1.2em;}
+ .bad-level {background:#dd1c1c;font-size:1.2em;}
+ .status {color:#fff;text-transform: uppercase;letter-spacing: 0.15em;padding: 3px 5px 2px 5px;}
 
 // #selecttwo {
 //   // width:200px;
 //   width: calc(80% - 22px);
 // }
+
+
 #order_user_id {
   margin-top: 10px;
 }

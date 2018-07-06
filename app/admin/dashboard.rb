@@ -11,7 +11,8 @@ ActiveAdmin.register_page "Dashboard" do
             column("Order Date") { |order| order.created_at }
             column("Order Update Date") { |order| (order.updated_at == order.created_at) ? "Not Updated" : order.updated_at }
             column("Status") { |order| status_tag(order.status, class: order.status == "Ordered" ? "error" : "warning") }
-            column("Customer") { |order| link_to(order.user.forname + ' ' + order.user.surname, admin_staff_path(order.user)) }
+            # column("Customer") { |order| link_to(order.user.forname.to_s + ' ' + order.user.surname.to_s, admin_customer_path(order.user)) }
+            column("Customer") { |order| link_to(order.company.name.to_s, admin_company_path(order.company)) }
             # require
             column("Total")   { |order| number_to_currency order.total_price }
             column("Actions") { |order| link_to("Take Order", admin_order_path(order) + "?take_order=true" ) }
@@ -40,7 +41,11 @@ ActiveAdmin.register_page "Dashboard" do
             column(:description) { |product| link_to(product.description, admin_product_path(product))}
             column(:pack_size)
             column(:price) { |product| number_to_currency product.price}
-            column(:current_stock) { |product| status_tag(product.current_stock, class: "stock-level")}
+            column(:current_stock) { |product| label(product.current_stock,
+              class: (product.current_stock > product.minimum_stock.to_i) ? "status good-level" :
+               (product.current_stock == 0 || product.current_stock < 0) ? "status bad-level" :
+               (product.current_stock.to_i <= product.minimum_stock.to_i) ? "status okay-level" : nil)
+            }
             column() { |p| link_to("Add Stock", new_admin_product_stock_path(p))}
           end
         end
@@ -48,7 +53,6 @@ ActiveAdmin.register_page "Dashboard" do
     end
   end
 end
-
 
 # Order.all.map do |o|
 #   li link_to(o.user.forname, admin_order_path(o))
