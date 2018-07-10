@@ -6,23 +6,4 @@
 
 <% end %>
 
-<% if !@date_from.blank? %>
-<table style="color:#696969;" class="results-table">
-  <tr>
-    <th>Description</th>
-    <th>Pack Size</th>
-    <th>Price</th>
-    <th>Total Stock</th>
-  </tr>
-  <% Product.all.limit(11).each do |p| %>
-    <tr>
-     <td><%= p.description %></td>
-     <td><%= p.pack_size %></td>
-     <td><%= p.price %></td>
-     <td><%= p.stock_count_on(@date_from) %></td>
-    </tr>
-  <% end %>
-<% else %>
-  <%#= "No results found for this this date..." %>
-<% end %>
-</table>
+<div class="results-table"></div>
