@@ -50,8 +50,25 @@ ActiveAdmin.register_page "Dashboard" do
           end
         end
       end
+
+      column do
+        panel "Stock Search" do
+          render 'date_range_search'
+        end
+      end
+    end
+
+  end
+
+  # Custom Dashboard Controller Action/Method
+  page_action :stock_search do
+    if @date_from = params[:date_from].blank? ? nil : Date.parse(params[:date_from])
+      respond_to do |format|
+        format.js # actually means: if the client ask for js -> return file.js
+      end
     end
   end
+
 end
 
 # Order.all.map do |o|
