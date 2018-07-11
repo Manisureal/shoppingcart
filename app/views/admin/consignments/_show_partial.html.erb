@@ -10,6 +10,7 @@
     <th>Product Desc</th>
     <th>Requested</th>
     <th>Dispatched</th>
+    <th>Remaining</th>
     <th>Status</th>
     <th>Date Dispatched</th>
     <th>Price</th>
@@ -23,6 +24,7 @@
     <td><%= ci.order_item.product.description %></td>
     <td><%= ci.order_item.quantity %></td>
     <td><%= ci.quantity %></td>
+    <td><%= ci.order_item.to_dispatch %></td>
     <% if ci.consignment.status == "Incomplete" %>
     <td class="Incomplete"><%= ci.consignment.status.upcase %></td>
     <% else ci.consignment.status == "Dispatched" %>

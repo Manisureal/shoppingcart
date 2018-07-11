@@ -79,7 +79,7 @@ ActiveAdmin.register Order do
           @new_consignment_for_incmp = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: "", status: @order.status)
           @new_consignment_for_incmp.order.order_items.each do |oi|
             nci = @new_consignment_for_incmp.consignment_items.new
-            nci.quantity = oi.quantity_dispatched
+            nci.quantity = oi.incomplete_quantity
             nci.order_item_id = oi.id
             @new_consignment_for_incmp.consignment_items << nci
           end
@@ -89,7 +89,7 @@ ActiveAdmin.register Order do
           @new_consignment_for_disptch = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: "", status: @order.status)
           @new_consignment_for_disptch.order.order_items.each do |ci|
             nci = @new_consignment_for_disptch.consignment_items.new
-            nci.quantity = ci.quantity_dispatched
+            nci.quantity = ci.incomplete_quantity
             nci.order_item_id = ci.id
             @new_consignment_for_disptch.consignment_items << nci
           end
