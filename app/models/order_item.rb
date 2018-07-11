@@ -13,6 +13,7 @@ class OrderItem < ApplicationRecord
   end
   #Updates the new retrieved quantity value with the remaining to be dispatched to close the order and mark as disptached
   def to_dispatch=(q)
+    self.incomplete_quantity = q
     self.quantity_dispatched.nil? ? self.quantity_dispatched = q : self.quantity_dispatched += q.to_i
   end
 
