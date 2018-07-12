@@ -1,5 +1,5 @@
 ActiveAdmin.register Product do
-  permit_params :price, :description, :pack_size, :product_code
+  permit_params :price, :description, :pack_size, :product_code, :buy_price
 
   index do
     selectable_column
