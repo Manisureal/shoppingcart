@@ -2,19 +2,47 @@
 <table style="color:#696969;" class="results-table">
   <tr>
     <th>Description</th>
-    <th>Pack Size</th>
-    <th>Price</th>
+    <!-- <th>Pack Size</th>
+    <th>Sale Price</th>
+    <th>Cost Price</th> -->
     <th>Total Stock</th>
+    <th>Total Sale Value</th>
+    <th>Total Cost Value</th>
   </tr>
-  <% Product.all.limit(11).each do |p| %>
+  <% Product.all.limit(12).each do |p| %>
     <tr>
      <td><%= p.description %></td>
-     <td><%= p.pack_size %></td>
-     <td><%= p.price %></td>
+     <!-- <td><%#= p.pack_size %></td>
+     <td><%#= number_to_currency p.price %></td>
+     <td><%#= number_to_currency p.buy_price %></td> -->
      <td><%= p.stock_count_on(@date_from) %></td>
+     <td><%= number_to_currency p.total_stock_sale_value(@date_from) %></td>
+     <td><%= number_to_currency p.total_stock_cost_value(@date_from) %></td>
     </tr>
   <% end %>
-<% else %>
-  <%#= "No results found for this this date..." %>
-<% end %>
+    <tr>
+      <td><b>Grand Total:</b></td>
+      <td><b><%= Product.grand_stock_total(@date_from) %></b></td>
+      <td><b><%= number_to_currency Product.grand_sale_value_total(@date_from) %></b></td>
+      <td><b><%= number_to_currency Product.grand_cost_value_total(@date_from) %></b></td>
+    </tr>
 </table>
+<% end %>
+
+<style>
+.results-table {
+    /*font-family: arial, sans-serif;*/
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>

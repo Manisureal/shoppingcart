@@ -37,7 +37,7 @@ ActiveAdmin.register_page "Dashboard" do
     columns do
       column do
         panel "Stock Levels" do
-          table_for Product.all.limit(11).each do |product|
+          table_for Product.all.limit(12).each do |product|
             column(:product_code) { |product| link_to(product.product_code, admin_product_path(product))}
             column(:description) { |product| link_to(product.description, admin_product_path(product))}
             column(:pack_size)
