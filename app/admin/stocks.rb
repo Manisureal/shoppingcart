@@ -1,17 +1,40 @@
 ActiveAdmin.register Stock do
-  belongs_to :product
-  permit_params :stock_change, :stock_message
+  belongs_to :product #optional: true
+  permit_params :stock_change, :stock_message, :cost_price
+
+  # index do
+  #   selectable_column
+  #   columns_to_exclude = ["cost_price","updated_at"]
+  #   (Stock.column_names - columns_to_exclude).each do |c|
+  #     column c.to_sym
+  #   end
+  #   actions
+  #   # column :description do
+  #   #   raw "<a class='view_description button'>View Description</a>"
+  #   # end
+  # end
 
   index do
     selectable_column
-    columns_to_exclude = ["cost_price","updated_at"]
-    (Stock.column_names - columns_to_exclude).each do |c|
-      column c.to_sym
+    column 'Stock ID', :id do |s|
+      link_to(s.id,admin_product_stock_path(s.product.id,s.id))
     end
+    column 'Order ID', :id do |s|
+      s.consignment_item == nil ? "Stock Check" : link_to(s.consignment_item.consignment.order.id,admin_order_path(s.consignment_item.consignment.order.id))
+    end
+    column :cost_price do |s|
+      number_to_currency s.cost_price
+    end
+    column :sale_price do |s|
+      number_to_currency s.sale_price
+    end
+    column :stock_change
+    column :stock_message
+    column :product do |s|
+      link_to(s.product.description,admin_product_path(s.product.id))
+    end
+    column :created_date
     actions
-    # column :description do
-    #   raw "<a class='view_description button'>View Description</a>"
-    # end
   end
 
   form do |f|
@@ -19,6 +42,7 @@ ActiveAdmin.register Stock do
       f.input :product, collection: Product.all.map { |p| [p.description, p.id] }, input_html: { class: 'chosen-select', disabled: true }
       f.input :stock_change
       f.input :stock_message, as: :select, collection: ["Delivery", "Returned", "Stock Check"], input_html: { class: 'chosen-select' }
+      f.input :cost_price
       # f.semantic_errors
     end
     actions
