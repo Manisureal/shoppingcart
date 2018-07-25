@@ -1,4 +1,5 @@
 ActiveAdmin.register Order do
+
   permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by, :admin_notes, :boxes,
     order_items_attributes: [:id, :product_id, :quantity, :to_dispatch]
 
@@ -22,11 +23,40 @@ ActiveAdmin.register Order do
     actions
   end
 
-  scope :all
-  scope("Ordered") { |scope| scope.where(status: "Ordered")}
-  scope("In Progress") { |scope| scope.where(status: "In Progress")}
-  scope("In Complete") { |scope| scope.where(status: "Incomplete")}
-  scope("Completed") { |scope| scope.where(status: ["Completed", "Dispatched"])}
+  # Scoped Statuses
+  scope :all, group: :status
+  scope "Ordered", :all, group: :status do |order|
+    order.where(status: "Ordered")
+  end
+  scope "In Progress", :all, group: :status do |order|
+    order.where(status: "In Progress")
+  end
+  scope "Incomplete", :all, group: :status do |order|
+    order.where(status: "Incomplete")
+  end
+  scope "Completed", :all, group: :status do |order|
+    order.where(status: ["Completed", "Dispatched"])
+  end
+
+  # Scoped Taken By
+  john = ""
+  amanda = ""
+  andy = ""
+  User.where(admin: true).map.each do |au|
+    john += au.forname + " " + au.surname  if au.id == 102
+    amanda += au.forname + " " + au.surname if au.id == 100
+    andy += au.forname + " " + au.surname if au.id == 97
+  end
+
+  scope "Andy Richards", :taken_by, group: :taken_by do |order|
+    order.where(taken_by: andy)
+  end
+  scope "John Rowley", :taken_by, group: :taken_by do |order|
+    order.where(taken_by: john)
+  end
+  scope "Amanda Rowley", :taken_by, group: :taken_by do |order|
+    order.where(taken_by: amanda)
+  end
 
   show do
     @order = Order.find(params[:id])
@@ -107,3 +137,4 @@ ActiveAdmin.register Order do
   end
 
 end
+
