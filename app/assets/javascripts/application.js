@@ -6,6 +6,7 @@
 //= require_tree .
 // require select2
 //= require chosen-jquery
+// require cocoon
 
 // $(function($){
 //   $("#selecttwo").select2();

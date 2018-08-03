@@ -1,0 +1,21 @@
+
+  <td><%= link_to_remove_association "x", f %></td>
+  <%= render 'order_item_fields', :f => oi %>
+   <%= link_to_add_association 'add another item', f, :order_items %>_orde
+
+<script>
+  window.onload = function() {
+    $('.product_code').change(function(){
+      var newValue = $(this).val();
+      $('.product_description').val(newValue);
+      var price = $('.product_price').val(newValue).val();
+      console.log(price);
+      var newPrice = price.toString();
+      var priceVal = $('.product_price option[value="' + newPrice +'"]').text();
+      console.log(priceVal);
+      var quantity = $('.quantity').val();
+      $('.product_packsize').val(newValue);
+      console.log($('.total-price').text("£ " + parseFloat(priceVal) * parseFloat(quantity)));
+    });
+  }
+</script>
