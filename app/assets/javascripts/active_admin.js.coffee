@@ -1,5 +1,7 @@
 #= require active_admin/base
+# //= require select2
 //= require chosen-jquery
+# //= require cocoon
 
 #$ ($) ->
   #$('#selecttwo').select2()
@@ -33,6 +35,7 @@ $ ->
     $('.user-select').val ''
     $('.user_selector').hide()
     $('.company-' + value).show()
+    $('.company-address-select').val(value)
     return
 
 
@@ -67,7 +70,6 @@ $ ->
   showSideBar()
 
 # This shows the number of outstanding or new orders in chrome tab
-# This shows the number of outstanding or new orders in chrome tab
 $ ->
   title = document.title
   countNewOrders = ->
@@ -85,5 +87,6 @@ $ ->
 
   addFavicon = ->
     favicon = $('head link')[2]
-    favicon.href = '/assets/favicon.png'
+    favicon.href = 'https://image.ibb.co/bQi5Ey/icons8_circled_c_100.png'
     return
+

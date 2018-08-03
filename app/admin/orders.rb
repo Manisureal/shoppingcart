@@ -1,6 +1,6 @@
 ActiveAdmin.register Order do
 
-  permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by, :admin_notes, :boxes,
+  permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by, :admin_notes, :boxes, :user_id,
     order_items_attributes: [:id, :product_id, :quantity, :to_dispatch]
 
   index do
@@ -64,39 +64,77 @@ ActiveAdmin.register Order do
   end
 
   form do |f|
-    f.inputs "Identity" do
-      f.label :company, class: 'f-label'
-      f.select :company,
-               Company.all.collect { |c| [c.name, c.id ]},
-               {include_blank: true},
-               {
-                class: 'chosen-select company-select',
-                data: { placeholder: "Some Company" }
-               }
-      f.label :user, class: 'f-label margin-top'
-      f.select :user_id,
-              User.all.collect { |u| [u.forname, u.id, class: "user_selector company-#{u.company_id}"]},
-              { prompt: "Please Choose" },
-              { class: "user-select" }
-      f.input :status, prompt: "Please Choose", collection: ["Ordered","In Progress", "Completed", "Dispatched", "Cancelled", "Incomplete"]
-      f.input :total_price
-      f.input :notes
-      f.input :name
-      f.input :address
-      f.input :phone
-      f.input :delivery_date
-      f.input :taken_by
+    f.inputs "Order" do
+      if f.object.new_record?
+        f.input :company, as: :select, collection: Company.all.collect { |c| [c.name,c.id]}, input_html: { class: "chosen-select company-select" }
+        f.input :user, as: :select, collection: User.all.collect { |u| [u.forname,u.id, class: "user_selector company-#{u.company_id}"]}, input_html: { class: "user-select"}
+        f.input :status, prompt: "Please Choose", collection: ["Ordered","In Progress", "Completed", "Dispatched", "Cancelled", "Incomplete"]
+        f.input :notes, input_html: { style: 'height: 50px' }
+        f.input :address, as: :select, collection: Company.all.collect { |c| [c.address,c.id]}, input_html: { class: "company-address-select" }
+        # f.input :address, as: :select, collection: Company.all.collect { |c| [c.address,c.id, class: "user_selector company-#{c.id}"]}, input_html: { class: "company-select" }
+        # f.input :address, input_html: { style: 'height: 50px' }
+      else
+        # f.label :company, class: 'f-label'
+        # f.select :company,
+        #          Company.all.collect { |c| [c.name, c.id ]},
+        #          {include_blank: true},
+        #          {
+        #           class: 'chosen-select company-select',
+        #           data: { placeholder: "Some Company" }
+        #          }
+        f.input :company, as: :select, collection: Company.all.collect { |c| [c.name,c.id]}, input_html: { class: "chosen-select company-select" }
+        f.input :user, as: :select, collection: User.all.collect { |u| [u.forname,u.id, class: "user_selector company-#{u.company_id}"]}, input_html: { class: "user-select"}
+        # f.label :user, class: 'f-label margin-top'
+        # f.select :user_id,
+        #         User.all.collect { |u| [u.forname, u.id, class: "user_selector company-#{u.company_id}"]},
+        #         { prompt: "Please Choose" },
+        #         { class: "user-select chosen-select" }
+        f.input :status, prompt: "Please Choose", collection: ["Ordered","In Progress", "Completed", "Dispatched", "Cancelled", "Incomplete"]
+        f.input :total_price
+        f.input :notes, input_html: { style: 'height: 50px' }
+        # f.input :name
+        f.input :address, input_html: { style: 'height: 50px' }
+        # f.input :phone
+        # f.input :delivery_date
+        f.input :taken_by
+      end
     end
-    f.actions
+
+    # f.inputs "Order Items" do
+      panel "Order Items" do
+        render 'edit_order_items_form'
+      # end
+      # f.has_many :order_items, allow_destroy: true do |oi|
+      #   oi.input :quantity
+      #   oi.input :product, label: "Product Code", as: :select, collection: Product.all.collect { |p| [p.product_code,p.id]}
+      #   # oi.input :product, label: "Product Description", as: :select, collection: Product.all.collect { |p| [p.product_code,p.id]}, input_html: {disabled:true}
+        f.actions
+      end
+    # end
   end
 
   controller do
+    def new
+      @order = Order.new
+      5.times do
+        @order_items = @order.order_items.new
+      end
+    end
+
     def show
       if params[:take_order] == "true"
         order = Order.find(params[:id])
         order.status = "In Progress"
         order.taken_by = current_user.forname + " " + current_user.surname
         order.save
+      end
+    end
+
+    def edit
+      @order = Order.find(params[:id])
+      @order_items = @order.order_items
+      (5 - @order.order_items.count).times do
+        @order.order_items.new
       end
     end
 

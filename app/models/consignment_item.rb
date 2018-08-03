@@ -17,7 +17,8 @@ class ConsignmentItem < ApplicationRecord
     self.stock.sale_price = self.order_item.product.price
     self.stock.cost_price = self.order_item.product.buy_price
     self.stock.product_description = self.order_item.product.description
-    self.stock.stock_change = 0 - self.quantity
+    self.stock.stock_change = 0 - self.quantity.to_i
+    # self.stock.stock_change = 0 - self.order_item.incomplete_quantity
     self.stock.stock_message = "Dispatched Stock"
   end
 end
