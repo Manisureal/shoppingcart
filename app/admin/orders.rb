@@ -71,7 +71,7 @@ ActiveAdmin.register Order do
         f.input :status, prompt: "Please Choose", collection: ["Ordered","In Progress", "Completed", "Dispatched", "Cancelled", "Incomplete"]
         f.input :notes, input_html: { style: 'height: 50px' }
         # f.input :address, as: :select, collection: User.all.collect { |u| [u.company.address,u.company.id, class: "address-selector"] }, input_html: { class: "company-address-select" }
-        f.input :address, as: :select, collection: Company.all.collect { |c| [c.address,c.id, class: "address-selector-#{c.id}"] }, input_html: { class: "company-address-select" }
+        f.input :address, as: :select, collection: Company.all.collect { |c| [c.address,c.id, class: "address-selector address-selector-#{c.id}"] }, input_html: { class: "company-address-select" }
         # f.input :address, as: :select, collection: Company.all.collect { |c| [c.address,c.id, class: "user_selector company-#{c.id}"]}, input_html: { class: "company-select" }
         # f.input :address, input_html: { style: 'height: 50px' }
       else
