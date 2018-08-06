@@ -1,5 +1,5 @@
 #= require active_admin/base
-# //= require select2
+//= require select2
 //= require chosen-jquery
 # //= require cocoon
 
@@ -29,13 +29,17 @@ $ ->
 
 $ ->
   $('.user_selector').hide()
+  $('.address-selector').hide()
   $('.company-select').change ->
     value = $(this).val()
     console.log 'selected' + value
     $('.user-select').val ''
     $('.user_selector').hide()
     $('.company-' + value).show()
-    $('.company-address-select').val(value)
+    address = $('.company-address-select').find('option[value="' + value + '"]').text()
+    console.log($('.address-selector-'+value).val(address))
+    console.log($('.company-address-select').val(address))
+    $('.address-selector').hide()
     return
 
 
