@@ -120,6 +120,13 @@ ActiveAdmin.register Order do
       5.times do
         @order_items = @order.order_items.new
       end
+
+    end
+
+    def create
+      create!do |format|
+        format.html { redirect_to admin_root_path, notice: "Order# #{@order.id} was successfully Created!" }
+      end
     end
 
     def show
