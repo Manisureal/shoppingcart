@@ -3,6 +3,11 @@ ActiveAdmin.register Order do
   permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by, :admin_notes, :boxes, :user_id,
     order_items_attributes: [:id, :product_id, :quantity, :to_dispatch]
 
+  filter :status, as: :select, label: "Search by Status", prompt: "Select or Type", collection: Order.select(:status).distinct.collect { |o| o.status }, input_html: { class: 'chosen-select2' }
+  filter :user_id, as: :select, label: "Search by Customer Name", prompt: "Select or Type", collection: User.all.collect { |u| ["#{u.forname}" + " " + "#{u.surname}", u.id] }, input_html: { class: 'chosen-select2' }
+  filter :company_id, as: :select, label: "Search by Company Name", prompt: "Select or Type", collection: Company.all.collect { |c| [c.name,c.id] }, input_html: { class: 'chosen-select2' }
+  filter :taken_by, as: :select, label: "Search by Admin Assigned", prompt: "Select ot Type", collection: Order.select(:taken_by).distinct.collect { |o| o.taken_by }, input_html: { class: 'chosen-select2' }
+
   index do
     selectable_column
     column "Order#", :id do |o|
