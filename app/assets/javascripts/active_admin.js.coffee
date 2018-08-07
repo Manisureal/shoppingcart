@@ -1,7 +1,7 @@
 #= require active_admin/base
 //= require select2
 //= require chosen-jquery
-# //= require cocoon
+
 
 #$ ($) ->
   #$('#selecttwo').select2()
@@ -46,7 +46,8 @@ $ ->
 $ ->
   hiddenSidebar = ->
     $('.sidebar').hide()
-    $('#main_content_wrapper #collection_selection').width '130%'
+    # $('#main_content_wrapper #collection_selection').width '120%'
+    $('#main_content_wrapper #main_content').width '100%'
     return
 
   addHiddenClassName = ->
@@ -59,7 +60,8 @@ $ ->
     grabSearchBtn = $('.action_items .action_item a img').on('click', (evt) ->
       evt.preventDefault()
       if $('.sidebar').attr('class') == "sidebar hidden"
-        $('#main_content_wrapper #collection_selection').width '100%'
+        # $('#main_content_wrapper #collection_selection').width '100%'
+        $('#main_content_wrapper #main_content').width '76%'
         $('.sidebar').fadeIn 750, 'swing', ->
           $('.sidebar').removeClass('hidden')
           console.log('visible')
