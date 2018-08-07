@@ -1,50 +1,99 @@
-<%# @order = Order.find(params[:id]) %>
 <%# @order_items = @order.order_items %>
+<% if params[:action] == "new" %>
+  <%= simple_form_for [:admin,@order] do |f| %>
 
-<%= simple_form_for [:admin,@order] do |f| %>
+    <table style="color:#696969;">
+      <tr>
+        <th>Product Code</th>
+        <th>Description</th>
+        <th>Unit Price</th>
+        <th>Quantity</th>
+        <th>Pack Size</th>
+        <th>Total Price</th>
+      </tr>
+      <% p_code_counter = -1 %>
+      <% p_desc_counter = -1 %>
+      <% p_price_counter = -1 %>
+      <% p_packsize_counter = -1 %>
+      <% p_total_price_counter = -1 %>
+      <% p_quantity_counter = -1 %>
+      <%= f.simple_fields_for :order_items do |oi| %>
 
-<table style="color:#696969;">
-  <tr>
-    <th>Product Code</th>
-    <th>Description</th>
-    <th>Unit Price</th>
-    <th>Quantity</th>
-    <th>Pack Size</th>
-    <th>Total Price</th>
-  </tr>
-  <% p_code_counter = -1 %>
-  <% p_desc_counter = -1 %>
-  <% p_price_counter = -1 %>
-  <% p_packsize_counter = -1 %>
-  <% p_total_price_counter = -1 %>
-  <% p_quantity_counter = -1 %>
-  <%= f.simple_fields_for :order_items do |oi| %>
+        <!-- <td><%#= object.product.product_code %></td> -->
 
-    <!-- <td><%#= object.product.product_code %></td> -->
+    <tr>
+      <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.product_code,p.id,class: "product_code-#{p.id}"]},
+                        input_html: { class: " chosen-select product_code product_code-#{p_code_counter+=1}"} %></td>
+      <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.description,p.id]},
+                        input_html: { class: "product_description product_description-#{p_desc_counter+=1}", disabled: true} %></td>
+      <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.price,p.id]},
+                        input_html: { class: "product_price product_price-#{p_price_counter+=1}", disabled: true} %></td>
+      <td><%= oi.input :quantity, label: false, input_html: {class: "quantity-#{p_quantity_counter+=1}"} %></td>
+      <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.pack_size,p.id]},
+                        input_html: { class: "product_packsize product_packsize-#{p_packsize_counter+=1}", disabled: true} %></td>
+      <td class="total-price total-price-<%=p_total_price_counter+=1%>"><%#= number_to_currency oi.object.product.price * oi.object.quantity.to_i %></td>
+    </tr>
 
-<tr>
-  <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.product_code,p.id,class: "product_code-#{p.id}"]},
-                    input_html: { class: " chosen-select product_code product_code-#{p_code_counter+=1}"} %></td>
-  <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.description,p.id]},
-                    input_html: { class: "product_description product_description-#{p_desc_counter+=1}", disabled: true} %></td>
-  <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.price,p.id]},
-                    input_html: { class: "product_price product_price-#{p_price_counter+=1}", disabled: true} %></td>
-  <td><%= oi.input :quantity, label: false, input_html: {class: "quantity-#{p_quantity_counter+=1}"} %></td>
-  <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.pack_size,p.id]},
-                    input_html: { class: "product_packsize product_packsize-#{p_packsize_counter+=1}", disabled: true} %></td>
-  <td class="total-price total-price-<%=p_total_price_counter+=1%>"><%#= number_to_currency oi.object.product.price * oi.object.quantity.to_i %></td>
-</tr>
-
-    <!-- <td><%#= oi.object.product.description %></td> -->
-    <!-- <td><%#= number_to_currency oi.object.product.price %></td> -->
-    <!-- <td><%#= oi.object.product.pack_size %></td> -->
-    <!-- <td><%#= number_to_currency oi.object.product.price * oi.object.quantity.to_i %></td> -->
+        <!-- <td><%#= oi.object.product.description %></td> -->
+        <!-- <td><%#= number_to_currency oi.object.product.price %></td> -->
+        <!-- <td><%#= oi.object.product.pack_size %></td> -->
+        <!-- <td><%#= number_to_currency oi.object.product.price * oi.object.quantity.to_i %></td> -->
+      <% end %>
+      <tr>
+        <td colspan="5" style="text-align:right;"><b>Your Order Total:</b></td>
+        <td colspan="6" class="order-total"><b> <%=number_to_currency @order.calculate_total %></b></td>
+      </tr>
+    </table>
   <% end %>
-  <tr>
-    <td colspan="5" style="text-align:right;"><b>Your Order Total:</b></td>
-    <td colspan="6" class="order-total"><b> <%=number_to_currency @order.calculate_total %></b></td>
-  </tr>
-</table>
+
+
+<% elsif params[:action] == "edit" %>
+<% @order = Order.find(params[:id]) %>
+  <%= simple_form_for [:admin,@order] do |f| %>
+
+    <table style="color:#696969;">
+      <tr>
+        <th>Product Code</th>
+        <th>Description</th>
+        <th>Unit Price</th>
+        <th>Quantity</th>
+        <th>Pack Size</th>
+        <th>Total Price</th>
+      </tr>
+      <% p_code_counter = -1 %>
+      <% p_desc_counter = -1 %>
+      <% p_price_counter = -1 %>
+      <% p_packsize_counter = -1 %>
+      <% p_total_price_counter = -1 %>
+      <% p_quantity_counter = -1 %>
+      <%= f.simple_fields_for :order_items do |oi| %>
+
+        <!-- <td><%#= object.product.product_code %></td> -->
+
+    <tr>
+      <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.product_code,p.id,class: "product_code-#{p.id}"]},
+                        input_html: { class: " chosen-select product_code product_code-#{p_code_counter+=1}"} %></td>
+      <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.description,p.id]},
+                        input_html: { class: "product_description product_description-#{p_desc_counter+=1}", disabled: true} %></td>
+      <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.price,p.id]},
+                        input_html: { class: "product_price product_price-#{p_price_counter+=1}", disabled: true} %></td>
+      <td><%= oi.input :quantity, label: false, input_html: {class: "quantity-#{p_quantity_counter+=1}"} %></td>
+      <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.pack_size,p.id]},
+                        input_html: { class: "product_packsize product_packsize-#{p_packsize_counter+=1}", disabled: true} %></td>
+      <td class="total-price total-price-<%=p_total_price_counter+=1%>"><%= oi.object.product.price * oi.object.quantity.to_i %></td>
+    </tr>
+
+        <!-- <td><%#= oi.object.product.description %></td> -->
+        <!-- <td><%#= number_to_currency oi.object.product.price %></td> -->
+        <!-- <td><%#= oi.object.product.pack_size %></td> -->
+        <!-- <td><%#= number_to_currency oi.object.product.price * oi.object.quantity.to_i %></td> -->
+      <% end %>
+      <tr>
+        <td colspan="5" style="text-align:right;"><b>Your Order Total:</b></td>
+        <td colspan="6" class="order-total"><b> <%=number_to_currency @order.calculate_total %></b></td>
+      </tr>
+    </table>
+  <% end %>
 <% end %>
 
 <script>
