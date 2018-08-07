@@ -1,5 +1,5 @@
 ActiveAdmin.register Order do
-
+  actions :index, :show, :new, :create, :update, :edit
   permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by, :admin_notes, :boxes, :user_id,
     order_items_attributes: [:id, :product_id, :quantity, :to_dispatch]
 
@@ -9,7 +9,7 @@ ActiveAdmin.register Order do
       link_to o.id, admin_order_path(o)
     end
     column :status do |s|
-      status_tag(s.status, class: (s.status == "Ordered") ? "error" : (s.status == "In Progress") ? "blue" : (s.status == "Incomplete") ? "warning" : "done")
+      status_tag(s.status, class: (s.status == "Ordered") ? "error" : (s.status == "In Progress") ? "blue" : (s.status == "Incomplete") ? "warning" : (s.status == "Cancelled") ? "pink" : "done")
     end
     column :total_price do |tp|
       number_to_currency tp.total_price
@@ -20,7 +20,18 @@ ActiveAdmin.register Order do
     end
     column :company
     column "Admin Assigned", :taken_by
-    actions
+    # actions
+    # column "Cancel Order", :id do |o|
+    #   link_to "x", cancel_order_admin_order_path(o), method: :delete, data: { confirm: 'Are you sure you want to cancel this Order?' }
+    # end
+    column :actions do |resource|
+      links = link_to I18n.t('active_admin.view'), resource_path(resource)
+      links += " "
+      links += link_to I18n.t('active_admin.edit'), edit_resource_path(resource)
+      links += " "
+      links += link_to "Cancel", cancel_order_admin_order_path(resource), method: :delete, data: { confirm: 'Are you sure you want to cancel this Order?' }
+      links
+    end
   end
 
   # Scoped Statuses
@@ -28,14 +39,17 @@ ActiveAdmin.register Order do
   scope "Ordered", :all, group: :status do |order|
     order.where(status: "Ordered")
   end
-  scope "In Progress", :all, group: :status do |order|
-    order.where(status: "In Progress")
-  end
+  # scope "In Progress", :all, group: :status do |order|
+  #   order.where(status: "In Progress")
+  # end
   scope "Incomplete", :all, group: :status do |order|
     order.where(status: "Incomplete")
   end
   scope "Completed", :all, group: :status do |order|
     order.where(status: ["Completed", "Dispatched"])
+  end
+  scope "Cancelled", :all, group: :status do |order|
+    order.where(status: "Cancelled")
   end
 
   # Scoped Taken By
@@ -181,6 +195,13 @@ ActiveAdmin.register Order do
         render :edit
       end
     end
+  end
+
+  member_action :cancel_order, method: :delete do
+    @order = Order.find(params[:id])
+    @order.status = "Cancelled"
+    @order.save
+    redirect_to admin_orders_path, notice: "Order# #{@order.id} was successfully Cancelled!"
   end
 
   action_item :view, only: :index, priority: 0 do

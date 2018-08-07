@@ -1,6 +1,10 @@
 <% @order = Order.find(params[:id]) %>
 <% @order_items = @order.order_items %>
 
+<% if @order.status == "Cancelled" %>
+  <p id="cancel-notice">Order# <%= @order.id %> was cancelled by <%= @order.taken_by.blank? ? "No Admin was assigned" : @order.taken_by %>!</p>
+<% end %>
+
 <table style="color:#696969;">
   <tr>
     <th>Shipping Address</th>
@@ -61,19 +65,31 @@
    <button onclick="window.print();">Print Order</button>
 
 <style>
-table {
-    /*font-family: arial, sans-serif;*/
-    border-collapse: collapse;
-    width: 100%;
-}
+  table {
+      /*font-family: arial, sans-serif;*/
+      border-collapse: collapse;
+      width: 100%;
+  }
 
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
+  td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+  }
 
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
+  tr:nth-child(even) {
+      background-color: #dddddd;
+  }
+
+  #cancel-notice {
+    background-color: #c80303;
+    background-image: linear-gradient(180deg, #e9dcdcbd, #dfcccc);
+    border-bottom: 1px solid #efb2b2;
+    color: #780000;
+    height: 70px;
+    display: flex;
+    justify-content: space-around;
+    font-size: 3em;
+    align-items: center;
+  }
 </style>
