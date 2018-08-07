@@ -1,5 +1,5 @@
 <%# @order = Order.find(params[:id]) %>
-<% @order_items = @order.order_items %>
+<%# @order_items = @order.order_items %>
 
 <%= simple_form_for [:admin,@order] do |f| %>
 
@@ -42,7 +42,7 @@
   <% end %>
   <tr>
     <td colspan="5" style="text-align:right;"><b>Your Order Total:</b></td>
-    <td colspan="6" id="order-total"><b> <%=number_to_currency @order.calculate_total %></b></td>
+    <td colspan="6" class="order-total"><b> <%=number_to_currency @order.calculate_total %></b></td>
   </tr>
 </table>
 <% end %>
@@ -50,35 +50,40 @@
 <script>
   window.onload = function() {
     $('.product_code').each(function(index){
-
       $('.product_code-'+index).change(function(){
         console.log("just changed-"+index)
-
         // $('.product_code').change(function(){
-          var newValue = $(this).val();
-          // $('.product_description-' + newValue).val(newValue);
-          // $('.product_description option[class="product_description-' + newValue +'"]').val(newValue);
-          // var getIndex = $('.product_description').index();
+        var newValue = $(this).val();
+        // $('.product_description-' + newValue).val(newValue);
+        // $('.product_description option[class="product_description-' + newValue +'"]').val(newValue);
+        // var getIndex = $('.product_description').index();
 
-          //seize the below code as this has been replaced with one line alternative
-            // var getProductDescClass = $('.product_description option[class="product_desc-' + newValue +'"]').attr("class")
-            // $('.product_description-'+index).addClass(getProductDescClass);
-            // $('.product_desc-'+newValue).val(newValue);
-          var updateProductDescription = $('.product_description-'+index).val(newValue).val();
+        //seize the below code as this has been replaced with one line alternative
+          // var getProductDescClass = $('.product_description option[class="product_desc-' + newValue +'"]').attr("class")
+          // $('.product_description-'+index).addClass(getProductDescClass);
+          // $('.product_desc-'+newValue).val(newValue);
+        var updateProductDescription = $('.product_description-'+index).val(newValue).val();
 
-          // $('.product_description').val(dynamicVal);
-          var updatePrice = $('.product_price-'+index).val(newValue).val();
-          // var price = $('.product_price').val(newValue).val();
-          console.log(updatePrice);
-          var newPrice = updatePrice.toString();
-          var priceVal = $('.product_price-'+index).find('option[value="' + newPrice +'"]').text();
-          // var priceVal = $('.product_price option[value="' + newPrice +'"]').text();
-          console.log(priceVal);
+        // $('.product_description').val(dynamicVal);
+        var updatePrice = $('.product_price-'+index).val(newValue).val();
+        // var price = $('.product_price').val(newValue).val();
+        console.log(updatePrice);
+        var newPrice = updatePrice.toString();
+        var priceVal = $('.product_price-'+index).find('option[value="' + newPrice +'"]').text();
+        // var priceVal = $('.product_price option[value="' + newPrice +'"]').text();
+        console.log(priceVal);
+        $('.product_packsize-'+index).val(newValue);
+        // When clicking anywhere on the document, it should automatically update the total price value if quantity is given
+        $(document).click(function(){
           var quantity = $('.quantity-'+index).val();
-          $('.product_packsize-'+index).val(newValue);
           $('.total-price-'+index).text("£ " + parseFloat(priceVal) * parseFloat(quantity));
-
-          // Calculate Grand Total Price //
+          if ($('.total-price-'+index).text() == "£ NaN") {
+            $('.total-price-'+index).text("£ 0.00")
+          }
+          calculateGrandTotal();
+        });
+        // Calculate Grand Total Price //
+        function calculateGrandTotal() {
           var priceArray = []
           var sumOfPrices = 0 // Not sure if this is being used, investigate later
           $('.total-price').each(function(index){
@@ -88,7 +93,8 @@
           convertStringPrices = priceArray.map(Number);
           var grandTotal = convertStringPrices.reduce(function(a,b){ return a+b },0)
           console.log(grandTotal);
-          $('#order-total').text("£" + grandTotal);
+          $('.order-total').text("£" + grandTotal);
+        }
       });
     });
   }
