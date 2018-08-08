@@ -48,6 +48,14 @@ ActiveAdmin.register Company do
         column :forname
         column :surname
         column :created_at
+        column :actions do |c|
+          links = link_to I18n.t('active_admin.view'), c.admin? ? admin_staff_path(c) : admin_customer_path(c)
+          links += " "
+          links += link_to I18n.t('active_admin.edit'), edit_admin_customer_path(c)
+          links += " "
+          links += link_to "Delete", admin_customer_path(c), method: :delete, data: { confirm: 'Are you sure?' }
+          links
+        end
       end
     end
   end
