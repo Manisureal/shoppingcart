@@ -22,6 +22,36 @@ ActiveAdmin.register Company do
     actions
   end
 
+  show do
+    attributes_table do
+      row :name
+      row :address
+      row :postcode
+      row :contact_name
+      row :phone
+      row :email
+      row :created_at
+      row :updated_at
+      row :account_owner
+    end
+
+    panel "Users" do
+      table_for company.users do
+        column :id do |c|
+          if c.admin?
+            link_to c.id, admin_staff_path(c)
+          else
+            link_to c.id, admin_customer_path(c)
+          end
+        end
+        column :email
+        column :forname
+        column :surname
+        column :created_at
+      end
+    end
+  end
+
   form do |f|
     f.inputs "Details" do
       f.input :name
@@ -40,3 +70,4 @@ ActiveAdmin.register Company do
     link_to image_tag('search.png', height: 25), class: "search"
   end
 end
+
