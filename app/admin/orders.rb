@@ -3,10 +3,11 @@ ActiveAdmin.register Order do
   permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by, :admin_notes, :boxes, :user_id,
     order_items_attributes: [:id, :product_id, :quantity, :to_dispatch]
 
-  filter :status, as: :select, label: "Search by Status", prompt: "Select or Type", collection: Order.select(:status).distinct.collect { |o| o.status }, input_html: { class: 'chosen-select2' }
-  filter :user_id, as: :select, label: "Search by Customer Name", prompt: "Select or Type", collection: User.all.collect { |u| ["#{u.forname}" + " " + "#{u.surname}", u.id] }, input_html: { class: 'chosen-select2' }
-  filter :company_id, as: :select, label: "Search by Company Name", prompt: "Select or Type", collection: Company.all.collect { |c| [c.name,c.id] }, input_html: { class: 'chosen-select2' }
-  filter :taken_by, as: :select, label: "Search by Admin Assigned", prompt: "Select ot Type", collection: Order.select(:taken_by).distinct.collect { |o| o.taken_by }, input_html: { class: 'chosen-select2' }
+  filter :status_or_user_forname_or_user_surname_or_company_name_or_taken_by_cont, as: :string, label: "Search Order", placeholder: "e.g. Status, Customer, Company, Admin"
+  filter :total_price_eq, as: :string, label: "Search by Price", placeholder: "e.g. 42"
+  # filter :user_id, as: :select, label: "Search by Customer Name", prompt: "Select or Type", collection: User.all.collect { |u| ["#{u.forname}" + " " + "#{u.surname}", u.id] }, input_html: { class: 'chosen-select2' }
+  # filter :company_id, as: :select, label: "Search by Company Name", prompt: "Select or Type", collection: Company.all.collect { |c| [c.name,c.id] }, input_html: { class: 'chosen-select2' }
+  # filter :taken_by, as: :select, label: "Search by Admin Assigned", prompt: "Select ot Type", collection: Order.select(:taken_by).distinct.collect { |o| o.taken_by }, input_html: { class: 'chosen-select2' }
 
   index do
     selectable_column
@@ -17,7 +18,7 @@ ActiveAdmin.register Order do
       status_tag(s.status, class: (s.status == "Ordered") ? "error" : (s.status == "In Progress") ? "blue" : (s.status == "Incomplete") ? "warning" : (s.status == "Cancelled") ? "pink" : "done")
     end
     column :total_price do |tp|
-      number_to_currency tp.total_price
+      number_to_currency tp.total_price.to_s
     end
     column :created_at
     column "Customer", :user_id do |u|

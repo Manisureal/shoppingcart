@@ -1,6 +1,9 @@
 ActiveAdmin.register Consignment do
   permit_params :shipped_at, :tracking_no, :user, :order, :notes, :boxes
 
+  # filter :tracking_no_or_order_taken_by_or_user_forname_or_user_surname_or_user_company_name_or_order_id_eq, as: :string, label: "Search Companies"
+  filter :tracking_no_or_order_user_forname_or_order_user_surname_or_user_forname_or_user_surname_or_user_company_name_or_order_id_or_status_eq, as: :string, label: "Search Companies"
+
   index do
     selectable_column
     column "Consignment Summary", :id do |i|
