@@ -4,7 +4,9 @@ ActiveAdmin.register Order do
     order_items_attributes: [:id, :product_id, :quantity, :to_dispatch]
 
   # For MySQL Database - searches with LIKE which works fine when searching using equal(eq) in the search
-  # filter :status_or_user_forname_or_user_surname_or_company_name_or_taken_by_or_total_price_eq, as: :string, label: "Search Order", placeholder: "e.g. Status, Customer, Company, Admin, Price"
+  # filter :status_or_user_forname_or_user_surname_or_company_name_or_taken_by_or_id_or_total_price_eq, as: :string, label: "Search Order", placeholder: "e.g. Status, Customer, Company, Admin, Price"
+  # filter :user_forname_or_user_surname_or_company_name_cont, as: :string, label: "Search User or Company", placeholder: "e.g. Customer, Company..."
+  # filter :id_or_total_price_eq, as: :string, label: "Search ID or Price", placeholder: "e.g. Order ID, Price..."
 
   # For PG Database - searches with ILIKE causes problems when using contains(cont) in the search - Need to input parameters with uppercase first letter
   filter :status_or_user_forname_or_user_surname_or_company_name_or_id_or_taken_by_cont, as: :string, label: "Search Order", placeholder: "e.g. Status, Customer, Company, Admin"
