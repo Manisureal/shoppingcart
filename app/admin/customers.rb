@@ -6,14 +6,16 @@ ActiveAdmin.register User, as: "Customer" do
   remove_filter :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at,
                   :current_sign_in_at, :last_sign_in_at, :created_at, :updated_at, :admin
 
-  filter :company_id, as: :select, label: "Search by Company", prompt: "Select or Type", collection: Company.all.collect { |u| [u.name, u.id] },
-         input_html: { class: 'chosen-select2' }
-  filter :email, as: :select, label: "Search by Email", prompt: "Select or Type", collection: User.all.collect { |u| [u.email] },
-         input_html: { class: 'chosen-select2' }
-  filter :forname, as: :select, label: "Search by Forname", prompt: "Select or Type", collection: User.all.collect { |u| u.forname },
-         input_html: { class: 'chosen-select2'}
-  filter :surname, as: :select, label: "Search by Surname", prompt: "Select or Type", collection: User.all.collect { |u| u.surname },
-         input_html: { class: 'chosen-select2'}
+  filter :forname_or_surname_or_email_or_company_name_cont, label: "Search Name/Company/Email", placeholder: "e.g. name, company, email..."
+
+  # filter :company_id, as: :select, label: "Search by Company", prompt: "Select or Type", collection: Company.all.collect { |u| [u.name, u.id] },
+  #        input_html: { class: 'chosen-select2' }
+  # filter :email, as: :select, label: "Search by Email", prompt: "Select or Type", collection: User.all.collect { |u| [u.email] },
+  #        input_html: { class: 'chosen-select2' }
+  # filter :forname, as: :select, label: "Search by Forname", prompt: "Select or Type", collection: User.all.collect { |u| u.forname },
+  #        input_html: { class: 'chosen-select2'}
+  # filter :surname, as: :select, label: "Search by Surname", prompt: "Select or Type", collection: User.all.collect { |u| u.surname },
+  #        input_html: { class: 'chosen-select2'}
 
 
   controller do
@@ -65,3 +67,5 @@ ActiveAdmin.register User, as: "Customer" do
   end
 
 end
+
+
