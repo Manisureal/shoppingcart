@@ -1,13 +1,16 @@
 ActiveAdmin.register Product do
-  permit_params :price, :description, :pack_size, :product_code, :buy_price
+  permit_params :price, :description, :pack_size, :product_code, :minimum_stock, :buy_price
 
   index do
     selectable_column
     column :id do |p|
       link_to p.id, admin_product_path(p)
     end
-    column :price do |p|
+    column "Sale Price", :price do |p|
       number_to_currency p.price
+    end
+    column "Buy Price", :buy_price do |p|
+      number_to_currency p.buy_price
     end
     column :description
     column :pack_size
@@ -17,6 +20,18 @@ ActiveAdmin.register Product do
       link_to 'Add Stock', new_admin_product_stock_path(p)
     end
     actions
+  end
+
+  form do |f|
+    f.inputs "Product" do
+      f.input :price, label: "Sale Price"
+      f.input :description, input_html: { style: 'height: 50px' }
+      f.input :pack_size
+      f.input :product_code
+      f.input :minimum_stock
+      f.input :buy_price
+    end
+    f.actions
   end
 
 end
