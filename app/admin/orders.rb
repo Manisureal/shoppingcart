@@ -3,8 +3,14 @@ ActiveAdmin.register Order do
   permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by, :admin_notes, :boxes, :user_id,
     order_items_attributes: [:id, :product_id, :quantity, :to_dispatch]
 
-  filter :status_or_user_forname_or_user_surname_or_company_name_or_taken_by_cont, as: :string, label: "Search Order", placeholder: "e.g. Status, Customer, Company, Admin"
+  # For MySQL Database - searches with LIKE which works fine when searching using equal(eq) in the search
+  # filter :status_or_user_forname_or_user_surname_or_company_name_or_taken_by_or_total_price_eq, as: :string, label: "Search Order", placeholder: "e.g. Status, Customer, Company, Admin, Price"
+
+  # For PG Database - searches with ILIKE causes problems when using contains(cont) in the search - Need to input parameters with uppercase first letter
+  filter :status_or_user_forname_or_user_surname_or_company_name_or_id_or_taken_by_cont, as: :string, label: "Search Order", placeholder: "e.g. Status, Customer, Company, Admin"
   filter :total_price_eq, as: :string, label: "Search by Price", placeholder: "e.g. 42"
+
+  # Old search methods for searching each attribute individually
   # filter :user_id, as: :select, label: "Search by Customer Name", prompt: "Select or Type", collection: User.all.collect { |u| ["#{u.forname}" + " " + "#{u.surname}", u.id] }, input_html: { class: 'chosen-select2' }
   # filter :company_id, as: :select, label: "Search by Company Name", prompt: "Select or Type", collection: Company.all.collect { |c| [c.name,c.id] }, input_html: { class: 'chosen-select2' }
   # filter :taken_by, as: :select, label: "Search by Admin Assigned", prompt: "Select ot Type", collection: Order.select(:taken_by).distinct.collect { |o| o.taken_by }, input_html: { class: 'chosen-select2' }
