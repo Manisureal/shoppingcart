@@ -1,5 +1,6 @@
 <% @consignment = Consignment.find(params[:id]) %>
 <% @consignment_items = @consignment.consignment_items %>
+<% consign_order = @consignment.order %>
 
 <table style="color:#696969;">
   <tr>
@@ -15,25 +16,25 @@
     <th>Date Dispatched</th>
     <th>Price</th>
   </tr>
-<% @consignment.consignment_items.each do |ci| %>
-  <tr>
-    <td><%= ci.order_item.order.user.forname.to_s + " " + ci.order_item.order.user.surname.to_s %></td>
-    <td><%= ci.order_item.order.user.company.name %></td>
-    <td><%= ci.order_item.order.id %></td>
-    <td><%= ci.order_item.product.product_code %></td>
-    <td><%= ci.order_item.product.description %></td>
-    <td><%= ci.order_item.quantity %></td>
-    <td><%= ci.quantity %></td>
-    <td><%= ci.order_item.to_dispatch %></td>
-    <% if ci.consignment.status == "Incomplete" %>
-    <td class="Incomplete"><%= ci.consignment.status.upcase %></td>
-    <% else ci.consignment.status == "Dispatched" %>
-    <td class="Dispatched"><%= ci.consignment.status.upcase %></td>
-    <% end %>
-    <td><%= ci.created_at.strftime("%A, %e %b - %H:%M %p") %></td>
-    <td><b><%= number_to_currency ci.order_item.product.price %></b></td>
-  </tr>
-<% end %>
+  <% @consignment.consignment_items.each do |ci| %>
+    <tr>
+      <td><%= ci.order_item.order.user.forname.to_s + " " + ci.order_item.order.user.surname.to_s %></td>
+      <td><%= ci.order_item.order.user.company.name %></td>
+      <td><%= ci.order_item.order.id %></td>
+      <td><%= ci.order_item.product.product_code %></td>
+      <td><%= ci.order_item.product.description %></td>
+      <td><%= ci.order_item.quantity %></td>
+      <td><%= ci.quantity %></td>
+      <td><%= ci.order_item.to_dispatch %></td>
+      <% if ci.consignment.status == "Incomplete" %>
+      <td class="Incomplete"><%= ci.consignment.status.upcase %></td>
+      <% else ci.consignment.status == "Dispatched" %>
+      <td class="Dispatched"><%= ci.consignment.status.upcase %></td>
+      <% end %>
+      <td><%= ci.created_at.strftime("%A, %e %b - %H:%M %p") %></td>
+      <td><b><%= number_to_currency ci.order_item.product.price %></b></td>
+    </tr>
+  <% end %>
   <tr>
     <%= simple_form_for [:admin, @consignment] do |f|  %>
     <td colspan="1"><b>Tracking No:</b></td>
@@ -50,36 +51,80 @@
     <% end %>
     <button onclick="window.print()">Print this page</button>
 
+<h2><b>Order</b></h2>
+<table style="color:#696969;margin-top:20px;">
+  <tr>
+    <th>Order#</th>
+    <th>Status</th>
+    <th>Total Price</th>
+    <th>Created On</th>
+    <th>Customer</th>
+    <th>Company</th>
+  </tr>
+  <tr>
+    <td><%= consign_order.id %></td>
+    <% if consign_order.status == "Incomplete" %>
+    <td class="Incomplete"><%= consign_order.status.upcase %></td>
+    <% else consign_order.status.upcase == "Dispatched" %>
+    <td class="Dispatched"><%= consign_order.status.upcase %></td>
+    <% end %>
+    <td><%= number_to_currency consign_order.total_price %></td>
+    <td><%= consign_order.created_at.strftime("%A, %e %b - %H:%M %p")%></td>
+    <td><%= consign_order.user.forname + ' ' + consign_order.user.surname%></td>
+    <td><%= consign_order.user.company.name %></td>
+  </tr>
+</table>
 
+<h2><b>Order Items</b></h2>
+<table style="color:#696969;">
+  <tr>
+    <th>Product Code</th>
+    <th>Description</th>
+    <th>Unit Price</th>
+    <th>Quantity</th>
+    <th>Pack Size</th>
+    <th>Total Price</th>
+  </tr>
+  <% consign_order.order_items.each do |ci| %>
+    <tr>
+      <td><%= ci.product.product_code %></td>
+      <td><%= ci.product.description %></td>
+      <td><%= ci.product.price %></td>
+      <td><%= ci.quantity%></td>
+      <td><%= ci.product.pack_size%></td>
+      <td><%= number_to_currency ci.total %></td>
+    </tr>
+  <% end %>
+</table>
 
 <style>
-.Incomplete {
-  background:#FFA339;
-  font-weight:bold;
-  letter-spacing: 0.15em;
-  color:white;
-  /*color:#918f8a;*/
-}
-.Dispatched {
-  background:#8BAA8B;
-  font-weight: bold;
-  letter-spacing: 0.15em;
-  color:white;
+  .Incomplete {
+    background:#FFA339;
+    font-weight:bold;
+    letter-spacing: 0.15em;
+    color:white;
+    /*color:#918f8a;*/
+  }
+  .Dispatched {
+    background:#8BAA8B;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+    color:white;
 
-}
-table {
-    /*font-family: arial, sans-serif;*/
-    border-collapse: collapse;
-    width: 100%;
-}
+  }
+  table {
+      /*font-family: arial, sans-serif;*/
+      border-collapse: collapse;
+      width: 100%;
+  }
 
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
+  td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+  }
 
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
+  tr:nth-child(even) {
+      background-color: #dddddd;
+  }
 </style>
