@@ -63,66 +63,68 @@
 </table>
 <% end %>
 
-<h2><b>Consignments</b></h2>
-<% @order.consignments.each_with_index do |oc, i| %>
-<table style="color:#696969;" class="consign consign-<%=i%>">
-  <tr>
-    <th>Consignment ID</th>
-    <th>Shipped At</th>
-    <th>Tracking#</th>
-    <th>Status</th>
-  </tr>
-  <tr>
-    <td><%= oc.id %></td>
-    <td><%= oc.shipped_at.strftime("%A, %e %b - %H:%M %p") %></td>
-    <td><%= oc.tracking_no %></td>
-    <% if oc.status == "Incomplete" %>
-    <td class="Incomplete"><%= oc.status.upcase %></td>
-    <% else oc.status == "Dispatched" %>
-    <td class="Dispatched"><%= oc.status.upcase %></td>
-    <% end %>
-  </tr>
-  <tr>
-    <td><b>Admin Notes:</td>
-    <td><%= oc.notes.to_s %></td>
-    <td><b>Boxes Sent: </b></td>
-    <td><%= oc.boxes.to_s %></td>
-  </tr>
-</table>
-<!-- <h2><b>Consignment Items</b></h2> -->
-<table class="consign-item-<%=i%>">
-  <tr>
-    <th>Product Code</th>
-    <th>Product Desc</th>
-    <th>Requested</th>
-    <th>Dispatched</th>
-    <th>Remaining</th>
-    <th>Status</th>
-    <th>Date Dispatched</th>
-    <th>Price</th>
-  </tr>
-<% oc.consignment_items.each do |ci| %>
-  <tr>
-    <td><%= ci.order_item.product.product_code %></td>
-    <td><%= ci.order_item.product.description %></td>
-    <td><%= ci.order_item.quantity %></td>
-    <td><%= ci.quantity %></td>
-    <td><%= ci.order_item.to_dispatch %></td>
-    <% if ci.consignment.status == "Incomplete" %>
-    <td class="Incomplete"><%= ci.consignment.status.upcase %></td>
-    <% else ci.consignment.status == "Dispatched" %>
-    <td class="Dispatched"><%= ci.consignment.status.upcase %></td>
-    <% end %>
-    <td><%= ci.created_at.strftime("%A, %e %b - %H:%M %p") %></td>
-    <td><b><%= number_to_currency ci.order_item.product.price %></b></td>
-  </tr>
-<% end %>
-</table>
-
-<% end %>
-
+<button class="view-consigns">View Consignments</button>
 <button onclick="window.print();">Print Order</button>
+<h1></h1>
 
+<% if @order.consignments.blank? %>
+  <h2 class="consign">There are no consignments created for this order yet...</h2>
+<% else %>
+  <% @order.consignments.each_with_index do |oc, i| %>
+    <table style="color:#696969;" class="consign consign-<%=i%>">
+      <tr>
+        <th>Consignment ID</th>
+        <th>Shipped At</th>
+        <th>Tracking#</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td><%= oc.id %></td>
+        <td><%= oc.shipped_at.strftime("%A, %e %b - %H:%M %p") %></td>
+        <td><%= oc.tracking_no %></td>
+        <% if oc.status == "Incomplete" %>
+        <td class="Incomplete"><%= oc.status.upcase %></td>
+        <% else oc.status == "Dispatched" %>
+        <td class="Dispatched"><%= oc.status.upcase %></td>
+        <% end %>
+      </tr>
+      <tr>
+        <td><b>Admin Notes:</td>
+        <td><%= oc.notes.to_s %></td>
+        <td><b>Boxes Sent: </b></td>
+        <td><%= oc.boxes.to_s %></td>
+      </tr>
+    </table>
+    <table class="consign-item-<%=i%>">
+      <tr>
+        <th>Product Code</th>
+        <th>Product Desc</th>
+        <th>Requested</th>
+        <th>Dispatched</th>
+        <th>Remaining</th>
+        <th>Status</th>
+        <th>Date Dispatched</th>
+        <th>Price</th>
+      </tr>
+      <% oc.consignment_items.each do |ci| %>
+        <tr>
+          <td><%= ci.order_item.product.product_code %></td>
+          <td><%= ci.order_item.product.description %></td>
+          <td><%= ci.order_item.quantity %></td>
+          <td><%= ci.quantity %></td>
+          <td><%= ci.order_item.to_dispatch %></td>
+          <% if ci.consignment.status == "Incomplete" %>
+          <td class="Incomplete"><%= ci.consignment.status.upcase %></td>
+          <% else ci.consignment.status == "Dispatched" %>
+          <td class="Dispatched"><%= ci.consignment.status.upcase %></td>
+          <% end %>
+          <td><%= ci.created_at.strftime("%A, %e %b - %H:%M %p") %></td>
+          <td><b><%= number_to_currency ci.order_item.product.price %></b></td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+<% end %>
 
 <style>
   table {
@@ -175,6 +177,10 @@
 
 
 <script>
+  $('.consign').hide()
+  $('.view-consigns').on('click',function(){
+    $('.consign').toggle()
+  })
   $('.consign').each(function(index){
     $('.consign-item-'+index).hide()
     $('.consign-'+index).on('click',function(){
