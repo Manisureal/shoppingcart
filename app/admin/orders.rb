@@ -5,12 +5,12 @@ ActiveAdmin.register Order do
 
   # For MySQL Database - searches with LIKE which works fine when searching using equal(eq) in the search
   # filter :status_or_user_forname_or_user_surname_or_company_name_or_taken_by_or_id_or_total_price_eq, as: :string, label: "Search Order", placeholder: "e.g. Status, Customer, Company, Admin, Price"
-  # filter :user_forname_or_user_surname_or_company_name_cont, as: :string, label: "Search User or Company", placeholder: "e.g. Customer, Company..."
-  # filter :id_or_total_price_eq, as: :string, label: "Search ID or Price", placeholder: "e.g. Order ID, Price..."
+  filter :user_forname_or_user_surname_or_company_name_cont, as: :string, label: "Search User or Company", placeholder: "e.g. Customer, Company..."
+  filter :id_or_total_price_eq, as: :string, label: "Search ID or Price", placeholder: "e.g. Order ID, Price..."
 
   # For PG Database - searches with ILIKE causes problems when using contains(cont) in the search - Need to input parameters with uppercase first letter
-  filter :status_or_user_forname_or_user_surname_or_company_name_or_id_or_taken_by_cont, as: :string, label: "Search Order", placeholder: "e.g. Status, Customer, Company, Admin"
-  filter :total_price_eq, as: :string, label: "Search by Price", placeholder: "e.g. 42"
+  # filter :status_or_user_forname_or_user_surname_or_company_name_or_taken_by_cont, as: :string, label: "Search Order", placeholder: "e.g. Status, Customer, Company, Admin"
+  # filter :total_price_eq, as: :string, label: "Search by Price", placeholder: "e.g. 42"
 
   # Old search methods for searching each attribute individually
   # filter :user_id, as: :select, label: "Search by Customer Name", prompt: "Select or Type", collection: User.all.collect { |u| ["#{u.forname}" + " " + "#{u.surname}", u.id] }, input_html: { class: 'chosen-select2' }
@@ -131,7 +131,8 @@ ActiveAdmin.register Order do
 
     # f.inputs "Order Items" do
       panel "Order Items" do
-        render 'edit_order_items_form'
+        # render 'edit_order_items_form'
+        render 'order_items_form'
       # end
       # f.has_many :order_items, allow_destroy: true do |oi|
       #   oi.input :quantity
@@ -145,16 +146,24 @@ ActiveAdmin.register Order do
   controller do
     def new
       @order = Order.new
-      5.times do
-        @order_items = @order.order_items.new
-      end
-
+      6.times { order_item = @order.order_items.build }
+      #*** To dynamically add order items use this ***#
+      # @order_items = @order.order_items << OrderItem.new
     end
 
     def create
       create!do |format|
         format.html { redirect_to admin_root_path, notice: "Order# #{@order.id} was successfully Created!" }
       end
+      #*** To Dynamically create order items use this ***#
+      # @order = Order.new(permitted_params[:order])
+      # @order_items = @order.order_items << OrderItem.new
+      # @order_items.last.destroy!
+      # if @order.save!
+      #   redirect_to admin_root_path, notice: "Order Created Successfully"
+      # else
+      #   render :edit
+      # end
     end
 
     def show
