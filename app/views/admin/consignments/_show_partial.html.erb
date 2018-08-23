@@ -70,8 +70,8 @@
     <% end %>
     <td><%= number_to_currency consign_order.total_price %></td>
     <td><%= consign_order.created_at.strftime("%A, %e %b - %H:%M %p")%></td>
-    <td><%= consign_order.user.forname + ' ' + consign_order.user.surname%></td>
-    <td><%= consign_order.user.company.name %></td>
+    <td><%= consign_order.user.forname.to_s + ' ' + consign_order.user.surname.to_s%></td>
+    <td><%= consign_order.user.company.name.to_s %></td>
   </tr>
 </table>
 
