@@ -6,7 +6,7 @@ class ConsignmentItem < ApplicationRecord
 
   def consign_total
     # self.consignment.order.order_items.map { |qd| qd.quantity_dispatched }.sum
-    self.consignment.consignment_items.map { |ci| ci.quantity }.sum
+    self.consignment.consignment_items.map { |ci| ci.quantity.nil? ? 0 : ci.quantity }.sum
   end
 
   private
