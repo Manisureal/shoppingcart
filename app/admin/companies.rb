@@ -60,6 +60,31 @@ ActiveAdmin.register Company do
         end
       end
     end
+
+    panel "Orders" do
+      paginated_collection(company.orders.page(params[:company_orders_page]).per(15), param_name: 'company_orders_page') do
+        table_for company.orders.order("id desc").page(params[:company_orders_page]).per(15) do
+          column :id do |o|
+            link_to o.id, admin_order_path(o.id)
+          end
+          column :status do |s|
+            status_tag(s.status, class: (s.status == "Ordered") ? "error" : (s.status == "In Progress") ? "blue" : (s.status == "Incomplete") ? "warning" : (s.status == "Cancelled") ? "pink" : "done")
+          end
+          column :total_price
+          column :created_at
+          column :user
+          column :taken_by
+          column :actions do |o|
+            links = link_to I18n.t('active_admin.view'), admin_order_path(o)
+            links += " "
+            links += link_to I18n.t('active_admin.edit'), edit_admin_order_path(o)
+            links += " "
+            links += link_to "Delete", admin_order_path(o), method: :delete, data: { confirm: "Are you sure you want to delete Order# #{o.id}?" }
+            links
+          end
+        end
+      end
+    end
   end
 
   form do |f|
