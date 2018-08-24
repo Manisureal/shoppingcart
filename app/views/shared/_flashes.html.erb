@@ -4,6 +4,13 @@
     <%= notice %>
   </div>
 <% end %>
+<% if flash[:success] %>
+  <div class="alert alert-info alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <%#= safe_join(flash[:success], "<br>".html_safe) %>
+    <%= flash[:success].join.html_safe %>
+  </div>
+<% end %>
 <% if alert %>
   <div class="alert alert-warning alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
