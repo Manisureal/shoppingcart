@@ -32,7 +32,10 @@ class OrdersController < ApplicationController
     @order.company = current_user.company
       if @order.save
         @order.errors.full_messages
-        flash[:notice] = "Order# #{@order.id}, Created Successfully"
+        flash[:success] = ["Thank you for placing your <b>Order# #{@order.id}</b> </br>"]
+        flash[:success] << ["</br>"]
+        flash[:success] << ["* Please allow upto 3 Days for Delivery * </br>"]
+        flash[:success] << ["* Orders must be checked for discrepancies within 3 days of receving *"]
         OrderMailer.order_submitted(@order).deliver_now
         redirect_to orders_path
         authorize @order
