@@ -1,0 +1,77 @@
+<table>
+  <tr>
+    <th>CONSIGNMENT</th>
+    <th>SHIPPED AT</th>
+    <th>ORDER</th>
+    <th>STATUS</th>
+    <th>TRACKING NO</th>
+  </tr>
+
+<% @consignment = Consignment.all.where(tracking_no: "").limit(10).each do |consignment| %>
+  <tr>
+    <td><%= link_to consignment.id, admin_consignment_path(consignment) %></td>
+    <td><%= consignment.shipped_at.strftime("%A, %e %b - %H:%M %p") %></td>
+    <td><%= link_to consignment.order_id, admin_order_path(consignment.order_id) %></td>
+    <% if consignment.status == "Incomplete" %>
+      <td class="Incomplete"><%= consignment.status.upcase %></td>
+      <% else consignment.status == "Dispatched" %>
+      <td class="Dispatched"><%= consignment.status.upcase %></td>
+    <% end %>
+    <%= simple_form_for [:admin,consignment] do |f| %>
+      <td><%= f.input :tracking_no, label: false %></td>
+      <td><%= f.submit "Update", class: "tracking_no_update" %></td>
+    <% end %>
+  </tr>
+<% end %>
+</table>
+
+<style>
+  table {
+      /*font-family: arial, sans-serif;*/
+      border-collapse: collapse;
+      width: 100%;
+  }
+
+  td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+  }
+
+  tr:nth-child(even) {
+      background-color: #dddddd;
+  }
+
+  #cancel-notice {
+    background-color: #c80303;
+    background-image: linear-gradient(180deg, #e9dcdcbd, #dfcccc);
+    border-bottom: 1px solid #efb2b2;
+    color: #780000;
+    height: 70px;
+    display: flex;
+    justify-content: space-around;
+    font-size: 3em;
+    align-items: center;
+  }
+
+  .Incomplete {
+  background:#FFA339;
+  font-weight:bold;
+  letter-spacing: 0.15em;
+  color:white;
+  /*color:#918f8a;*/
+  }
+
+  .Dispatched {
+    background:#8BAA8B;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+    color:white;
+  }
+
+  .consign:hover {
+    cursor:pointer;
+  }
+</style>
+
+

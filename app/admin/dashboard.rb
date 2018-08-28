@@ -53,8 +53,16 @@ ActiveAdmin.register_page "Dashboard" do
       end
 
       column do
-        panel "Stock Search" do
+        panel "Stock Count" do
           render 'date_range_search'
+        end
+      end
+    end
+
+    columns do
+      column do
+        panel "Missing Tracking No" do
+          render partial: "tracking_no_form"
         end
       end
     end
@@ -70,8 +78,7 @@ ActiveAdmin.register_page "Dashboard" do
     end
   end
 
+  # member_actions are only to be created under specific Models as they need to be prepended with an id for a specific model item CRUD action
+  # page_action just works on a standalone page such as this dashboard page
+
 end
-
-# Order.all.map do |o|
-#   li link_to(o.user.forname, admin_order_path(o))
-
