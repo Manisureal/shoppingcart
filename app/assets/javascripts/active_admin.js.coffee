@@ -1,4 +1,6 @@
 #= require active_admin/base
+//= require active_admin/base
+//= require active_material
 //= require select2
 //= require chosen-jquery
 

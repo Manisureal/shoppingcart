@@ -38,7 +38,7 @@ ActiveAdmin.register Order do
     # column "Cancel Order", :id do |o|
     #   link_to "x", cancel_order_admin_order_path(o), method: :delete, data: { confirm: 'Are you sure you want to cancel this Order?' }
     # end
-    column :actions do |resource|
+    column :action do |resource|
       links = link_to I18n.t('active_admin.view'), resource_path(resource)
       links += " "
       links += link_to I18n.t('active_admin.edit'), edit_resource_path(resource)
@@ -131,8 +131,8 @@ ActiveAdmin.register Order do
 
     # f.inputs "Order Items" do
       panel "Order Items" do
-        # render 'edit_order_items_form'
-        render 'order_items_form'
+        render 'edit_order_items_form'
+        # render 'order_items_form'
       # end
       # f.has_many :order_items, allow_destroy: true do |oi|
       #   oi.input :quantity
@@ -178,7 +178,7 @@ ActiveAdmin.register Order do
     def edit
       @order = Order.find(params[:id])
       @order_items = @order.order_items
-      (5 - @order.order_items.count).times do
+      (6 - @order.order_items.count).times do
         @order.order_items.new
       end
     end
