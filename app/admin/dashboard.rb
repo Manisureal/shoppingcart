@@ -3,7 +3,7 @@ ActiveAdmin.register_page "Dashboard" do
   menu priority: 1, label: proc{ I18n.t("active_admin.dashboard") }
 
   content title: proc{ I18n.t("active_admin.dashboard") } do
-    columns do
+    columns class: "col-adjustments" do
       column do
         panel "Recent Orders", class: "orders" do
           table_for Order.where(status: ["Ordered", "Incomplete"]).order("id desc").limit(10) do
@@ -15,7 +15,7 @@ ActiveAdmin.register_page "Dashboard" do
             column("Customer") { |order| link_to(order.company.name.to_s, admin_company_path(order.company)) }
             # require
             column("Total")   { |order| number_to_currency order.total_price }
-            column("Actions") { |order| link_to("Take Order", admin_order_path(order) + "?take_order=true" ) }
+            column("Action") { |order| link_to("Take Order", admin_order_path(order) + "?take_order=true" ) }
           end
         end
       end
@@ -28,7 +28,7 @@ ActiveAdmin.register_page "Dashboard" do
 
     end
 
-    columns do
+    columns class: "col-adjustments" do
 
       column do
         panel "Stock Levels" do
@@ -60,7 +60,7 @@ ActiveAdmin.register_page "Dashboard" do
       end
     end
 
-    columns do
+    columns class: "col-adjustments" do
       column do
         panel "Stock Count" do
           render 'date_range_search'

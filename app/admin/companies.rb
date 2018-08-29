@@ -50,7 +50,7 @@ ActiveAdmin.register Company do
         column :forname
         column :surname
         column :created_at
-        column :actions do |c|
+        column :action do |c|
           links = link_to I18n.t('active_admin.view'), c.admin? ? admin_staff_path(c) : admin_customer_path(c)
           links += " "
           links += link_to I18n.t('active_admin.edit'), edit_admin_customer_path(c)
@@ -74,7 +74,7 @@ ActiveAdmin.register Company do
           column :created_at
           column :user
           column :taken_by
-          column :actions do |o|
+          column :action do |o|
             links = link_to I18n.t('active_admin.view'), admin_order_path(o)
             links += " "
             links += link_to I18n.t('active_admin.edit'), edit_admin_order_path(o)
