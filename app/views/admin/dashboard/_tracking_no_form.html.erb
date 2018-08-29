@@ -24,7 +24,7 @@
       <td class="Dispatched"><%= consignment.status.upcase %></td>
     <% end %>
     <%= simple_form_for [:admin,consignment] do |f| %>
-      <td><%= f.input :tracking_no, input_html: { class: "tracking_no_input tracking_no_input-#{tni+=1}" }, label: false %></td>
+      <td><%= f.input :tracking_no, input_html: { class: "tracking_no_input tracking_no_input-#{tni+=1}" }, label: false, placeholder: "e.g. IB1533597344K" %></td>
       <td><%= f.submit "Update", class: "tracking_no_update tracking_no_update_on-#{tnuon+=1}" %></td>
     <% end %>
   </tr>
