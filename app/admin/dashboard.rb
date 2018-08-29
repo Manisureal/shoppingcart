@@ -53,16 +53,16 @@ ActiveAdmin.register_page "Dashboard" do
       end
 
       column do
-        panel "Stock Count" do
-          render 'date_range_search'
+        panel "Missing Tracking No" do
+          render partial: "tracking_no_form"
         end
       end
     end
 
     columns do
       column do
-        panel "Missing Tracking No" do
-          render partial: "tracking_no_form"
+        panel "Stock Count" do
+          render 'date_range_search'
         end
       end
     end
