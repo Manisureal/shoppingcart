@@ -1,11 +1,15 @@
-<table>
+<table style="color:#696969;">
   <tr>
     <th>CONSIGNMENT</th>
     <th>SHIPPED AT</th>
     <th>ORDER</th>
     <th>STATUS</th>
     <th>TRACKING NO</th>
+    <th></th>
   </tr>
+
+<% tni = -1 %>
+<% tnuon = -1 %>
 
 <% @consignment = Consignment.all.where(tracking_no: "").limit(10).each do |consignment| %>
   <tr>
@@ -18,8 +22,8 @@
       <td class="Dispatched"><%= consignment.status.upcase %></td>
     <% end %>
     <%= simple_form_for [:admin,consignment] do |f| %>
-      <td><%= f.input :tracking_no, label: false %></td>
-      <td><%= f.submit "Update", class: "tracking_no_update" %></td>
+      <td><%= f.input :tracking_no, input_html: { class: "tracking_no_input tracking_no_input-#{tni+=1}" }, label: false %></td>
+      <td><%= f.submit "Update", class: "tracking_no_update tracking_no_update_on-#{tnuon+=1}" %></td>
     <% end %>
   </tr>
 <% end %>
@@ -27,39 +31,24 @@
 
 <style>
   table {
-      /*font-family: arial, sans-serif;*/
-      border-collapse: collapse;
-      width: 100%;
+    border-collapse: collapse;
+    width: 100%;
   }
 
   td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
+    text-align: left;
+    padding: 8px;
   }
 
   tr:nth-child(even) {
-      background-color: #dddddd;
-  }
-
-  #cancel-notice {
-    background-color: #c80303;
-    background-image: linear-gradient(180deg, #e9dcdcbd, #dfcccc);
-    border-bottom: 1px solid #efb2b2;
-    color: #780000;
-    height: 70px;
-    display: flex;
-    justify-content: space-around;
-    font-size: 3em;
-    align-items: center;
+    background-color: #dddddd;
   }
 
   .Incomplete {
-  background:#FFA339;
-  font-weight:bold;
-  letter-spacing: 0.15em;
-  color:white;
-  /*color:#918f8a;*/
+    background:#FFA339;
+    font-weight:bold;
+    letter-spacing: 0.15em;
+    color:white;
   }
 
   .Dispatched {
@@ -68,10 +57,17 @@
     letter-spacing: 0.15em;
     color:white;
   }
-
-  .consign:hover {
-    cursor:pointer;
-  }
 </style>
 
+<script>
+  window.onload = function() {
+    $('.tracking_no_update').hide()
+    $('.tracking_no_update').each(function(index){
+      $('.tracking_no_input-'+index).click(function(){
+        $('.tracking_no_update_on-'+index).show()
+        console.log("Showing Button")
+      })
+    })
+  }
+</script>
 
