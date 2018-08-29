@@ -20,21 +20,16 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
 
-
       column do
-        panel "Recent Customers" do
-          table_for User.where(admin: false).order("id desc").limit(10).each do |user|
-
-            column(:customer_name) { |user| (user.forname ? user.forname : 'Unknown') + ' ' + (user.surname ? user.surname : 'User')}
-
-            column(:customer_email) { |user| link_to(user.email, admin_staff_path(user)) }
-            column(:last_signed) { |user| user.last_sign_in_at }
-          end
+        panel "Missing Tracking No" do
+          render partial: "tracking_no_form"
         end
       end
+
     end
 
     columns do
+
       column do
         panel "Stock Levels" do
           table_for Product.all.limit(12).each do |product|
@@ -53,8 +48,14 @@ ActiveAdmin.register_page "Dashboard" do
       end
 
       column do
-        panel "Missing Tracking No" do
-          render partial: "tracking_no_form"
+        panel "Recent Customers" do
+          table_for User.where(admin: false).order("id desc").limit(10).each do |user|
+
+            column(:customer_name) { |user| (user.forname ? user.forname : 'Unknown') + ' ' + (user.surname ? user.surname : 'User')}
+
+            column(:customer_email) { |user| link_to(user.email, admin_staff_path(user)) }
+            column(:last_signed) { |user| user.last_sign_in_at }
+          end
         end
       end
     end

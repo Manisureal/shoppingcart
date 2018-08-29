@@ -3,6 +3,7 @@
     <th>CONSIGNMENT</th>
     <th>SHIPPED AT</th>
     <th>ORDER</th>
+    <th>COMPANY</th>
     <th>STATUS</th>
     <th>TRACKING NO</th>
     <th></th>
@@ -16,6 +17,7 @@
     <td><%= link_to consignment.id, admin_consignment_path(consignment) %></td>
     <td><%= consignment.shipped_at.strftime("%A, %e %b - %H:%M %p") %></td>
     <td><%= link_to consignment.order_id, admin_order_path(consignment.order_id) %></td>
+    <td><%= link_to consignment.order.company.name, admin_company_path(consignment.order.company) %></td>
     <% if consignment.status == "Incomplete" %>
       <td class="Incomplete"><%= consignment.status.upcase %></td>
       <% else consignment.status == "Dispatched" %>
