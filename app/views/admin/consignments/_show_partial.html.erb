@@ -49,9 +49,9 @@
 </table>
     <td><%= f.submit %></td>
     <% end %>
-    <button onclick="window.print()">Print this page</button>
+    <button class="custom-btn" onclick="window.print()">Print this page</button>
 
-<h2><b>Order</b></h2>
+<p style="margin-top:25px;font-size:1.5em;">ORDER</p>
 <table style="color:#696969;margin-top:20px;">
   <tr>
     <th>Order#</th>
@@ -75,8 +75,8 @@
   </tr>
 </table>
 
-<h2><b>Order Items</b></h2>
-<table style="color:#696969;">
+<p style="margin-top:25px;font-size:1.5em;">ORDER ITEMS</p>
+<table style="color:#696969;margin-top:20px;">
   <tr>
     <th>Product Code</th>
     <th>Description</th>
@@ -110,12 +110,44 @@
     font-weight: bold;
     letter-spacing: 0.15em;
     color:white;
-
   }
+
+  .custom-btn {
+    font-size: 0.875rem;
+    letter-spacing: 0.01em;
+    background: transparent;
+    border-radius: 2px;
+    border: 0;
+    cursor: pointer;
+    /*display: inline-block;*/
+    line-height: 18px;
+    margin-top: 20px;
+    padding: 12px 8px;
+    /*position: relative;*/
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.25s all;
+    background-color: #009688;
+    color: white;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.12);
+    min-width: 88px;
+  }
+
+  .custom-btn:hover {
+    color: white;
+    background: #00c9b6;
+    outline: none;
+  }
+
+  body {
+    background:white;
+  }
+
   table {
       /*font-family: arial, sans-serif;*/
       border-collapse: collapse;
       width: 100%;
+      box-shadow: 3px 4px 8px 0px rgba(176,176,176,1);
   }
 
   td, th {
