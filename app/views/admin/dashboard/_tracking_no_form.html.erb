@@ -1,11 +1,11 @@
 <table style="color:#696969;">
   <tr>
-    <th>CONSIGNMENT</th>
-    <th>SHIPPED AT</th>
-    <th>ORDER</th>
-    <th>COMPANY</th>
-    <th>STATUS</th>
-    <th>TRACKING NO</th>
+    <th>Consignment</th>
+    <th>Shipped At</th>
+    <th>Order</th>
+    <th>Company</th>
+    <th>Status</th>
+    <th>Tracking No</th>
     <th></th>
   </tr>
 
@@ -25,7 +25,7 @@
     <% end %>
     <%= simple_form_for [:admin,consignment] do |f| %>
       <td><%= f.input :tracking_no, input_html: { class: "tracking_no_input tracking_no_input-#{tni+=1}" }, label: false, placeholder: "e.g. IB1533597344K" %></td>
-      <td><%= f.submit "Update", class: "tracking_no_update tracking_no_update_on-#{tnuon+=1}" %></td>
+      <td><%= f.submit "Update", class: "tracking_no_update tracking_no_update_on-#{tnuon+=1}", id: "plus" %></td>
     <% end %>
   </tr>
 <% end %>
@@ -34,12 +34,19 @@
 <style>
   table {
     border-collapse: collapse;
-    width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+    word-wrap:break-all;
+    /*display: flex;
+    flex-flow: column;*/
+    /*word-wrap:break-word;*/
   }
 
   td, th {
     text-align: left;
     padding: 8px;
+    white-space: normal;
+    word-wrap:break-all;
   }
 
   tr:nth-child(even) {
@@ -50,14 +57,19 @@
     background:#FFA339;
     font-weight:bold;
     letter-spacing: 0.15em;
-    color:white;
+    color:white !important;
   }
 
   .Dispatched {
     background:#8BAA8B;
     font-weight: bold;
     letter-spacing: 0.15em;
-    color:white;
+    color:white !important;
+  }
+
+  #plus {
+    font-size: 1em;
+    border-radius: 75px;
   }
 </style>
 

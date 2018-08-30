@@ -8,11 +8,14 @@
 // $sidebar-width: 242px;
 
 // Active Admin's got SASS!
+@import "font-awesome-sprockets";
+@import "font-awesome";
 @import "active_admin/mixins";
 @import "active_material";
 // @import "active_admin/base";
 @import "chosen";
 @import "admin/index";
+
 // @import "select2";
 
 // Overriding any non-variable SASS must be done after the fact.
@@ -31,7 +34,20 @@
 //   // width:200px;
 //   width: calc(80% - 22px);
 // }
+.cols-adjust {
+  display:flex;
+  margin: 2.5px;
+  margin-bottom: 25px;
+  padding-top: 5px;
+  flex-wrap:wrap;
+}
 
+// Another way of adjusting the tables on dashboard
+// .col-adjust {
+//   display: table;
+//   flex: 1;
+//   margin:0;
+// }
 
 #order_user_id {
   margin-top: 10px;
