@@ -27,7 +27,7 @@ $ ->
 
 $ ->
   $('.admin_staffs #wrapper  #active_admin_content .sidebar').remove()
-  $(".admin_staffs #collection_selection").width("130%")
+  $(".admin_staffs #collection_selection").width("100%")
 
 $ ->
   $('.user_selector').hide()
@@ -63,7 +63,7 @@ $ ->
       evt.preventDefault()
       if $('.sidebar').attr('class') == "sidebar hidden"
         # $('#main_content_wrapper #collection_selection').width '100%'
-        $('#main_content_wrapper #main_content').width '76%'
+        $('#main_content_wrapper #main_content').width '100%'
         $('.sidebar').fadeIn 750, 'swing', ->
           $('.sidebar').removeClass('hidden')
           console.log('visible')
