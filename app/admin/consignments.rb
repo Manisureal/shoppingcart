@@ -1,17 +1,18 @@
 ActiveAdmin.register Consignment do
   permit_params :shipped_at, :tracking_no, :user, :order, :notes, :boxes
+  menu parent: "Orders"
 
   # For MySQL Database - searches with LIKE which works fine when searching using equal(eq) in the search
   # filter :tracking_no_or_shipped_at_or_order_user_forname_or_order_user_surname_or_user_forname_or_user_surname_or_user_company_name_or_order_id_or_status_eq, as: :string, label: "Search Companies",
   #        placeholder: "e.g. Tracking, Customer, Admin, Company, ID, Status"
-  # filter :order_user_forname_or_order_user_surname_or_user_forname_or_user_surname_or_user_company_name_or_status_cont, as: :string, label: "Search Customer/Company/Admin",
-  #        placeholder: "e.g. Customer, Admin, Company..."
-  # filter :tracking_no_or_shipped_at_or_order_id_eq, as: :string, label: "Search ID/Tracking",
-  #        placeholder: "e.g. Tracking, ID..."
+  filter :order_user_forname_or_order_user_surname_or_user_forname_or_user_surname_or_user_company_name_or_status_cont, as: :string, label: "Search Customer/Company/Admin",
+         placeholder: "e.g. Customer, Admin, Company..."
+  filter :tracking_no_or_shipped_at_or_order_id_eq, as: :string, label: "Search ID/Tracking",
+         placeholder: "e.g. Tracking, ID..."
 
   # For PG Database - searches with ILIKE causes problems when using contains(cont) in the search - Need to input parameters with uppercase first letter
-  filter :order_user_forname_or_order_user_surname_or_user_forname_or_user_surname_or_user_company_name_or_status_cont, as: :string, label: "Search Companies"
-  filter :tracking_no_or_order_id_eq, as: :string, label: "Search Tracking or ID"
+  # filter :order_user_forname_or_order_user_surname_or_user_forname_or_user_surname_or_user_company_name_or_status_cont, as: :string, label: "Search Companies"
+  # filter :tracking_no_or_order_id_eq, as: :string, label: "Search Tracking or ID"
 
 
   index do

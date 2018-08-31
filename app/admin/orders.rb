@@ -1,4 +1,5 @@
 ActiveAdmin.register Order do
+  menu priority: 2
   actions :index, :show, :new, :create, :update, :edit
   permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by, :admin_notes, :boxes, :user_id,
     order_items_attributes: [:id, :product_id, :quantity, :to_dispatch]
