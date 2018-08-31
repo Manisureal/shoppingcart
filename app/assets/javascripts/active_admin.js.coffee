@@ -100,10 +100,11 @@ $ ->
 
 # Hide/Show Stock Count Admin Dashboard
 $ ->
+  $('#ui-datepicker-div').hide()
   $('#stock-panel h3').append '<br />' + '<br />' + '<span style=\'font-size:0.75em;font-weight:light;color:#B8B8B8;\'>Click To Expand</span>'
   $('#stock-panel .panel_contents').addClass 'stock-panel-contents'
   $('.stock-panel-contents').hide()
-  $('#stock-panel').on 'click', ->
+  $('#stock-panel h3').on 'click', ->
     $('.stock-panel-contents').toggle '700'
     return
 
