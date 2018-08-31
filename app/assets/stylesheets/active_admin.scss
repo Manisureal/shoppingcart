@@ -50,6 +50,12 @@
 //   margin:0;
 // }
 
+#stock-panel:hover {
+  cursor:pointer;
+  text-decoration: underline;
+  text-decoration-color:#A9A9A9;
+}
+
 #order_user_id {
   margin-top: 10px;
 }
