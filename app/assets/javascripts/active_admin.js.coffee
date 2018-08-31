@@ -98,3 +98,13 @@ $ ->
     favicon.href = 'https://image.ibb.co/bQi5Ey/icons8_circled_c_100.png'
     return
 
+# Hide/Show Stock Count Admin Dashboard
+$ ->
+  $('#stock-panel h3').append '<br />' + '<br />' + '<span style=\'font-size:0.75em;font-weight:light;color:#B8B8B8;\'>Click To Expand</span>'
+  $('#stock-panel .panel_contents').addClass 'stock-panel-contents'
+  $('.stock-panel-contents').hide()
+  $('#stock-panel').on 'click', ->
+    $('.stock-panel-contents').toggle '700'
+    return
+
+

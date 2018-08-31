@@ -28,41 +28,41 @@ ActiveAdmin.register_page "Dashboard" do
 
     end
 
+    # columns class: "cols-adjust" do
+
+    #   column do
+    #     panel "STOCK LEVELS" do
+    #       table_for Product.all.limit(12).each do |product|
+    #         column(:product_code) { |product| link_to(product.product_code, admin_product_path(product))}
+    #         column(:description) { |product| link_to(product.description.truncate(42), admin_product_path(product))}
+    #         column(:pack_size)
+    #         column(:price) { |product| number_to_currency product.price}
+    #         column(:current_stock) { |product| label(product.current_stock,
+    #           class: (product.current_stock > product.minimum_stock.to_i) ? "status good-level" :
+    #            (product.current_stock == 0 || product.current_stock < 0) ? "status bad-level" :
+    #            (product.current_stock.to_i <= product.minimum_stock.to_i) ? "status okay-level" : nil)
+    #         }
+    #         column() { |p| link_to icon('plus'), new_admin_product_stock_path(p) }
+    #       end
+    #     end
+    #   end
+
+    #   column do
+    #     panel "RECENT CUSTOMERS" do
+    #       table_for User.where(admin: false).order("id desc").limit(10).each do |user|
+
+    #         column(:customer_name) { |user| (user.forname ? user.forname : 'Unknown') + ' ' + (user.surname ? user.surname : 'User')}
+
+    #         column(:customer_email) { |user| link_to(user.email, admin_staff_path(user)) }
+    #         column(:last_signed) { |user| user.last_sign_in_at }
+    #       end
+    #     end
+    #   end
+    # end
+
     columns class: "cols-adjust" do
-
       column do
-        panel "STOCK LEVELS" do
-          table_for Product.all.limit(12).each do |product|
-            column(:product_code) { |product| link_to(product.product_code, admin_product_path(product))}
-            column(:description) { |product| link_to(product.description.truncate(42), admin_product_path(product))}
-            column(:pack_size)
-            column(:price) { |product| number_to_currency product.price}
-            column(:current_stock) { |product| label(product.current_stock,
-              class: (product.current_stock > product.minimum_stock.to_i) ? "status good-level" :
-               (product.current_stock == 0 || product.current_stock < 0) ? "status bad-level" :
-               (product.current_stock.to_i <= product.minimum_stock.to_i) ? "status okay-level" : nil)
-            }
-            column() { |p| link_to icon('plus'), new_admin_product_stock_path(p) }
-          end
-        end
-      end
-
-      column do
-        panel "RECENT CUSTOMERS" do
-          table_for User.where(admin: false).order("id desc").limit(10).each do |user|
-
-            column(:customer_name) { |user| (user.forname ? user.forname : 'Unknown') + ' ' + (user.surname ? user.surname : 'User')}
-
-            column(:customer_email) { |user| link_to(user.email, admin_staff_path(user)) }
-            column(:last_signed) { |user| user.last_sign_in_at }
-          end
-        end
-      end
-    end
-
-    columns class: "cols-adjust" do
-      column do
-        panel "STOCK COUNT" do
+        panel "STOCK COUNT", id: "stock-panel" do
           render 'date_range_search'
         end
       end
