@@ -37,6 +37,7 @@ ActiveAdmin.register User, as: "Customer" do
     # end
     column :surname
     column :created_at
+    column "Last Signed", :last_sign_in_at
     column :admin
     column :company
     actions
