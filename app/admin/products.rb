@@ -1,5 +1,6 @@
 ActiveAdmin.register Product do
-  permit_params :price, :description, :pack_size, :product_code, :minimum_stock, :buy_price
+  actions :index, :show, :new, :create, :update, :edit
+  permit_params :price, :description, :pack_size, :product_code, :minimum_stock, :buy_price, :active
 
   index do
     selectable_column
@@ -19,6 +20,7 @@ ActiveAdmin.register Product do
     column "Stock", :id do |p|
       link_to 'Add Stock', new_admin_product_stock_path(p)
     end
+    column :active
     actions
   end
 
@@ -30,6 +32,7 @@ ActiveAdmin.register Product do
       f.input :product_code
       f.input :minimum_stock
       f.input :buy_price
+      f.input :active
     end
     f.actions
   end
