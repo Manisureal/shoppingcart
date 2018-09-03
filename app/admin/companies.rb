@@ -96,7 +96,7 @@ ActiveAdmin.register Company do
       f.input :phone
       f.input :fax
       f.input :email
-      f.input :account_owner, as: :select, collection: ["Caremeds","Sales - Kristian Bade"]
+      f.input :account_owner, as: :select, collection: ["Caremeds","Kristian Bade"]
       f.actions
     end
   end
