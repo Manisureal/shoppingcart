@@ -2,11 +2,13 @@ class OrdersController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
       @orders = policy_scope(Order).order("created_at desc")
+      # @orders = current_user.orders.order("created_at desc")
       # @order_items = current_order.order_items
+      authorize @orders
   end
 
   def show
-    @order = Order.find(params[:id])
+    @order = policy_scope(Order).find(params[:id])
     authorize @order
     @order_items = @order.order_items
   end
@@ -50,7 +52,8 @@ class OrdersController < ApplicationController
   end
 
   def edit
-    @order = current_user.orders.find(params[:id])
+    # @order = current_user.orders.find(params[:id])
+    @order = policy_scope(Order).find(params[:id])
     (10 - @order.order_items.count).times do
       @order.order_items << OrderItem.new
     end
@@ -58,7 +61,7 @@ class OrdersController < ApplicationController
   end
 
   def update
-    @order = current_user.orders.find(params[:id])
+    @order = policy_scope(Order).find(params[:id])
     if @order.update(order_params)
       flash[:notice] = "Order# #{@order.id}, Updated Successfully"
       redirect_to orders_path
@@ -73,7 +76,7 @@ class OrdersController < ApplicationController
   end
 
   def order_again
-    @old_order = current_user.orders.find(params[:id])
+    @old_order = policy_scope(Order).find(params[:id])
     @order = @old_order.dup
     @order.status = "Ordered"
     @order.created_at = nil

@@ -6,31 +6,61 @@ class OrderPolicy < ApplicationPolicy
   end
 
   def index?
-    true
+    unless user.admin || user.sales
+      return true
+    end
   end
 
   def show?
-    true
+    if user.admin || user.sales
+      return false
+    else
+      if self.user == user
+        return true
+      end
+    end
   end
 
   def create?
-    true
+    unless user.admin || user.sales
+      return true
+    end
   end
 
   def new?
-    true
+    unless user.admin || user.sales
+      return true
+    end
   end
 
   def edit?
-    true
+    if user.admin || user.sales
+      return false
+    else
+      if self.user == user
+        return true
+      end
+    end
   end
 
   def update?
-    true
+    if user.admin || user.sales
+      return false
+    else
+      if self.user == user
+        return true
+      end
+    end
   end
 
   def order_again?
-    true
+    if user.admin || user.sales
+      return false
+    else
+      if self.user == user
+        return true
+      end
+    end
   end
 
 end
