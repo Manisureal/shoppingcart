@@ -1,4 +1,5 @@
 ActiveAdmin.register Product do
+  menu if: proc{ current_user.admin? }
   actions :index, :show, :new, :create, :update, :edit
   permit_params :price, :description, :pack_size, :product_code, :minimum_stock, :buy_price, :active
 
