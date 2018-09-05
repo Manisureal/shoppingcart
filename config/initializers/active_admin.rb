@@ -1,5 +1,19 @@
 def authenticate_admin!
-  redirect_to new_user_session_path unless current_user && current_user.admin
+  # redirect_to new_user_session_path unless current_user && current_user.admin
+  case
+    when current_user.admin?
+      admin_root_path
+    when current_user.sales?
+      admin_sales_dashboard_path
+    else
+      redirect_to new_user_session_path
+  end
+end
+
+def admin_filter!
+  if current_user.sales?
+    raise ActionController::RoutingError.new('Restricted Route') unless request.controller_class == Admin::SalesDashboardController
+  end
 end
 
 ActiveAdmin.setup do |config|
@@ -8,7 +22,8 @@ ActiveAdmin.setup do |config|
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = "Caremeds Order Management System"
+  # config.site_title = "Caremeds Order Management System"
+  # config.authorization_adapter = "SalesDashboardAuthorization"
 
   # config.authorization_adapter = ActiveAdmin::PunditAdapter
 
@@ -54,6 +69,7 @@ ActiveAdmin.setup do |config|
 
   # == User Authentication
   config.authentication_method = :authenticate_admin!
+  # config.authentication_method = :authenticate_user!
   #
   # Active Admin will automatically call an authentication
   # method in a before filter of all controller actions to
@@ -164,7 +180,7 @@ ActiveAdmin.setup do |config|
 
   # == Setting a Favicon
   #
-  config.favicon = "https://png.icons8.com/ios/55/156DB1/circled-C.png"
+  config.favicon = 'https://png.icons8.com/ios/55/156DB1/circled-C.png'
 
   # == Meta Tags
   #
@@ -280,6 +296,7 @@ ActiveAdmin.setup do |config|
   #
   config.filters = true
   #
+  config.before_action :admin_filter!
   # By default the filters include associations in a select, which means
   # that every record will be loaded for each association.
   # You can enabled or disable the inclusion
@@ -292,7 +309,6 @@ ActiveAdmin.setup do |config|
   # By default, the footer shows the current Active Admin version. You can
   # override the content of the footer here.
   #
-  config.footer = 'Created with love at Caremeds'
 
   # == Sorting
   #

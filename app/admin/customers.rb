@@ -1,7 +1,7 @@
 ActiveAdmin.register User, as: "Customer" do
   permit_params :forname, :surname, :email, :password, :password_confirmation, :admin, :company_id
 
-  menu parent: "Users"
+  menu parent: "Users", if: proc{ current_user.admin? }
 
   remove_filter :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at,
                   :current_sign_in_at, :last_sign_in_at, :created_at, :updated_at, :admin
