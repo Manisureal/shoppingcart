@@ -3,7 +3,7 @@
   <div class="container white">
     <div class="row text-center">
       <% @day = Time.now.strftime("%H:%M:%S").to_i %>
-      <h1 class="pad-top">Good <%= (@day < 12) ? "Morning" : (@day > 12) ? "Afternoon" : (@day > 5) ? "Evening" : nil %> <%= @current_user.company.name.to_s %></h1>
+      <h1 class="pad-top">Good <%= (@day < 12) ? "Morning" : (@day >= 17) ? "Evening" : "Afternoon" %> <%= current_user.company.name.to_s %></h1>
       <h2>Welcome to Caremeds Ordering System</h2>
       <h4><%= Time.now.strftime("%A") %> - <%= Time.now.strftime("%I:%M %p") %></h4>
     </div>
@@ -25,7 +25,7 @@
     <div class="row">
       <div class="col-xs-12 text-center">
         <h4><u>Ordering Tips</u></h4>
-        <!-- <p> * Place an order before 2 PM for disptach the following day</p> -->
+        <!-- <p> * Place an order before 2 PM for same day disptach</p> -->
         <p> * Please allow upto 3 working days for delivery(excludes bank Holidays)</p>
         <p> * Carriage is charged at £8 per box</p>
         <p> * All prices are exclusive of VAT</p>
