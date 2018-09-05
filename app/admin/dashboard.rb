@@ -17,7 +17,7 @@ ActiveAdmin.register_page "Dashboard" do
                 column("Customer") { |order| link_to(order.company.name.to_s, admin_company_path(order.company)) }
                 # require
                 column("Total")   { |order| number_to_currency order.total_price }
-                column() { |order| link_to( icon('check'), admin_order_path(order) + "?take_order=true" ) }
+                column("Take Order") { |order| link_to( icon('check'), admin_order_path(order) + "?take_order=true" ) }
               end
             end
           end
