@@ -24,7 +24,7 @@ ActiveAdmin.register User, as: "Sales Staff" do
   form do |f|
     f.inputs "Identity" do
       if current_user.admin?
-        f.input :company
+        f.input :company, as: :select, collection: Company.where(id: 96).collect { |c| [c.name,c.id]}
       end
       f.input :email
       f.input :forname
