@@ -23,16 +23,27 @@ ActiveAdmin.register User, as: "Sales Staff" do
 
   form do |f|
     f.inputs "Identity" do
-      f.input :company
+      if current_user.admin?
+        f.input :company
+      end
       f.input :email
       f.input :forname
       f.input :surname
       f.input :password
     end
-    f.inputs "Sales" do
-      f.input :sales
+    # if f.object.new_record?
+    # unless f.object.persisted?
+    if current_user.admin?
+      f.inputs "Sales" do
+        f.input :sales
+      end
     end
-    f.actions
+    # f.actions
+    f.actions do
+      f.action :submit
+      f.action :cancel, as: :link, label: "Cancel", button_html: { class: "cancel-btn" }
+      # f.cancel_link({action: "back"})
+    end
   end
 
 end

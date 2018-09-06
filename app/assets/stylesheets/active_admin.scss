@@ -43,6 +43,35 @@
   flex-wrap:wrap;
 }
 
+// Sales Staff Form //
+.cancel-btn {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.12);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgba(0, 0, 0, 0.7);
+  background: transparent;
+  border-radius: 2px;
+  border: 0;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 18px;
+  margin: 4px;
+  padding: 12px 8px;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.25s all;
+  user-select: none;
+  text-decoration:none;
+}
+
+.cancel-btn:link:hover {
+    text-decoration:none;
+    background: #0089d2;
+    color:#fff;
+}
+
 // Another way of adjusting the tables on dashboard
 // .col-adjust {
 //   display: table;

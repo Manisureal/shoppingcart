@@ -12,7 +12,9 @@ end
 
 def admin_filter!
   if current_user.sales?
-    raise ActionController::RoutingError.new('Restricted Route') unless request.controller_class == Admin::SalesDashboardController
+    unless request.controller_class == Admin::SalesDashboardController || request.controller_class == Admin::SalesStaffsController
+      raise ActionController::RoutingError.new('Restricted Route')
+    end
   end
 end
 
@@ -241,7 +243,11 @@ ActiveAdmin.setup do |config|
     config.namespace :admin do |admin|
       admin.build_menu :utility_navigation do |menu|
         menu.add  :label  => 'Edit My Profile',#proc{ display_name current_active_admin_user },
-                  :url    =>  proc{  admin_staff_path(current_active_admin_user) }  ,#link_to current_active_admin_user,
+                  :url    =>  proc{  if current_user.admin?
+                                      admin_staff_path(current_active_admin_user)
+                                     elsif current_user.sales?
+                                      edit_admin_sales_staff_path(current_active_admin_user)
+                                     end }  ,#link_to current_active_admin_user,
                   :id     => 'current_user',
                   :if     => proc{ current_active_admin_user? }
         admin.add_logout_button_to_menu menu
