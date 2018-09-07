@@ -1,0 +1,102 @@
+<table style="color:#696969;">
+  <tr>
+    <th>Order#</th>
+    <th>Status</th>
+    <th>Total Price</th>
+    <th>Created At</th>
+    <th>Customer</th>
+    <th>Company</th>
+    <th>Admin Assigned</th>
+  </tr>
+
+<% Company.all.where(account_owner: current_user.id).each do |companies| %>
+  <% @companies_orders = companies.orders.page(params[:page]).per(15) %>
+    <% @companies_orders.each do |co| %>
+    <tr>
+      <td><%= co.id %></td>
+      <% if co.status == "Incomplete" %>
+      <td class="status_tag Incomplete"><%= co.status.upcase %></td>
+      <% elsif co.status == "Dispatched" %>
+      <td class="status_tag Dispatched"><%= co.status.upcase %></td>
+      <% elsif co.status == "Ordered" %>
+      <td class="status_tag Ordered"><%= co.status.upcase %></td>
+      <% else %>
+      <td class="status_tag Cancelled"><%= co.status.upcase %></td>
+      <% end %>
+      <td><%= co.total_price %></td>
+      <td><%= co.created_at %></td>
+      <td><%= co.user.forname %></td>
+      <td><%= co.company.name %></td>
+      <td><%= co.taken_by %></td>
+    </tr>
+    <% end %>
+<% end %>
+</table>
+<%= paginate @companies_orders %>
+
+<style>
+  table {
+    border-collapse: collapse;
+    max-width: 100%;
+    table-layout: fixed;
+    word-wrap:break-all;
+    box-shadow: 0px 4px 8px 0px rgba(176,176,176,1)
+    /*display: flex;
+    flex-flow: column;*/
+    /*word-wrap:break-word;*/
+  }
+
+  td, th {
+    text-align: left;
+    padding: 8px;
+    white-space: normal;
+    word-wrap:break-all;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  .status_tag {
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    letter-spacing: 0.1em;
+    line-height: 16px;
+    padding: 4px 8px;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+    align-items: center;
+    margin:12px;
+  }
+
+  .Incomplete {
+    background-color:yellow;
+    color:white !important;
+    font-weight:bold !important;
+    color:grey !important;
+  }
+
+  .Dispatched {
+    background-color:green;
+    color:white !important;
+    font-weight:bold !important;
+  }
+
+  .Ordered {
+    background-color:red;
+    color:white !important;
+    font-weight:bold !important;
+  }
+
+  .Cancelled {
+    background-color:grey;
+    color:white !important;
+    font-weight:bold !important;
+  }
+</style>
