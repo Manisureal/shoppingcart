@@ -23,9 +23,9 @@
       <% else %>
       <td class="status_tag Cancelled"><%= co.status.upcase %></td>
       <% end %>
-      <td><%= co.total_price %></td>
-      <td><%= co.created_at %></td>
-      <td><%= co.user.forname %></td>
+      <td><%= number_to_currency co.total_price %></td>
+      <td><%= co.created_at.strftime("%A, %b %d - %H:%M:%S") %></td>
+      <td><%= co.user.forname + " " + co.user.surname %></td>
       <td><%= co.company.name %></td>
       <td><%= co.taken_by %></td>
     </tr>

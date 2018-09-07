@@ -1,9 +1,9 @@
 ActiveAdmin.register_page "Sales Dashboard" do
-  menu if: proc{current_user.sales?}
+  menu if: proc{current_user.sales?}, label: proc{current_user.forname.to_s + "'s" + " " + "Dashboard"}
   breadcrumb { false }
 
 
-  content do
+  content title: proc{current_user.forname.to_s + "'s" + " " + "Dashboard"} do
     tabs do
       tab :customers do
         columns class: "cols-adjust" do
