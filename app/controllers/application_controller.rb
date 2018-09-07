@@ -3,9 +3,11 @@ class ApplicationController < ActionController::Base
   helper_method :current_order
   helper_method :reset_session
   before_action :configure_permitted_parameters, if: :devise_controller?
+
   #Devise
   protect_from_forgery
   before_action :authenticate_user!
+
   #Pundit
   include Pundit
   # Pundit: white-list approach.
@@ -25,6 +27,17 @@ class ApplicationController < ActionController::Base
 
     # For additional in app/views/devise/registrations/edit.html.erb
     devise_parameter_sanitizer.permit(:account_update, keys: [:forname, :surname])
+  end
+
+  def after_sign_in_path_for(resource)
+    case
+      when current_user.admin?
+        admin_root_path
+      when current_user.sales?
+        admin_sales_dashboard_path
+      else
+        root_path
+    end
   end
 
   def current_order
