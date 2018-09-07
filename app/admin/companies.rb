@@ -98,7 +98,9 @@ ActiveAdmin.register Company do
       f.input :phone
       f.input :fax
       f.input :email
-      f.input :account_owner, as: :select, collection: ["Caremeds","Kristian Bade"]
+      # f.input :account_owner, as: :select, collection: ["Caremeds","Kristian Bade"]
+      f.input :account_owner, as: :select, collection: User.where(sales: true).collect { |u| [u.forname, u.id] }, include_blank: "Caremeds"
+      # f.input :account_manager_id, as: :select, collection: User.where(sales: true).collect { |u| [u.forname, u.id] }, include_blank: "Caremeds"
       f.actions
     end
   end

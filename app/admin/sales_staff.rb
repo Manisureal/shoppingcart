@@ -1,6 +1,7 @@
 ActiveAdmin.register User, as: "Sales Staff" do
   permit_params :forname, :surname, :email, :password, :password_confirmation, :sales, :company_id
   menu parent: "Users", if: proc{ current_user.admin? }
+  breadcrumb {}
 
   controller do
     def scoped_collection
