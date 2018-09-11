@@ -1,0 +1,37 @@
+<div style="padding:16px;">
+  <%= form_tag(admin_sales_dashboard_orders_search_path, method: :get, remote: true) do %>
+    <br><p style="color:#5E6469;">Search for Total Orders using the following Date Range Search...</p><br>
+    <div style="display:flex;">
+      <%#= date_field_tag 'date_from', @date_from %>
+      <%= text_field_tag 'date_from', @date_from, placeholder: "Choose a Start Date" %>
+      <%= text_field_tag 'date_to', @date_to, placeholder: "Choose an End Date" %>
+      <%= submit_tag 'Search', class: 'stock-search-btn', id: 'stock-search-btn' %>
+    </div>
+  <% end %>
+</div>
+
+<div class="results-table"></div>
+
+<style>
+  #date_from, #date_to{
+    width: 25%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  #stock-search-btn {
+    /*border-radius:100%;*/
+    margin:8px 0;
+    min-width:0;
+  }
+
+</style>
+
+<script>
+  $('#date_from').datepicker({dateFormat: 'yy-mm-dd'});
+  $('#date_to').datepicker({dateFormat: 'yy-mm-dd'});
+</script>
