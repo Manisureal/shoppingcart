@@ -9,11 +9,11 @@
     <th>Admin Assigned</th>
   </tr>
 
-  <% arr = [] %>
+  <% companies_orders_arr = [] %>
   <% Company.all.where(account_owner: current_user.id).each do |companies| %>
     <%# @companies_orders = companies.orders.where('created_at >= ? AND created_at <= ?', @date_from.midnight..@date_from.end_of_day, @date_to.to_time.end_of_day).page(params[:companies_orders]).per(15).order("id desc")%>
-    <% arr << companies.orders.where('created_at >= ? AND created_at <= ?', @date_from.midnight..@date_from.end_of_day, @date_to.to_time.end_of_day).count %>
-    <% @tco =  arr.sum %>
+    <% companies_orders_arr << companies.orders.where('created_at >= ? AND created_at <= ?', @date_from.midnight..@date_from.end_of_day, @date_to.to_time.end_of_day).count %>
+    <%# @tco =  companies_orders_arr.sum %>
     <% @companies_orders = companies.orders.where('created_at >= ? AND created_at <= ?', @date_from.midnight..@date_from.end_of_day, @date_to.to_time.end_of_day).page(params[:companies_orders]).per(15).order("id desc")%>
     <% @companies_orders.where('created_at BETWEEN ? AND ?', @date_from.midnight..@date_from.end_of_day, @date_to.to_time.end_of_day).per(15).each do |co| %>
       <%# @companies_orders.where("created_at IN (?)",@date_from..@date_to.end_of_day).each do |co| %>
@@ -41,9 +41,16 @@
   <% end %>
 </table>
 
+<!-- Count Companies that have that more than zero orders -->
+<% companies_with_orders_arr = [] %>
+<% companies_orders_arr.each do |a| %>
+  <% companies_with_orders_arr << a unless a == 0 %>
+<% end %>
+
 <div class="pagination">
   <div class="float-right">
-    <%= @tco %>
+    <%= "Displaying Total of <b>#{companies_orders_arr.sum}</b> ".html_safe + "Orders for <b>#{companies_with_orders_arr.count}</b>".html_safe + " Companies"%>
+    <%# #{companies_orders_arr.page(params[:companies_orders]).per(15).length} %>
     <%#= page_entries_info @companies_orders %>
   </div>
   <div class="pad-right">
