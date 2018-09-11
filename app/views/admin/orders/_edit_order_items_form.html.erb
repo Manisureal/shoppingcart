@@ -22,7 +22,7 @@
         <!-- <td><%#= object.product.product_code %></td> -->
 
     <tr>
-      <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.product_code,p.id,class: "product_code-#{p.id}"]},
+      <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.order(product_code: :asc).collect { |p| [p.product_code,p.id,class: "product_code-#{p.id}"]},
                         input_html: { class: " chosen-select product_code product_code-#{p_code_counter+=1}"} %></td>
       <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.description,p.id]},
                         input_html: { class: "product_description product_description-#{p_desc_counter+=1}", disabled: true} %></td>
@@ -71,7 +71,7 @@
         <!-- <td><%#= object.product.product_code %></td> -->
 
     <tr>
-      <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.product_code,p.id,class: "product_code-#{p.id}"]},
+      <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.order(product_code: :asc).collect { |p| [p.product_code,p.id,class: "product_code-#{p.id}"]},
                         input_html: { class: " chosen-select product_code product_code-#{p_code_counter+=1}"} %></td>
       <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.description,p.id]},
                         input_html: { class: "product_description product_description-#{p_desc_counter+=1}", disabled: true} %></td>
