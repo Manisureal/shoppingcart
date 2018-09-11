@@ -8,7 +8,7 @@ ActiveAdmin.register_page "Sales Dashboard" do
       tab :customers do
         columns class: "cols-adjust" do
           column do
-            panel "MY CUSTOMERS", class: "orders" do
+            panel "MY CUSTOMERS" do
               render partial: "sales_customers"
             end
           end
