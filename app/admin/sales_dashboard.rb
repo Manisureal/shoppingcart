@@ -19,27 +19,21 @@ ActiveAdmin.register_page "Sales Dashboard" do
         columns class: "cols-adjust" do
           column do
             panel "CUSTOMER ORDERS" do
-              render partial: "sales_customers_orders"
+              render partial: "sales_customers_orders_search"
             end
           end
         end
       end
+    end
+  end
 
-      # tab :customers do
-      #   columns class: "cols-adjust" do
-      #     column do
-      #       panel "RECENT CUSTOMERS" do
-      #         table_for User.where(admin: false).order("id desc").limit(10).each do |user|
-
-      #           column(:customer_name) { |user| (user.forname ? user.forname : 'Unknown') + ' ' + (user.surname ? user.surname : 'User')}
-
-      #           column(:customer_email) { |user| link_to(user.email, admin_staff_path(user)) }
-      #           column(:last_signed) { |user| user.last_sign_in_at }
-      #         end
-      #       end
-      #     end
-      #   end
-      # end
+  page_action :orders_search do
+    # if @date_from = params[:date_from].blank? ? nil : DateTime.parse(params[:date_from]) and
+    #    @date_to = params[:date_to].blank? ? nil : DateTime.parse(params[:date_to])
+    @date_from = DateTime.parse(params[:date_from])
+    @date_to = DateTime.parse(params[:date_to])
+    respond_to do |format|
+      format.js # actually means: if the client ask for js -> return file.js
     end
   end
 end
