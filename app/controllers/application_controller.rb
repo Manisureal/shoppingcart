@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
 
   #Devise
   protect_from_forgery
+  #If the user is coming from an external link, take them to the link after authenticating/logging in
+  before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
 
   #Pundit
@@ -30,14 +32,15 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    case
-      when current_user.admin?
-        admin_root_path
-      when current_user.sales?
-        admin_sales_dashboard_path
-      else
-        root_path
-    end
+    stored_location_for(resource) || super
+    # case
+    #   when current_user.admin?
+    #     admin_root_path
+    #   when current_user.sales?
+    #     admin_sales_dashboard_path
+    #   else
+    #     root_path
+    # end
   end
 
   def current_order
@@ -56,6 +59,21 @@ class ApplicationController < ActionController::Base
 
   def skip_pundit?
     devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
+  end
+
+  # The below two methods are to help a user to redirect back to the external link after logging in
+  # Its important that the location is NOT stored if:
+    # - The request method is not GET (non idempotent)
+    # - The request is handled by a Devise controller such as Devise::SessionsController as that could cause an
+    #    infinite redirect loop.
+    # - The request is an Ajax request as this can lead to very unexpected behaviour.
+  def storable_location?
+    request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
+  end
+
+  def store_user_location!
+    # :user is the scope we are authenticating
+    store_location_for(:user, request.fullpath)
   end
 
 end

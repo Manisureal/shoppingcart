@@ -1,0 +1,101 @@
+<% @day = Time.now.strftime("%H:%M:%S").to_i %>
+<p>Good <%= (@day < 12) ? "Morning" : (@day >= 17) ? "Evening" : "Afternoon" %>,</p>
+
+<% if @dispatched_order.status == "Dispatched" %>
+<p>
+  Your <b>order# <%= @dispatched_order.id %></b> was successfully processed and has now been <b>Dispatched</b>.
+</p>
+<% else %>
+<p>
+  Your <b>order# <%= @dispatched_order.id %></b> was successfully processed and has now been <b>Partially Dispatched</b>.
+</p>
+<% end %>
+
+<h4>Order Summary:</h4>
+
+<table class="t-color" ;">
+  <tr>
+    <th>Shipping Address</th>
+    <th>Details</th>
+    <th>Order Notes</th>
+  </tr>
+  <tr>
+    <% @split = @dispatched_order.address.split(',') %>
+    <td> <p><%= raw @split.join("<br />") %></p> </td>
+    <td>
+      Order for: <b><%= @dispatched_order.user.forname %></b><br>
+      Company: <b><%= @dispatched_order.user.company ? @dispatched_order.user.company.name : "Nil" %></b><br>
+      Order Date: <b><%= @dispatched_order.created_at.strftime("%A, %b %d") %></b><br>
+      Order Time: <b><%= @dispatched_order.created_at.strftime("%H:%M:%S") %></b><br>
+    </td>
+    <td>
+      <%= @dispatched_order.notes.empty? ? "N/A" : @dispatched_order.notes  %>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th>Product Code</th>
+    <th>Description</th>
+    <th>Quantity Requested</th>
+    <th>Quantity Dispatched</th>
+    <th>Quantity Pending Dispatch</th>
+    <th>Total Price</th>
+  </tr>
+  <% @dispatched_order.order_items.each do |oi| %>
+  <tr>
+    <td> <%= oi.product.product_code %></td>
+    <td> <%= oi.product.description %></td>
+    <td> <%= oi.quantity %></td>
+    <td> <%= oi.incomplete_quantity %></td>
+    <td> <%= oi.quantity - oi.quantity_dispatched %></td>
+    <td> <%= number_to_currency oi.product.price * oi.incomplete_quantity.to_i %></td>
+  <% end %>
+  </tr>
+
+  <tr>
+    <td colspan="5" class="right"><b>Order Total:</b></td>
+    <td colspan=""><b> <%=number_to_currency @dispatched_order.calculate_total %> </b></td>
+  </tr>
+</table>
+
+<p>For full Order and Tracking details, <%= link_to "Click Here!", "http://localhost:3001/orders/#{@dispatched_order.id}", :target => "_blank" %></p>
+<!-- <p>Click on <b>My Orders</b>, Then Choose <b>Order#<%= @dispatched_order.id %></b> to view. </p> -->
+
+<p><u><b>Order Tips:</b></u></p>
+<% if @dispatched_order.status == "Incomplete" %>
+  <p><i>* Why is my Order Partially Dispatched?</i></p>
+  <p style="color:#00689f;"><i>&nbsp;&nbsp;If you are receiving a part order, this maybe due to stock being on backorder or there wasnt enough time to complete the full order upon this dispatch. Rest assured, you will receive the pending quantity in another order dispatch.</i></p>
+<% end %>
+<p><i>* How long do I have to check my Order for Discrepancy?</i></p>
+<p style="color:#00689f;"><i>&nbsp;&nbsp;Orders must be checked for discrepancies within 3 days of receiving.</i></p>
+
+<p>Regards,</p>
+<p>
+  Caremeds Ordering System<br>
+  CareMeds Ltd<br>
+  Tel: +44 1794 400 100<br>
+  Web: www.caremeds.co.uk
+</p>
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  .right {
+    text-align: right;
+  }
+</style>
