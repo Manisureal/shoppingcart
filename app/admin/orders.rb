@@ -198,6 +198,7 @@ ActiveAdmin.register Order do
               nci.order_item_id = oi.id
               @new_consignment_for_incmp.consignment_items << nci
             end
+            OrderMailer.order_dispatched(@order).deliver_now
             redirect_to admin_root_path, alert: "Order# #{@order.id} has been marked as Incomplete"
 
           elsif @order.status == "Dispatched"
@@ -208,6 +209,7 @@ ActiveAdmin.register Order do
               nci.order_item_id = ci.id
               @new_consignment_for_disptch.consignment_items << nci
             end
+            OrderMailer.order_dispatched(@order).deliver_now
             redirect_to admin_root_path, notice: "Order# #{@order.id} was successfully marked as Dispatched"
           end
         end
