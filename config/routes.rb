@@ -19,4 +19,5 @@ Rails.application.routes.draw do
     end
   end
   get '/order_again/:id', to: 'orders#order_again', as: 'reorder'
+  delete '/cancel_order/:id', to: 'orders#cancel_order', as: 'cancel_order'
 end

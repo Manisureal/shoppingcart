@@ -17,10 +17,12 @@
 .message-name {
   padding-left: 10px;
   min-width: 100px;
+  font-weight:bold;
 }
 .message-name h3 {
   font-size: 13px;
   margin-bottom: 0px;
+  font-weight:bold;
 }
 .message-name p {
   font-size: 13px;
@@ -56,6 +58,17 @@
 }
 .status.pending {
   color: grey;
+}
+.status.cancelled {
+  color:red;
+}
+
+.message-actions {
+  display:flex;
+  padding-left:50px;
+  & p {
+    padding-left:10px;
+  }
 }
 
 .no-order {

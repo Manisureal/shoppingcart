@@ -95,6 +95,15 @@ class OrdersController < ApplicationController
     render :new
   end
 
+  def cancel_order
+    @order = policy_scope(Order).find(params[:id])
+    @order.status = "Cancelled"
+    if @order.save
+      redirect_to orders_path, notice: "Your Order# #{@order.id} was successfully Cancelled!"
+    end
+    authorize @order
+  end
+
   private
 
   def order_params

@@ -1,8 +1,8 @@
-<%= provide(:title, @current_user.company.name.to_s + ' ' + 'Orders') %>
+<%= provide(:title, @current_user.company.name + ' ' + 'Orders') %>
 <div class="container">
   <div class="message">
     <div class="col-xs-12 col-md-6" style="font-size:2.2em;color:#696969;">
-      <b><%= current_user.company.name.to_s %>'s Orders</b>
+      <b><%= current_user.company.name.to_s %> Orders</b>
     </div>
     <% if @orders.presence != nil %>
     <div class="col-xs-12 col-md-6 text-right">
@@ -12,7 +12,7 @@
   </div>
   <% if @orders.any? %>
   <% @orders.each do |o| %>
-    <%= link_to order_path(o) do %>
+    <%#= link_to order_path(o) do %>
       <div class="message">
         <div class="message-name">
           <h3>Order# <%= o.id %></h3>
@@ -40,12 +40,21 @@
           <p class="status accepted"><%= o.status %></p>
           <% elsif o.status == "Incomplete" %>
           <p class="status declined"><%= o.status %> </p>
+          <% elsif o.status == "Cancelled" %>
+          <p class="status cancelled"><%= o.status %></p>
           <% end %>
           <p class="price"><%= number_to_currency o.calculate_total %></p>
           <%#= link_to "Delete", orders_path(o) ,method: :destroy, data: {confirm: "Are you sure?"}, class: "btn btn-success" %>
         </div>
+        <div class="message-actions">
+          <p><%= link_to order_path(o.id) do %><i class="fa fa-eye"></i><% end %></p>
+          <% if o.status == "Ordered" %>
+          <p><%= link_to edit_order_path(o.id) do %><i class="fa fa-pencil"></i><% end %></p>
+          <p><%= link_to cancel_order_path(o.id),method: :delete, data: {confirm: "Are you sure you want to cancel this order?"} do %><i class="fa fa-trash"></i><% end %></p>
+          <% end %>
+        </div>
       </div>
-    <% end %>
+    <%# end %>
   <% end %>
   <% else %>
   <div class="col-xs-12">
