@@ -2,7 +2,12 @@
 <% @order_items = @order.order_items %>
 
 <% if @order.status == "Cancelled" %>
-  <p id="cancel-notice">Order# <%= @order.id %> was cancelled by <%= @order.taken_by.blank? ? "No Admin was assigned" : @order.taken_by %>!</p>
+  <% if !@order.taken_by.blank? %>
+    <p id="cancel-notice">Order# <%= @order.id %> was cancelled by <%= @order.taken_by.blank? ? "No Admin was assigned" : @order.taken_by %>!</p>
+  <% else %>
+    <% @order.audits.last.audited_changes.each { |k,v| @status = v.last} %>
+    <p id="cancel-notice">Order# <%= @order.id %> was <%=@status %> by <%= @order.audits.last.user.company.name %></p>
+  <% end %>
 <% end %>
 
 <table style="color:#696969;">

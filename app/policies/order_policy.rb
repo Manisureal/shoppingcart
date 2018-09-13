@@ -63,4 +63,14 @@ class OrderPolicy < ApplicationPolicy
     end
   end
 
+  def cancel_order?
+    if user.admin || user.sales
+      return false
+    else
+      if self.user == user
+        return true
+      end
+    end
+  end
+
 end
