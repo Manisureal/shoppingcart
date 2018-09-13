@@ -1,101 +1,103 @@
 <%= provide(:title, 'Order#' + ' ' + @order.id.to_s) %>
-<table class="t-color" ;"><tr><td><h1 class="text-center">Order# <%= @order.id %> <small>Summary</small></h1></td></tr></table>
+<div id="order-show-page">
+  <table class="t-color" ;"><tr><td><h1 class="text-center">Order# <%= @order.id %> <small>Summary</small></h1></td></tr></table>
 
-<table class="t-color" ;" onclick="toggle_visibility('foo')"><tr><td class="pointer text-center"><a>Click for Tracking Information</a></td></tr></table>
+  <table class="t-color" ;" onclick="toggle_visibility('foo')"><tr><td class="pointer text-center"><a>Click for Tracking Information</a></td></tr></table>
 
-<table class="t-color" ;" id="foo">
-  <tr>
-    <th>Tracking No</th>
-    <th>Items Disptached</th>
-    <th>Disptached</th>
-    <th>Order Status</th>
-    <th>Boxes Sent</th>
-    <th>Notes</th>
-  </tr>
-<% @order.consignments.each do |c| %>
-  <tr>
-    <td>
-    <% if c.tracking_no == "" %>
-      Provided Upon Disptach
-    <% else %>
-      <a href="javascript:void();" onclick="$.ajax('<%= track_consignment_path(c) %>.js')"> <%= c.tracking_no %></a>
+  <table class="t-color" ;" id="foo">
+    <tr>
+      <th>Tracking No</th>
+      <th>Items Disptached</th>
+      <th>Disptached</th>
+      <th>Order Status</th>
+      <th>Boxes Sent</th>
+      <th>Notes</th>
+    </tr>
+  <% @order.consignments.each do |c| %>
+    <tr>
+      <td>
+      <% if c.tracking_no == "" %>
+        Provided Upon Disptach
+      <% else %>
+        <a href="javascript:void();" onclick="$.ajax('<%= track_consignment_path(c) %>.js')"> <%= c.tracking_no %></a>
+      <% end %>
+      </td>
+      <td><%= c.item_details %> <br> <%= "Total: #{c.dispatched_quantity}/#{c.orderitem_quantity_req_tot}" %> </td>
+      <td><%= c.shipped_at.strftime("%A, %e %b - %H:%M %p") %></td>
+      <td><%= c.status %></td>
+      <td><%= c.boxes %></td>
+      <td><%= c.notes %></td>
+    </tr>
+  <% end %>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+
+  </table>
+
+  <table class="t-color" ;">
+    <tr>
+      <th>Shipping Address</th>
+      <th>Details</th>
+      <th>Order Notes</th>
+    </tr>
+    <tr>
+      <% @split = @order.address.split(',') %>
+      <td> <p><%= raw @split.join("<br />") %></p> </td>
+      <td>
+        Order for: <b><%= current_user.forname %></b><br>
+        Company: <b><%= current_user.company ? current_user.company.name : "Nil" %></b><br>
+        Order Date: <b><%= @order.created_at.strftime("%A, %b %d") %></b><br>
+        Order Time: <b><%= @order.created_at.strftime("%H:%M:%S") %></b><br>
+      </td>
+      <td>
+        <%= @order.notes.empty? ? "N/A" : @order.notes  %>
+      </td>
+    </tr>
+  </table>
+
+  <table class="t-color" ;">
+    <tr>
+      <th>Product Code</th>
+      <th>Description</th>
+      <th>Unit Price</th>
+      <th>Quantity</th>
+      <th>Pack Size</th>
+      <th>Total Price</th>
+    </tr>
+  <% if @order_items.any? %>
+  <% @order_items.each do |item| %>
+    <tr>
+      <td><%= item.product.product_code %></td>
+      <td><%= item.product.description %></td>
+      <td><%= number_to_currency item.product.price %></td>
+      <td><%= item.quantity %></td>
+      <td><%= item.product.pack_size %></td>
+      <td><%= number_to_currency item.product.price * item.quantity.to_i %></td>
+    </tr>
     <% end %>
-    </td>
-    <td><%= c.item_details %> <br> <%= "Total: #{c.dispatched_quantity}/#{c.orderitem_quantity_req_tot}" %> </td>
-    <td><%= c.shipped_at.strftime("%A, %e %b - %H:%M %p") %></td>
-    <td><%= c.status %></td>
-    <td><%= c.boxes %></td>
-    <td><%= c.notes %></td>
-  </tr>
-<% end %>
-  <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr>
+      <th><%= link_to "My Orders", orders_path, class: "btn btn-info" %></th>
+      <th><%= link_to "Order Again", reorder_path, class: "btn btn-success" %></th>
+      <td><% if @order.status == "Ordered" %>
+      <%= link_to "Edit Orders", edit_order_path(@order), class: "btn btn-warning" %>
+      <% end %></td>
+      <td colspan="2" class="text-right"><b>Your Order Total:</b></td>
+      <td colspan=""><b> <%=number_to_currency @order.calculate_total %> <%#= current_order.calculate_total %></b></td>
+    </tr>
+    <tr>
+      <%# storage = [] %>
+      <%# @order.order_items.each { |a| storage += a.audits } %>
+      <%# storage.flatten.each {|f| @f =f.audited_changes} %>
+      <%#= @f %>
+    </tr>
+    <% end %>
+  </table>
 
-</table>
-
-<table class="t-color" ;">
-  <tr>
-    <th>Shipping Address</th>
-    <th>Details</th>
-    <th>Order Notes</th>
-  </tr>
-  <tr>
-    <% @split = @order.address.split(',') %>
-    <td> <p><%= raw @split.join("<br />") %></p> </td>
-    <td>
-      Order for: <b><%= current_user.forname %></b><br>
-      Company: <b><%= current_user.company ? current_user.company.name : "Nil" %></b><br>
-      Order Date: <b><%= @order.created_at.strftime("%A, %b %d") %></b><br>
-      Order Time: <b><%= @order.created_at.strftime("%H:%M:%S") %></b><br>
-    </td>
-    <td>
-      <%= @order.notes.empty? ? "N/A" : @order.notes  %>
-    </td>
-  </tr>
-</table>
-
-<table class="t-color" ;">
-  <tr>
-    <th>Product Code</th>
-    <th>Description</th>
-    <th>Unit Price</th>
-    <th>Quantity</th>
-    <th>Pack Size</th>
-    <th>Total Price</th>
-  </tr>
-<% if @order_items.any? %>
-<% @order_items.each do |item| %>
-  <tr>
-    <td><%= item.product.product_code %></td>
-    <td><%= item.product.description %></td>
-    <td><%= number_to_currency item.product.price %></td>
-    <td><%= item.quantity %></td>
-    <td><%= item.product.pack_size %></td>
-    <td><%= number_to_currency item.product.price * item.quantity.to_i %></td>
-  </tr>
-  <% end %>
-  <tr>
-    <th><%= link_to "My Orders", orders_path, class: "btn btn-info" %></th>
-    <th><%= link_to "Order Again", reorder_path, class: "btn btn-success" %></th>
-    <td><% if @order.status == "Ordered" %>
-    <%= link_to "Edit Orders", edit_order_path(@order), class: "btn btn-warning" %>
-    <% end %></td>
-    <td colspan="2" class="text-right"><b>Your Order Total:</b></td>
-    <td colspan=""><b> <%=number_to_currency @order.calculate_total %> <%#= current_order.calculate_total %></b></td>
-  </tr>
-  <tr>
-    <%# storage = [] %>
-    <%# @order.order_items.each { |a| storage += a.audits } %>
-    <%# storage.flatten.each {|f| @f =f.audited_changes} %>
-    <%#= @f %>
-  </tr>
-  <% end %>
-</table>
-
-<table class="t-color" ;">
-  <tr style="float:left;">
-    <td><b>Latest Admin Notes:</b> <%= @order.consignments.last and @order.consignments.last.notes.nil? ? "Confirmed on Dispatch" : @order.consignments.last.notes %></td>
-  </tr>
-  <tr style="float:right;">
-    <td><b>Last Boxes Dispatched:</b> <%= @order.consignments.last and @order.consignments.last.boxes.nil? ? "Confirmed on Dispatch" : @order.consignments.last.boxes %></td>
-  </tr>
-</table>
+  <table class="t-color" ;">
+    <tr style="float:left;">
+      <td><b>Latest Admin Notes:</b> <%= @order.consignments.last and @order.consignments.last.notes.nil? ? "Confirmed on Dispatch" : @order.consignments.last.notes %></td>
+    </tr>
+    <tr style="float:right;">
+      <td><b>Last Boxes Dispatched:</b> <%= @order.consignments.last and @order.consignments.last.boxes.nil? ? "Confirmed on Dispatch" : @order.consignments.last.boxes %></td>
+    </tr>
+  </table>
+</div>
