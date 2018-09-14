@@ -1,5 +1,5 @@
 <%= simple_form_for @order do |f| %>
-<div class="container">
+<div class="form-container">
   <div class="row pad-top-bot">
     <div class="col-md-4 dark-grey">
       <h4>Shipping Address</h4>
@@ -16,6 +16,13 @@
       <h4>Order Notes</h4>
       <%= f.text_area :notes %>
     </div>
+  </div>
+
+  <div class="pad-top-bot dark-grey" style="font-style:italic;">
+    <p><u><b>Ordering Tips:</b></u></p>
+    <p>If you change your mind after placing an order, You can do one of the following as long as the order is in <b>Ordered</b> Status:</p>
+    <p>- <b>Edit</b> your Order from <%= link_to "My Orders", orders_path %> page by clicking on <i class="fa fa-pencil" style="color:#469AE0"></i></p>
+    <p>- <b>Cancel</b> your Order from <%= link_to "My Orders", orders_path %> page by clicking on <i class="fa fa-trash" style="color:red"></i></p>
   </div>
 
   <div class="row text-center dark-grey" style="background-color:;">
@@ -74,7 +81,7 @@
   </div>
     <% my_counter = my_counter.to_i + 1 %>
     <% end %>
-  <div class="row pad-top-bot" style="background-color:#fffafa;">
+  <div class="row pad-top-bot">
     <div class="col-md-2">
       <%= f.submit "Submit Order", class: "btn btn-primary"%>
   <% end %>

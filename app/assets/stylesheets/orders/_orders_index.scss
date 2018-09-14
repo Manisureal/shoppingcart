@@ -1,6 +1,9 @@
 // body {
 //   background-color: #fff;
 // }
+.orders-index {
+  margin:24px;
+}
 .message {
   // background-color: #F8F8FF;
   background-color: white;
@@ -65,10 +68,10 @@
 }
 
 .message-actions {
-  display:flex;
+  // display:flex;
   padding-left:50px;
   & p {
-    padding-left:10px;
+    // padding-left:10px;
   }
 }
 
