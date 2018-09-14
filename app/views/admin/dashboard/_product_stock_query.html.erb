@@ -1,0 +1,17 @@
+<%= form_tag(admin_dashboard_product_stock_query_search_path, method: :get, remote: true) do %>
+  <br><p style="color:#5E6469;padding-left: 20px;">Check Products Stock history...</p><br>
+  <div style="display:flex;">
+    <%#= date_field_tag 'date_from', @date_from %>
+    <% @product_stock_query = Product.all %>
+    <%= select_tag 'product_stock_query', options_from_collection_for_select(@product_stock_query,"id", "description"), class: 'chosen-select', prompt: "Select a Product" %>
+    <%= submit_tag 'Search', id: "stock-search-btn" %>
+  </div>
+<% end %>
+
+<div class="product-stock-query-results-table"></div>
+
+<style>
+  #product_stock_query_chosen {
+    padding: 12px 20px;
+  }
+</style>

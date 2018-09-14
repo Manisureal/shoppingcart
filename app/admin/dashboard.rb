@@ -74,6 +74,17 @@ ActiveAdmin.register_page "Dashboard" do
           end
         end
       end
+
+      tab :product_stock_checks do
+        columns class: "cols-adjust" do
+          column do
+            panel "Product Stock Check".upcase do
+              # render partial: 'admin/dashboard/product_stock_checks/product_stock_query'
+              render partial: "product_stock_query"
+            end
+          end
+        end
+      end
     end
   end
 
@@ -84,6 +95,14 @@ ActiveAdmin.register_page "Dashboard" do
         format.js # actually means: if the client ask for js -> return file.js
       end
     end
+  end
+
+  page_action :product_stock_query_search do
+    @results = params[:product_stock_query]
+      respond_to do |format|
+        format.js # actually means: if the client ask for js -> return file.js
+      end
+
   end
 
   # member_actions are only to be created under specific Models as they need to be prepended with an id for a specific model item CRUD action

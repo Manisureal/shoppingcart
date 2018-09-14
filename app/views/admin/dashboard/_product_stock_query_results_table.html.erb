@@ -1,0 +1,122 @@
+<table>
+  <% product = Product.find_by(id: @results) %>
+  <p style="margin-top:25px;font-size:1.5em;"><%= product.description %></p>
+  <tr>
+    <th>Product Description</th>
+    <th>Product Code</th>
+    <th>Pack Size</th>
+    <th>Price</th>
+    <th>Current Stock</th>
+    <th>Stock Change Count</th>
+  </tr>
+  <tr>
+    <td><%= product.description %></td>
+    <td><%= product.product_code %></td>
+    <td><%= product.pack_size %></td>
+    <td><%= number_to_currency product.price %></td>
+    <td><%= product.current_stock %></td>
+    <td><%= product.stocks.count %></td>
+  </tr>
+</table>
+<p style="margin-top:25px;font-size:1.5em;"><%= "#{product.description} - STOCK HISTORY" %></p>
+<table>
+  <tr>
+    <th>Order ID</th>
+    <th>Stock Change</th>
+    <th>Stock Message</th>
+    <th colspan="2">Product</th>
+    <th>Created</th>
+  </tr>
+  <% product_stock_history = Stock.where(product_id: product).page(params[:product_stock_history]).per(10).order("id desc") %>
+  <% product_stock_history.each do |stocks| %>
+    <tr>
+      <td><%= stocks.consignment_item.blank? ? nil : link_to(stocks.consignment_item.order_item.order_id, admin_order_path(stocks.consignment_item.order_item.order_id)) %></td>
+      <td><%= stocks.stock_change %></td>
+      <% if stocks.stock_message == "Dispatched Stock" %>
+      <td class="status_tag disptached-stock"><%= stocks.stock_message %></td>
+      <% elsif stocks.stock_message == "Stock Check" || "Delivery" %>
+      <td class="status_tag stock-check"><%= stocks.stock_message %></td>
+      <% end %>
+      <td colspan="2"><%= stocks.product.description %></td>
+      <td><%= stocks.created_at.strftime("%A, %b %d - %H:%M:%S") %></td>
+    </tr>
+  <% end %>
+</table>
+
+<div class="pagination">
+  <div class="float-right">
+    <%= page_entries_info product_stock_history %>
+  </div>
+  <div class="pad-right">
+    <%= paginate product_stock_history, param_name: :product_stock_history, remote: true %>
+  </div>
+</div>
+
+
+<style>
+  table {
+    border-collapse: collapse;
+    max-width: 100%;
+    table-layout: fixed;
+    word-wrap:break-all;
+    box-shadow: 0px 4px 8px 0px rgba(176,176,176,1)
+    /*display: flex;
+    flex-flow: column;*/
+    /*word-wrap:break-word;*/
+  }
+
+  td, th {
+    text-align: left;
+    /*padding: 8px;*/
+    white-space: normal;
+    word-wrap:break-all;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  .product-stock-query-results-table {
+    margin:20px;
+  }
+
+  .panel_contents {
+    padding-bottom: 20px;
+  }
+
+  .pagination {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .status_tag {
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    letter-spacing: 0.1em;
+    line-height: 16px;
+    padding: 4px 8px;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+    align-items: center;
+    margin:12px;
+  }
+
+  .disptached-stock {
+    background-color:green;
+    color:white !important;
+    font-weight:bold !important;
+  }
+
+  .stock-check {
+    background-color:#4169E1;
+    color:white !important;
+    font-weight:bold !important;
+  }
+
+</style>
