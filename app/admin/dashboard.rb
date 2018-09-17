@@ -59,6 +59,17 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
 
+      tab :product_stock_checks do
+        columns class: "cols-adjust" do
+          column do
+            panel "Product Stock Check".upcase do
+              # render partial: 'admin/dashboard/product_stock_checks/product_stock_query'
+              render partial: "product_stock_query"
+            end
+          end
+        end
+      end
+
       tab :customers do
         columns class: "cols-adjust" do
           column do
@@ -70,17 +81,6 @@ ActiveAdmin.register_page "Dashboard" do
                 column(:customer_email) { |user| link_to(user.email, admin_staff_path(user)) }
                 column(:last_signed) { |user| user.last_sign_in_at }
               end
-            end
-          end
-        end
-      end
-
-      tab :product_stock_checks do
-        columns class: "cols-adjust" do
-          column do
-            panel "Product Stock Check".upcase do
-              # render partial: 'admin/dashboard/product_stock_checks/product_stock_query'
-              render partial: "product_stock_query"
             end
           end
         end
