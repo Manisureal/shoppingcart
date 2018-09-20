@@ -1,3 +1,3 @@
 ActiveAdmin.register Audit do
-  menu false
+  # menu false
 end
