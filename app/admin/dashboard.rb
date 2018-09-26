@@ -146,11 +146,15 @@ ActiveAdmin.register_page "Dashboard" do
     @sales_rep = params[:sales_staff_query]
     @start_date = params[:start_date].blank? ? nil : Date.parse(params[:start_date])
     @end_date = params[:end_date].blank? ? nil : Date.parse(params[:end_date])
+    @sales_staff_companies_orders = Order.where("orders.created_at >= ? AND orders.created_at <= ?", @start_date.to_datetime.midnight..@start_date.to_datetime.end_of_day, @end_date.to_datetime.to_time.end_of_day).joins(:company).where("companies.account_owner = ?", @sales_rep).page(params[:companies_orders]).per(15)
     respond_to do |format|
+      format.csv do
+        headers['Content-Disposition'] = "attachment; filename=\"user-list.csv\""
+        headers['Content-Type'] ||= 'text/csv'
+      end
       format.js # actually means: if the client ask for js -> return file.js
     end
   end
-
   # member_actions are only to be created under specific Models as they need to be prepended with an id for a specific model item CRUD action
   # page_action just works on a standalone page such as this dashboard page
 
