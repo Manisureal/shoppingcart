@@ -85,6 +85,44 @@ ActiveAdmin.register_page "Dashboard" do
           end
         end
       end
+
+      tab :reports do
+        columns class: "cols-adjust" do
+          column do
+            panel "TOP SPENDING CUSTOMERS" do
+              # table_for User.where(admin: false).sort_by{|s|s.orders.count}.reverse.each do |user|
+              # table_for Company.all.sort_by{|s|s.orders.count}.reverse.each do |company|
+              #   column(:company) { |company| company.company.name }
+              #   column(:customer) { |company| (company.forname ? company.forname : 'Unknown') + ' ' + (company.surname ? company.surname : 'User')}
+              #   column(:email) { |company| link_to(company.email, admin_staff_path(company)) }
+              #   column(:total_orders) { |company| company.orders.count }
+              # end
+              # company_orders_count = Company.all.joins(:orders).group(:company_id).count
+              # company_orders_count.each_with_index do |value, index|
+              #   @company_id = value[0]
+              #   @company_orders_count = value[1]
+              # end
+              # table_for Company.all.joins(:orders).distinct(:name).sort_by{|s|s.orders.count}.each do |c|
+              #   column(:company_name) { |c| c.name }
+              #   column(:contact) { |c| c.contact_name }
+              #   column(:email) { |c| c.email }
+              #   column(:orders_count) { |c| c.orders.count }
+              # # render partial: 'customer_reports'
+              # end
+            end
+          end
+        end
+      end
+
+      tab :sales_reports do
+        columns class: "cols-adjust" do
+          column do
+            panel "SALES STAFF REPORTS" do
+              render partial: "sales_staff_query"
+            end
+          end
+        end
+      end
     end
   end
 
@@ -99,10 +137,18 @@ ActiveAdmin.register_page "Dashboard" do
 
   page_action :product_stock_query_search do
     @results = params[:product_stock_query]
-      respond_to do |format|
-        format.js # actually means: if the client ask for js -> return file.js
-      end
+    respond_to do |format|
+      format.js # actually means: if the client ask for js -> return file.js
+    end
+  end
 
+  page_action :sales_staff_reports do
+    @sales_rep = params[:sales_staff_query]
+    @start_date = params[:start_date].blank? ? nil : Date.parse(params[:start_date])
+    @end_date = params[:end_date].blank? ? nil : Date.parse(params[:end_date])
+    respond_to do |format|
+      format.js # actually means: if the client ask for js -> return file.js
+    end
   end
 
   # member_actions are only to be created under specific Models as they need to be prepended with an id for a specific model item CRUD action
