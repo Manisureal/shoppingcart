@@ -9,7 +9,7 @@
     <th>Admin Assigned</th>
   </tr>
 
-  <% @sales_staff_companies_orders = Order.where("orders.created_at >= ? AND orders.created_at <= ?", @start_date.to_datetime.midnight..@start_date.to_datetime.end_of_day, @end_date.to_datetime.to_time.end_of_day).joins(:company).where("companies.account_owner = ?", @sales_rep).page(params[:companies_orders]).per(15) %>
+  <%# @sales_staff_companies_orders = Order.where("orders.created_at >= ? AND orders.created_at <= ?", @start_date.to_datetime.midnight..@start_date.to_datetime.end_of_day, @end_date.to_datetime.to_time.end_of_day).joins(:company).where("companies.account_owner = ?", @sales_rep).page(params[:companies_orders]).per(15) %>
 
     <% @sales_staff_companies_orders.per(15).each do |orders| %>
       <tr>
@@ -38,6 +38,9 @@
   </div>
   <div class="pad-right">
     <%= paginate @sales_staff_companies_orders, param_name: :companies_orders, remote: true %>
+  </div>
+  <div class="pad-right">
+    <%= link_to "Download CSV", admin_dashboard_sales_staff_reports_path(format: :csv)+"?sales_staff_query=#{params[:sales_staff_query]}&start_date=#{params[:start_date]}&end_date=#{params[:end_date]}" %>
   </div>
 </div>
 
@@ -112,10 +115,3 @@
     align-items: center;
   }
 </style>
-
-
-
-
-
-
-
