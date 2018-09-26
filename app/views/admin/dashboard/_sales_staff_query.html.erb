@@ -1,0 +1,39 @@
+<%= form_tag(admin_dashboard_sales_staff_reports_path, method: :get, remote: true) do %>
+  <br><p style="color:#5E6469;padding-left: 20px;">Generate Sales Reps Customers Orders Reports...</p><br>
+  <div style="display:flex;">
+    <%#= date_field_tag 'date_from', @date_from %>
+    <% @sales_staff_query = User.where(sales: true) %>
+    <%= select_tag 'sales_staff_query', options_from_collection_for_select(@sales_staff_query,"id", "forname"), class: 'chosen-select', prompt: "Select a Sales Rep" %>
+    <%= text_field_tag 'start_date', @start_date, placeholder: "Choose a Start Date" %>
+    <%= text_field_tag 'end_date', @end_date, placeholder: "Choose an End Date" %>
+    <%= submit_tag 'Search', id: "stock-search-btn" %>
+  </div>
+<% end %>
+
+<div class="customers-orders-results-table"></div>
+
+<style>
+  #sales_staff_query_chosen {
+    padding: 12px 1px 12px 20px;
+    width:30% !important;
+  }
+  #sales_staff_query_chosen a {
+    padding-top: 1px;
+    height:32px !important;
+  }
+
+  #start_date, #end_date{
+    width: 25%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+</style>
+
+<script>
+  $('#start_date').datepicker({dateFormat: 'yy-mm-dd'});
+  $('#end_date').datepicker({dateFormat: 'yy-mm-dd'});
+</script>
