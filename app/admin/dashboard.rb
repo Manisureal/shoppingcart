@@ -113,12 +113,13 @@ ActiveAdmin.register_page "Dashboard" do
       #     end
       #   end
       # end
-
-      tab :sales_reports do
-        columns class: "cols-adjust" do
-          column do
-            panel "SALES STAFF REPORTS" do
-              render partial: "sales_staff_query"
+      if current_user.id == 100 || current_user.id == 102
+        tab :sales_reports do
+          columns class: "cols-adjust" do
+            column do
+              panel "SALES STAFF REPORTS" do
+                render partial: "sales_staff_query"
+              end
             end
           end
         end
