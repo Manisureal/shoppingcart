@@ -70,49 +70,49 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
 
-      tab :customers do
-        columns class: "cols-adjust" do
-          column do
-            panel "RECENT CUSTOMERS" do
-              table_for User.where(admin: false).order("id desc").limit(10).each do |user|
+      # tab :customers do
+      #   columns class: "cols-adjust" do
+      #     column do
+      #       panel "RECENT CUSTOMERS" do
+      #         table_for User.where(admin: false).order("id desc").limit(10).each do |user|
 
-                column(:customer_name) { |user| (user.forname ? user.forname : 'Unknown') + ' ' + (user.surname ? user.surname : 'User')}
+      #           column(:customer_name) { |user| (user.forname ? user.forname : 'Unknown') + ' ' + (user.surname ? user.surname : 'User')}
 
-                column(:customer_email) { |user| link_to(user.email, admin_staff_path(user)) }
-                column(:last_signed) { |user| user.last_sign_in_at }
-              end
-            end
-          end
-        end
-      end
+      #           column(:customer_email) { |user| link_to(user.email, admin_staff_path(user)) }
+      #           column(:last_signed) { |user| user.last_sign_in_at }
+      #         end
+      #       end
+      #     end
+      #   end
+      # end
 
-      tab :reports do
-        columns class: "cols-adjust" do
-          column do
-            panel "TOP SPENDING CUSTOMERS" do
-              # table_for User.where(admin: false).sort_by{|s|s.orders.count}.reverse.each do |user|
-              # table_for Company.all.sort_by{|s|s.orders.count}.reverse.each do |company|
-              #   column(:company) { |company| company.company.name }
-              #   column(:customer) { |company| (company.forname ? company.forname : 'Unknown') + ' ' + (company.surname ? company.surname : 'User')}
-              #   column(:email) { |company| link_to(company.email, admin_staff_path(company)) }
-              #   column(:total_orders) { |company| company.orders.count }
-              # end
-              # company_orders_count = Company.all.joins(:orders).group(:company_id).count
-              # company_orders_count.each_with_index do |value, index|
-              #   @company_id = value[0]
-              #   @company_orders_count = value[1]
-              # end
-              # table_for Company.all.joins(:orders).distinct(:name).sort_by{|s|s.orders.count}.each do |c|
-              #   column(:company_name) { |c| c.name }
-              #   column(:contact) { |c| c.contact_name }
-              #   column(:email) { |c| c.email }
-              #   column(:orders_count) { |c| c.orders.count }
-              # # render partial: 'customer_reports'
-              # end
-            end
-          end
-        end
-      end
+      # tab :reports do
+      #   columns class: "cols-adjust" do
+      #     column do
+      #       panel "TOP SPENDING CUSTOMERS" do
+      #         # table_for User.where(admin: false).sort_by{|s|s.orders.count}.reverse.each do |user|
+      #         # table_for Company.all.sort_by{|s|s.orders.count}.reverse.each do |company|
+      #         #   column(:company) { |company| company.company.name }
+      #         #   column(:customer) { |company| (company.forname ? company.forname : 'Unknown') + ' ' + (company.surname ? company.surname : 'User')}
+      #         #   column(:email) { |company| link_to(company.email, admin_staff_path(company)) }
+      #         #   column(:total_orders) { |company| company.orders.count }
+      #         # end
+      #         # company_orders_count = Company.all.joins(:orders).group(:company_id).count
+      #         # company_orders_count.each_with_index do |value, index|
+      #         #   @company_id = value[0]
+      #         #   @company_orders_count = value[1]
+      #         # end
+      #         # table_for Company.all.joins(:orders).distinct(:name).sort_by{|s|s.orders.count}.each do |c|
+      #         #   column(:company_name) { |c| c.name }
+      #         #   column(:contact) { |c| c.contact_name }
+      #         #   column(:email) { |c| c.email }
+      #         #   column(:orders_count) { |c| c.orders.count }
+      #         # # render partial: 'customer_reports'
+      #         # end
+      #       end
+      #     end
+      #   end
+      # end
 
       tab :sales_reports do
         columns class: "cols-adjust" do
