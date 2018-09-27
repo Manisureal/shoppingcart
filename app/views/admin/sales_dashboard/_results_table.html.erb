@@ -9,17 +9,12 @@
     <th>Admin Assigned</th>
   </tr>
 
-  <% companies_orders_arr = [] %>
-  <% Company.all.where(account_owner: current_user.id).each do |companies| %>
+  <%# companies_orders_arr = [] %>
+  <%# Company.all.where(account_owner: current_user.id).each do |companies| %>
+    <%# companies_orders_arr << companies.orders.where('created_at >= ? AND created_at <= ?', @date_from.midnight..@date_from.end_of_day, @date_to.to_time.end_of_day).count %>
     <%# @companies_orders = companies.orders.where('created_at >= ? AND created_at <= ?', @date_from.midnight..@date_from.end_of_day, @date_to.to_time.end_of_day).page(params[:companies_orders]).per(15).order("id desc")%>
-    <% companies_orders_arr << companies.orders.where('created_at >= ? AND created_at <= ?', @date_from.midnight..@date_from.end_of_day, @date_to.to_time.end_of_day).count %>
-    <%# @tco =  companies_orders_arr.sum %>
-    <% @companies_orders = companies.orders.where('created_at >= ? AND created_at <= ?', @date_from.midnight..@date_from.end_of_day, @date_to.to_time.end_of_day).page(params[:companies_orders]).per(15).order("id desc")%>
-    <% @companies_orders.where('created_at BETWEEN ? AND ?', @date_from.midnight..@date_from.end_of_day, @date_to.to_time.end_of_day).per(15).each do |co| %>
-      <%# @companies_orders.where("created_at IN (?)",@date_from..@date_to.end_of_day).each do |co| %>
-      <%# @companies_orders.where(["created_at >= ? AND created_at <= ?", params[:date_from], params[:date_to]]).each do |co| %>
-      <%# @companies_orders.where(["created_at >= ? AND created_at <= ?", @date_from.midnight..@date_from.end_of_day, @date_to.end_of_day]).each do |co| %>
-      <%# @companies_orders.where(created_at: @date_from.midnight..@date_from.end_of_day).each do |co| #To search for orders placed on the query(same day)%>
+    <%# @companies_orders.where('created_at BETWEEN ? AND ?', @date_from.midnight..@date_from.end_of_day, @date_to.to_time.end_of_day).per(15).each do |co| %>
+      <% @companies_orders.per(15).each do |co| %>
         <tr>
           <td><%= co.id %></td>
           <% if co.status == "Incomplete" %>
@@ -38,23 +33,26 @@
           <td><%= co.taken_by %></td>
         </tr>
       <% end %>
-  <% end %>
+  <%# end %>
 </table>
 
 <!-- Count Companies that have that more than zero orders -->
-<% companies_with_orders_arr = [] %>
-<% companies_orders_arr.each do |a| %>
-  <% companies_with_orders_arr << a unless a == 0 %>
-<% end %>
+<%# companies_with_orders_arr = [] %>
+<%# companies_orders_arr.each do |a| %>
+  <%# companies_with_orders_arr << a unless a == 0 %>
+<%# end %>
 
 <div class="pagination">
   <div class="float-right">
-    <%= "Displaying Total of <b>#{companies_orders_arr.sum}</b> ".html_safe + "Orders for <b>#{companies_with_orders_arr.count}</b>".html_safe + " Companies"%>
+    <%#= "Displaying Total of <b>#{companies_orders_arr.sum}</b> ".html_safe + "Orders for <b>#{companies_with_orders_arr.count}</b>".html_safe + " Companies"%>
     <%# #{companies_orders_arr.page(params[:companies_orders]).per(15).length} %>
-    <%#= page_entries_info @companies_orders %>
+    <%= page_entries_info @companies_orders %>
   </div>
   <div class="pad-right">
     <%= paginate @companies_orders, param_name: :companies_orders, remote: true %>
+  </div>
+  <div class="pad-right">
+    <%= link_to "CSV", admin_sales_dashboard_orders_search_path(format: :csv)+"?date_from=#{params[:date_from]}&date_to=#{params[:date_to]}" %>
   </div>
 </div>
 
