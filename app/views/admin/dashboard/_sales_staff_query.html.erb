@@ -1,5 +1,5 @@
 <%= form_tag(admin_dashboard_sales_staff_reports_path, method: :get, remote: true) do %>
-  <br><p style="color:#5E6469;padding-left: 20px;">Generate Sales Reps Customers Orders Reports...</p><br>
+  <br><p style="color:#5E6469;padding-left: 20px;">Generate Sales Staff Order Reports...</p><br>
   <div style="display:flex;">
     <%#= date_field_tag 'date_from', @date_from %>
     <% @sales_staff_query = User.where(sales: true) %>
