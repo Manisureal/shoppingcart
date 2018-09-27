@@ -114,7 +114,7 @@ ActiveAdmin.register_page "Dashboard" do
       #   end
       # end
       if current_user.id == 100 || current_user.id == 102
-        tab :sales_reports do
+        tab :sales_staff_reports do
           columns class: "cols-adjust" do
             column do
               panel "SALES STAFF REPORTS" do
@@ -147,10 +147,12 @@ ActiveAdmin.register_page "Dashboard" do
     @sales_rep = params[:sales_staff_query]
     @start_date = params[:start_date].blank? ? nil : Date.parse(params[:start_date])
     @end_date = params[:end_date].blank? ? nil : Date.parse(params[:end_date])
-    @sales_staff_companies_orders = Order.where("orders.created_at >= ? AND orders.created_at <= ?", @start_date.to_datetime.midnight..@start_date.to_datetime.end_of_day, @end_date.to_datetime.to_time.end_of_day).joins(:company).where("companies.account_owner = ?", @sales_rep).page(params[:companies_orders]).per(15)
+    @sales_staff_companies_orders = Order.where("orders.created_at >= ? AND orders.created_at <= ?", @start_date.to_datetime.midnight..@start_date.to_datetime.end_of_day, @end_date.to_datetime.to_time.end_of_day)
+                                    .joins(:company).where("companies.account_owner = ?", @sales_rep).page(params[:companies_orders])
+                                    .per(15).order("orders.id desc")
     respond_to do |format|
       format.csv do
-        headers['Content-Disposition'] = "attachment; filename=\"user-list.csv\""
+        headers['Content-Disposition'] = "attachment; filename=\"#{User.find(@sales_rep).forname+"'s"}_Customers_Orders_#{Date.today}.csv\""
         headers['Content-Type'] ||= 'text/csv'
       end
       format.js # actually means: if the client ask for js -> return file.js

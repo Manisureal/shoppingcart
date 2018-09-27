@@ -32,7 +32,9 @@ ActiveAdmin.register_page "Sales Dashboard" do
     #    @date_to = params[:date_to].blank? ? nil : DateTime.parse(params[:date_to])
     @date_from = DateTime.parse(params[:date_from])
     @date_to = DateTime.parse(params[:date_to])
-    @companies_orders = Order.where("orders.created_at >= ? AND orders.created_at <= ?", @date_from.to_datetime.midnight..@date_from.to_datetime.end_of_day, @date_to.to_datetime.to_time.end_of_day).joins(:company).where("companies.account_owner = ?", current_user.id.to_s).page(params[:companies_orders]).per(15)
+    @companies_orders = Order.where("orders.created_at >= ? AND orders.created_at <= ?", @date_from.to_datetime.midnight..@date_from.to_datetime.end_of_day, @date_to.to_datetime.to_time.end_of_day)
+                        .joins(:company).where("companies.account_owner = ?", current_user.id.to_s)
+                        .page(params[:companies_orders]).per(15).order("orders.id desc")
     respond_to do |format|
       format.js # actually means: if the client ask for js -> return file.js
       format.csv {
