@@ -40,7 +40,7 @@
     <%= paginate @sales_staff_companies_orders, param_name: :companies_orders, remote: true %>
   </div>
   <div class="pad-right">
-    <%= link_to "Download CSV", admin_dashboard_sales_staff_reports_path(format: :csv)+"?sales_staff_query=#{params[:sales_staff_query]}&start_date=#{params[:start_date]}&end_date=#{params[:end_date]}" %>
+   <span>Download:</span> <%= link_to "CSV", admin_dashboard_sales_staff_reports_path(format: :csv)+"?sales_staff_query=#{params[:sales_staff_query]}&start_date=#{params[:start_date]}&end_date=#{params[:end_date]}" %>
   </div>
 </div>
 
