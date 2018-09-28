@@ -19,9 +19,9 @@
     <td><%= link_to consignment.order_id, admin_order_path(consignment.order_id) %></td>
     <td><%= link_to consignment.order.company.name, admin_company_path(consignment.order.company) %></td>
     <% if consignment.status == "Incomplete" %>
-      <td class="Incomplete"><%= consignment.status.upcase %></td>
+      <td class="status_tag Incomplete"><%= consignment.status.upcase %></td>
       <% else consignment.status == "Dispatched" %>
-      <td class="Dispatched"><%= consignment.status.upcase %></td>
+      <td class="status_tag Dispatched"><%= consignment.status.upcase %></td>
     <% end %>
     <%= simple_form_for [:admin,consignment] do |f| %>
       <td><%= f.input :tracking_no, input_html: { class: "tracking_no_input tracking_no_input-#{tni+=1}" }, label: false, placeholder: "e.g. IB1533597344K" %></td>
@@ -70,6 +70,24 @@
   #plus {
     font-size: 1em;
     border-radius: 75px;
+  }
+
+  .status_tag {
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    letter-spacing: 0.1em;
+    line-height: 16px;
+    padding: 4px 8px;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+    align-items: center;
+    margin:12px;
   }
 </style>
 
