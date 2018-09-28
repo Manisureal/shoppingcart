@@ -3,10 +3,22 @@ ActiveAdmin.register User, as: "Sales Staff" do
   menu parent: "Users", if: proc{ current_user.admin? }
   breadcrumb {}
 
+  # actions :all
+
   controller do
     def scoped_collection
      end_of_association_chain.where(sales: true)
     end
+
+    # def action_methods
+    #   if User.find(current_user.sales?)
+    #     super - ['new', 'create', 'index', 'destroy']
+    #     # raise ActionController::RoutingError.new('Restricted Route') unless Admin::SalesStaffsController.controller_path+"/#{current_user.id}/edit" == "admin/sales_staffs/#{current_user.id}/edit"
+    #   else
+    #     super
+    #   end
+    # end
+
   end
 
   index do

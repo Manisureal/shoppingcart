@@ -12,7 +12,7 @@ end
 
 def admin_filter!
   if current_user.sales?
-    unless request.controller_class == Admin::SalesDashboardController || request.controller_class == Admin::SalesStaffsController
+    unless request.controller_class == Admin::SalesDashboardController || request.controller_class == Admin::SalesStaffsController && request.path_info == "/admin/sales_staffs/#{current_user.id}/edit" || request.controller_class == Admin::SalesStaffsController && request.patch? == true
       raise ActionController::RoutingError.new('Restricted Route')
     end
   end
