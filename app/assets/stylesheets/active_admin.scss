@@ -28,7 +28,8 @@
  .good-level {background:#8DAA88;font-size:1.2em;}
  .okay-level {background:orange;font-size:1.2em;}
  .bad-level {background:#dd1c1c;font-size:1.2em;}
- .status {color:#fff;text-transform: uppercase;letter-spacing: 0.15em;padding: 3px 5px 2px 5px;}
+ // .status {color:#fff;text-transform: uppercase;letter-spacing: 0.15em;padding: 3px 5px 2px 5px;}
+ .status {font-size: 0.75rem;font-style: normal;font-weight: 500;-webkit-font-smoothing: antialiased;border-radius: 3px;color: #fff;display: inline-block;letter-spacing: 0.1em;line-height: 16px;padding: 4px 8px;text-decoration: none;text-transform: uppercase;white-space: nowrap;align-items: center;margin:12px;}
 
 // #selecttwo {
 //   // width:200px;
