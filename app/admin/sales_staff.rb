@@ -1,11 +1,31 @@
 ActiveAdmin.register User, as: "Sales Staff" do
-  permit_params :forname, :surname, :email, :password, :password_confirmation, :sales, :company_id
+  permit_params :forname, :surname, :email, :password, :password_confirmation, :sales, :commission_rate, :company_id
   menu parent: "Users", if: proc{ current_user.admin? }
   breadcrumb {}
 
   # actions :all
 
   controller do
+
+    def update
+      # Used to check if the user is wanting to update their password
+      if current_user.admin?
+        model = :user
+
+        if params[model][:password].blank?
+          %w(password password_confirmation).each { |p| params[model].delete(p) }
+        end
+        super
+      end
+
+      if current_user.sales?
+        update! do |success, error|
+          success.html {redirect_to admin_sales_dashboard_path}
+          error.html {super}
+        end
+      end
+    end
+
     def scoped_collection
      end_of_association_chain.where(sales: true)
     end
@@ -49,6 +69,9 @@ ActiveAdmin.register User, as: "Sales Staff" do
     if current_user.admin?
       f.inputs "Sales" do
         f.input :sales
+      end
+      f.inputs "Commision" do
+        f.input :commission_rate
       end
     end
     # f.actions
