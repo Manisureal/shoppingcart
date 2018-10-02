@@ -2,11 +2,13 @@
   <tr>
     <th>Order#</th>
     <th>Status</th>
-    <th>Total Price</th>
     <th>Created At</th>
     <th>Customer</th>
     <th>Company</th>
     <th>Admin Assigned</th>
+    <th>Total Price</th>
+    <th>% Commission</th>
+    <th>% Commission Val</th>
   </tr>
 
   <%# companies_orders_arr = [] %>
@@ -26,13 +28,23 @@
           <% else %>
           <td class="status_tag Cancelled"><%= co.status.upcase %></td>
           <% end %>
-          <td><%= number_to_currency co.total_price %></td>
           <td><%= co.created_at.strftime("%A, %b %d - %H:%M:%S") %></td>
           <td><%= co.user.forname + " " + co.user.surname %></td>
           <td><%= co.company.name %></td>
           <td><%= co.taken_by %></td>
+          <td><%= number_to_currency co.total_price %></td>
+          <td><%= @commission = current_user.commission_rate.blank? ? 0 : current_user.commission_rate %>%</td>
+          <% @comm_val = number_to_currency co.total_price * @commission.to_i/100.to_f %>
+          <td><%= @comm_val.blank? ? nil : @comm_val %></td>
         </tr>
       <% end %>
+      <tr>
+        <td colspan="5"></td>
+        <td>Total Sales:</td>
+        <th><%= number_to_currency @companies_orders.collect { |o| o.total_price }.sum %></th>
+        <td>Total Commission:</td>
+        <th><%= number_to_currency @companies_orders.collect { |o| o.total_price * @commission/100.to_f }.sum %></th>
+      </tr>
   <%# end %>
 </table>
 
@@ -71,7 +83,7 @@
   td, th {
     text-align: left;
     padding: 8px;
-    white-space: normal;
+    white-space: normal !important;
     word-wrap:break-all;
   }
 
