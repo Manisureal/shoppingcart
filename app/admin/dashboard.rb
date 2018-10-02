@@ -149,7 +149,7 @@ ActiveAdmin.register_page "Dashboard" do
     @end_date = params[:end_date].blank? ? nil : Date.parse(params[:end_date])
     @sales_staff_companies_orders = Order.where("orders.created_at >= ? AND orders.created_at <= ?", @start_date.to_datetime.midnight..@start_date.to_datetime.end_of_day, @end_date.to_datetime.to_time.end_of_day)
                                     .joins(:company).where("companies.account_owner = ?", @sales_rep).page(params[:companies_orders])
-                                    .per(15).order("orders.id desc")
+                                    .per(30).order("orders.id desc")
     respond_to do |format|
       format.csv do
         headers['Content-Disposition'] = "attachment; filename=\"#{User.find(@sales_rep).forname+"'s"}_Customers_Orders_#{Date.today}.csv\""

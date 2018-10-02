@@ -16,7 +16,7 @@
     <%# companies_orders_arr << companies.orders.where('created_at >= ? AND created_at <= ?', @date_from.midnight..@date_from.end_of_day, @date_to.to_time.end_of_day).count %>
     <%# @companies_orders = companies.orders.where('created_at >= ? AND created_at <= ?', @date_from.midnight..@date_from.end_of_day, @date_to.to_time.end_of_day).page(params[:companies_orders]).per(15).order("id desc")%>
     <%# @companies_orders.where('created_at BETWEEN ? AND ?', @date_from.midnight..@date_from.end_of_day, @date_to.to_time.end_of_day).per(15).each do |co| %>
-      <% @companies_orders.per(15).each do |co| %>
+      <% @companies_orders.per(30).each do |co| %>
         <tr>
           <td><%= co.id %></td>
           <% if co.status == "Incomplete" %>
