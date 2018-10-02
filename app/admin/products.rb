@@ -8,15 +8,15 @@ ActiveAdmin.register Product do
     column :id do |p|
       link_to p.id, admin_product_path(p)
     end
+    column :product_code
+    column :description
+    column :pack_size
     column "Sale Price", :price do |p|
       number_to_currency p.price
     end
     column "Buy Price", :buy_price do |p|
       number_to_currency p.buy_price
     end
-    column :description
-    column :pack_size
-    column :product_code
     column :current_stock
     column "Stock", :id do |p|
       link_to 'Add Stock', new_admin_product_stock_path(p)
