@@ -1,5 +1,6 @@
-<%- headers = ['Order#', 'Status', 'Total Price', 'Created At', 'Customer', 'Company', 'Admin Assigned'] -%>
+<%- headers = ['Order#', 'Status', 'Created At', 'Customer', 'Company', 'Admin Assigned', 'Total Price', "% Commission", "% Commission Value"] -%>
 <%= CSV.generate_line headers %>
 <%- @sales_staff_companies_orders.each do |orders| -%>
-<%= CSV.generate_line([orders.id, orders.status, orders.total_price, orders.created_at.to_date,orders.user.forname + " " + orders.user.surname, orders.company.name, orders.taken_by]) -%>
+<%= CSV.generate_line([orders.id, orders.status, orders.created_at.to_date,orders.user.forname + " " + orders.user.surname, orders.company.name, orders.taken_by, orders.total_price, @commission = User.find(@sales_rep).commission_rate, orders.total_price * @commission/100.to_f]) -%>
 <%- end -%>
+<%= CSV.generate_line([nil,nil,nil,nil,nil,"Total Sales:", @sales_staff_companies_orders.collect { |o| o.total_price }.sum, "Total Commission:", @sales_staff_companies_orders.collect { |o| o.total_price * @commission/100.to_f }.sum ]) -%>
