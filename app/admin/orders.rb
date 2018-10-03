@@ -2,8 +2,7 @@ ActiveAdmin.register Order do
   menu priority: 2, if: proc{ current_user.admin? }
   actions :index, :show, :new, :create, :update, :edit
   permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by, :admin_notes, :boxes, :user_id,
-    order_items_attributes: [:id, :product_id, :quantity, :to_dispatch]
-
+    order_items_attributes: [:id, :_destroy, :product_id, :quantity, :to_dispatch]
   # For MySQL Database - searches with LIKE which works fine when searching using equal(eq) in the search
   # filter :status_or_user_forname_or_user_surname_or_company_name_or_taken_by_or_id_or_total_price_eq, as: :string, label: "Search Order", placeholder: "e.g. Status, Customer, Company, Admin, Price"
   filter :user_forname_or_user_surname_or_company_name_cont, as: :string, label: "Search User or Company", placeholder: "e.g. Customer, Company..."
@@ -214,10 +213,17 @@ ActiveAdmin.register Order do
           end
         end
         if params[:commit] == 'Update Order'
+          @order.total_price = @order.calculate_total
+          @order.save
           redirect_to admin_root_path, notice: "Order# #{@order.id} was successfully Updated"
         end
 
       else
+        @order_errors = @order.errors.full_messages
+        @order_items = @order.order_items
+        (6 - @order.order_items.count).times do
+          @order.order_items.new
+        end
         render :edit
       end
     end
