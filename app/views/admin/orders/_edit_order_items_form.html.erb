@@ -22,7 +22,7 @@
 
         <!-- <td><%#= object.product.product_code %></td> -->
 
-    <tr class="order-item order-item-<%=oi.object.id%>">
+    <tr class="order-item order-item-<%=oi.object.id%>" data-id="<%= oi.object.id %>">
       <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.order(product_code: :asc).collect { |p| [p.product_code,p.id,class: "product_code-#{p.id}"]},
                         input_html: { class: " chosen-select product_code product_code-#{p_code_counter+=1}"} %></td>
       <td><%= oi.input :product_id, label: false, as: :select, collection: Product.all.collect { |p| [p.description,p.id]},
@@ -35,7 +35,8 @@
       <td class="total-price total-price-<%=p_total_price_counter+=1%>"><%#= number_to_currency oi.object.product.price * oi.object.quantity.to_i %></td>
       <!-- <td><%#= oi.input :_destroy, as: :boolean, label: 'Delete' %></td> -->
       <% if oi.object.id.nil? == false %>
-      <td><%= link_to "Delete", admin_order_order_item_path(oi.object.order.id,oi.object.id), method: :delete, data: { remote: true, confirm: 'Are you sure?' }%></td>
+      <!-- <td><%#= link_to "Delete", admin_order_order_item_path(oi.object.order.id,oi.object.id), method: :delete, data: { remote: true, confirm: 'Are you sure?' }%></td> -->
+      <td><%= link_to admin_order_order_item_path(oi.object.order.id,oi.object.id), method: :delete, data: { remote: true, confirm: 'Are you sure?' } do %><i class="fa fa-trash" style="color:red;"></i><% end %></td>
       <% end %>
     </tr>
 
