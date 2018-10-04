@@ -239,6 +239,5 @@ ActiveAdmin.register Order do
   action_item :view, only: :index, priority: 0 do
     link_to image_tag('search.png', height: 25), class: "search"
   end
-
 end
 

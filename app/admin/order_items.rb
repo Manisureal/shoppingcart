@@ -6,7 +6,7 @@ ActiveAdmin.register OrderItem do
     def destroy
       @order_item = OrderItem.find(params[:id])
       destroy! do |format|
-        format.js { flash[:notice] = "Order Item ##{@order_item.id}, deleted successfully!" }
+        format.js # { flash[:notice] = "Order Item ##{@order_item.id}, deleted successfully!" }
       end
     end
   end

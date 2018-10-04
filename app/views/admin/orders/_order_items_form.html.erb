@@ -44,6 +44,8 @@
 
 <script>
   window.onload = function() {
+    // window.count = 0
+    window.count = $('.order-item').length
     $('.product_code').each(function(index){
         $('.product_code-'+index).change(function(){
           console.log("just changed-"+index)
@@ -121,28 +123,62 @@
         $('.quantity-'+count).attr("name", "order[order_items_attributes]["+count+"][quantity]")
         // autoUpdateFields();
         $('.product_code-'+count).change(function(){
-        var newValue = $(this).val();
-        var updateProductDescription = $('.product_description-'+count).val(newValue).val();
-        var updatePrice = $('.product_price-'+count).val(newValue).val();
-        console.log(updatePrice);
-        var newPrice = updatePrice.toString();
-        var priceVal = $('.product_price-'+count).find('option[value="' + newPrice +'"]').text();
-        console.log(priceVal);
-        $('.product_packsize-'+count).val(newValue);
-        // When clicking anywhere on the document, it should automatically update the total price value if quantity is given
-        $(document).click(function(){
-          var quantity = $('.quantity-'+count).val();
-          $('.total-price-'+count).text("£ " + parseFloat(priceVal) * parseFloat(quantity));
-          if ($('.total-price-'+count).text() == "£ NaN") {
-            $('.total-price-'+count).text("£ 0.00")
-          }
-          calculateGrandTotal();
-        });
-      })
+          var newValue = $(this).val();
+          var updateProductDescription = $('.product_description-'+count).val(newValue).val();
+          var updatePrice = $('.product_price-'+count).val(newValue).val();
+          console.log(updatePrice);
+          var newPrice = updatePrice.toString();
+          var priceVal = $('.product_price-'+count).find('option[value="' + newPrice +'"]').text();
+          console.log(priceVal);
+          $('.product_packsize-'+count).val(newValue);
+          // When clicking anywhere on the document, it should automatically update the total price value if quantity is given
+            $(document).click(function(){
+              var quantity = $('.quantity-'+count).val();
+              $('.total-price-'+count).text("£ " + parseFloat(priceVal) * parseFloat(quantity));
+              if ($('.total-price-'+count).text() == "£ NaN") {
+                $('.total-price-'+count).text("£ 0.00")
+              }
+              calculateGrandTotal();
+            });
+        })
         console.log("Changed the fields")
         // two ways to do this - either write the script here yourself for the auto update field or write it manually for product_code-0
       });
     });
+
+    // The same above code BUT for editing an order //
+    lastItem = $('.order-item:last')
+    previousId = lastItem.data("id")
+    cloned = lastItem.clone().insertAfter(lastItem)
+    # cloned.find('input').val('').end()
+    cloned.find('select').val('').end()
+    cloned.find('input:first').addClass("chosen-select")
+
+    #.after("</br>");
+    console.log window.count++
+    cloned.find('.product_code').addClass 'product_code-' + window.count
+    cloned.find('.product_code').removeClass 'product_code-' + previousId
+    cloned.find('.product_description').addClass 'product_description-' + window.count
+    cloned.find('.product_description').removeClass 'product_description-' + previousId
+    cloned.find('.product_price').addClass 'product_price-' + window.count
+    cloned.find('.product_price').removeClass 'product_price-' + previousId
+    cloned.find('.product_packsize').addClass 'product_packsize-' + window.count
+    cloned.find('.product_packsize').removeClass 'product_packsize-' + previousId
+    cloned.find('.quantity').addClass 'quantity-' + window.count
+    cloned.find('.quantity').removeClass 'quantity-' + previousId
+    cloned.find('.total-price').addClass 'total-price-' + window.count
+    cloned.find('.total-price').removeClass 'total-price-' + previousId
+    $('.product_code-' + window.count).attr 'id', 'order_order_items_attributes_' + window.count + '_product_id'
+    $('.product_code-' + window.count).attr 'name', 'order[order_items_attributes][' + window.count + '][product_id]'
+    $('.product_description-' + window.count).attr 'id', 'order_order_items_attributes_' + window.count + '_product_id'
+    $('.product_description-' + window.count).attr 'name', 'order[order_items_attributes][' + window.count + '][product_id]'
+    $('.product_price-' + window.count).attr 'id', 'order_order_items_attributes_' + window.count + '_product_id'
+    $('.product_price-' + window.count).attr 'name', 'order[order_items_attributes][' + window.count + '][product_id]'
+    $('.product_packsize-' + window.count).attr 'id', 'order_order_items_attributes_' + window.count + '_product_id'
+    $('.product_packsize-' + window.count).attr 'name', 'order[order_items_attributes][' + window.count + '][product_id]'
+    $('.quantity-' + window.count).attr 'id', 'order_order_items_attributes_' + window.count + '_quantity'
+    $('.quantity-' + window.count).attr 'name', 'order[order_items_attributes][' + window.count + '][quantity]'
+    // ------------------------------------------ //
 
     $('.delete-item').live('click', function() {
       if ($('#invite-list li').length > 1)
