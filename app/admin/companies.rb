@@ -108,5 +108,15 @@ ActiveAdmin.register Company do
   action_item :view, only: :index, priority: 0 do
     link_to image_tag('search.png', height: 25), class: "search"
   end
+
+  controller do
+    def create
+      company = Company.new(permitted_params[:company])
+      if company.save
+        company.users.create!(email:company.email,forname:company.contact_name,company_id:company.id,password:"PharmaTempPass",password_confirmation:"PharmaTempPass")
+      end
+      redirect_to admin_companies_path, notice: "#{company.name} and First User created Successfully!"
+    end
+  end
 end
 
