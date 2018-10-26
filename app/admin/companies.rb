@@ -113,7 +113,12 @@ ActiveAdmin.register Company do
     def create
       company = Company.new(permitted_params[:company])
       if company.save
-        company.users.create!(email:company.email,forname:company.contact_name,company_id:company.id,password:"PharmaTempPass",password_confirmation:"PharmaTempPass")
+        split_contact_name = company.contact_name.split()
+        if split_contact_name.length > 2
+          company.users.create!(email:company.email,forname:split_contact_name[0..1].join(' '),surname:split_contact_name[2..5].join(' '),company_id:company.id,password:"PharmaTempPass",password_confirmation:"PharmaTempPass")
+        else
+          company.users.create!(email:company.email,forname:split_contact_name[0],surname:split_contact_name[1],company_id:company.id,password:"PharmaTempPass",password_confirmation:"PharmaTempPass")
+        end
       end
       redirect_to admin_companies_path, notice: "#{company.name} and First User created Successfully!"
     end
