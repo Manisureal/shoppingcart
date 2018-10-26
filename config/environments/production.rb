@@ -30,6 +30,27 @@ Rails.application.configure do
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
 
+  # config.action_mailer.delivery_method = :smtp
+
+  # config.action_mailer.smtp_settings = {
+  #   address:              'localhost',
+  #   port:                 25,
+  #   domain:               'orders.caremeds.co.uk',
+  #   enable_starttls_auto: false }
+
+  # Send mail through gmail smtp server
+  config.action_mailer.delivery_method = :smtp
+  ActionMailer::Base.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    domain: 'gmail.com',
+    user_name: ENV['GMAIL_ADDRESS'],
+    password: ENV['GMAIL_APP_PASSWORD'],
+    authentication: :login,
+    enable_starttls_auto: true
+  }
+
+
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
@@ -54,18 +75,6 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
-  # Send mail through gmail smtp server
-  config.action_mailer.delivery_method = :smtp
-  ActionMailer::Base.smtp_settings = {
-    address: "smtp.gmail.com",
-    port: 587,
-    domain: 'gmail.com',
-    user_name: ENV['GMAIL_ADDRESS'],
-    password: ENV['GMAIL_APP_PASSWORD'],
-    authentication: :login,
-    enable_starttls_auto: true
-  }
-
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
@@ -87,6 +96,8 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  config.action_mailer.default_url_options = { :host => 'https://orders.caremeds.co.uk' }
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
