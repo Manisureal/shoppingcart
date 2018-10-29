@@ -90,6 +90,7 @@ ActiveAdmin.register Company do
   end
 
   form do |f|
+    # f.semantic_errors
     f.inputs "Details" do
       f.input :name
       f.input :address, as: :text
@@ -111,16 +112,18 @@ ActiveAdmin.register Company do
 
   controller do
     def create
-      company = Company.new(permitted_params[:company])
-      if company.save
-        split_contact_name = company.contact_name.split()
+      @company = Company.new(permitted_params[:company])
+      if @company.save
+        split_contact_name = @company.contact_name.split()
         if split_contact_name.length > 2
-          company.users.create!(email:company.email,forname:split_contact_name[0..1].join(' '),surname:split_contact_name[2..5].join(' '),company_id:company.id,password:"PharmaTempPass",password_confirmation:"PharmaTempPass")
+          @company.users.create!(email:@company.email,forname:split_contact_name[0..1].join(' '),surname:split_contact_name[2..5].join(' '),company_id:@company.id,password:"PharmaTempPass",password_confirmation:"PharmaTempPass")
         else
-          company.users.create!(email:company.email,forname:split_contact_name[0],surname:split_contact_name[1],company_id:company.id,password:"PharmaTempPass",password_confirmation:"PharmaTempPass")
+          @company.users.create!(email:@company.email,forname:split_contact_name[0],surname:split_contact_name[1],company_id:@company.id,password:"PharmaTempPass",password_confirmation:"PharmaTempPass")
         end
+      redirect_to admin_companies_path, notice: "#{@company.name} and First User created Successfully!"
+      else
+        render :new
       end
-      redirect_to admin_companies_path, notice: "#{company.name} and First User created Successfully!"
     end
   end
 end
