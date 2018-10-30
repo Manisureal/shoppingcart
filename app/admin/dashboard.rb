@@ -32,7 +32,7 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
 
-      tab :stocks do
+      tab :stocks_levels do
         columns class: "cols-adjust" do
           column do
             panel "STOCK LEVELS" do
@@ -50,7 +50,11 @@ ActiveAdmin.register_page "Dashboard" do
               end
             end
           end
+        end
+      end
 
+      tab :stock_count do
+        columns class: "cols-adjust" do
           column do
             panel "STOCK COUNT", id: "stock-panel" do
               render 'date_range_search'
