@@ -36,7 +36,7 @@ ActiveAdmin.register_page "Dashboard" do
         columns class: "cols-adjust" do
           column do
             panel "STOCK LEVELS" do
-              table_for Product.all.each.sort { |x,y| x.current_stock_level <=> y.current_stock_level } do |product|
+              table_for Product.all.where(active: true).each.sort { |x,y| x.current_stock_level <=> y.current_stock_level } do |product|
                 column(:product_code) { |product| link_to(product.product_code, admin_product_path(product))}
                 column(:description) { |product| link_to(product.description.truncate(42), admin_product_path(product))}
                 column(:pack_size)
