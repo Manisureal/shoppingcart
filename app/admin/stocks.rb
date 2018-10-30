@@ -50,9 +50,20 @@ ActiveAdmin.register Stock do
 
   controller do
     def create
-      create!do |format|
-        format.html { redirect_to admin_products_path }
+      @product = Product.find(params[:product_id])
+      @product.stocks.new(permitted_params[:stock])
+      if @product.non_stock == false
+        @product.save
+        redirect_to admin_products_path, notice: "Stock added for #{@product.description} successfully!"
+      else
+        # flash[:notice] = "You are not allowed to created stock for this item."
+        redirect_to request.referrer, notice: "You cannot create stock for Non-Stock Items!"
+        # flash[:error] = "You cannot create stock for Non-Stock Items!"
+        # render :edit
       end
+      # create!do |format|
+      #   format.html { redirect_to admin_products_path }
+      # end
     end
   end
 
