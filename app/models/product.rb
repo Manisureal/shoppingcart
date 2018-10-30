@@ -1,6 +1,7 @@
 class Product < ApplicationRecord
   has_many :order_items
   has_many :stocks
+  # after_initialize :current_stock_level
   audited
 
   def self.grand_total_calc(date,column_name)
@@ -51,7 +52,9 @@ class Product < ApplicationRecord
     # self.stocks.where('created_at <= ?', date.to_time.end_of_day).sum('cost_price*stock_change')
   end
 
-  def current_stock
+  def current_stock_level
     self.stocks.sum(:stock_change)
+    # self.current_stock = self.stocks.sum(:stock_change)
+    # self.save
   end
 end

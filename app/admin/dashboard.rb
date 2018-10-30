@@ -36,15 +36,15 @@ ActiveAdmin.register_page "Dashboard" do
         columns class: "cols-adjust" do
           column do
             panel "STOCK LEVELS" do
-              table_for Product.all.limit(12).each do |product|
+              table_for Product.all.each.sort { |x,y| y.current_stock_level <=> x.current_stock_level } do |product|
                 column(:product_code) { |product| link_to(product.product_code, admin_product_path(product))}
                 column(:description) { |product| link_to(product.description.truncate(42), admin_product_path(product))}
                 column(:pack_size)
                 column(:price) { |product| number_to_currency product.price}
-                column(:current_stock) { |product| label(product.current_stock,
-                  class: (product.current_stock > product.minimum_stock.to_i) ? "status good-level" :
-                   (product.current_stock == 0 || product.current_stock < 0) ? "status bad-level" :
-                   (product.current_stock.to_i <= product.minimum_stock.to_i) ? "status okay-level" : nil)
+                column(:current_stock) { |product| label(product.current_stock_level,
+                  class: (product.current_stock_level > product.minimum_stock.to_i) ? "status good-level" :
+                   (product.current_stock_level == 0 || product.current_stock_level < 0) ? "status bad-level" :
+                   (product.current_stock_level.to_i <= product.minimum_stock.to_i) ? "status okay-level" : nil)
                 }
                 column() { |p| link_to icon('plus'), new_admin_product_stock_path(p) }
               end
