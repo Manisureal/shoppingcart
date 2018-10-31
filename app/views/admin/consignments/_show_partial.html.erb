@@ -13,7 +13,7 @@
     <th>Dispatched</th>
     <th>Remaining</th>
     <th>Status</th>
-    <th>Date Dispatched</th>
+    <th>Shipped Date</th>
     <th>Price</th>
   </tr>
   <% @consignment.consignment_items.each do |ci| %>
@@ -31,20 +31,23 @@
       <% else ci.consignment.status == "Dispatched" %>
       <td class="Dispatched"><%= ci.consignment.status.upcase %></td>
       <% end %>
-      <td><%= ci.created_at.strftime("%A, %e %b - %H:%M %p") %></td>
+      <!-- <td><%#= ci.created_at.strftime("%A, %e %b - %H:%M %p") %></td> -->
+      <td><%= @consignment.shipped_at.strftime("%A, %e %b - %H:%M %p") %></td>
       <td><b><%= number_to_currency ci.order_item.product.price %></b></td>
     </tr>
   <% end %>
   <tr>
     <%= simple_form_for [:admin, @consignment] do |f|  %>
+    <td><b>Shipping Date:</b></td>
+    <td><%= f.datetime_field :shipped_at %></td>
     <td colspan="1"><b>Tracking No:</b></td>
     <td colspan="1"><%= f.input_field :tracking_no, placeholder: "IB1533597344K" %></td>
     <td><b>Admin Notes:</td>
     <td><%= f.text_field :notes %></td>
     <td><b>Boxes Sent: </b></td>
     <td><%= f.number_field :boxes %></td>
-    <td colspan="3" style="text-align:right;"><b>Your Order Total:</b></td>
-    <td colspan="4"><b><%=number_to_currency @consignment.consign_total %></b></td>
+    <td colspan="2" style="text-align:right;"><b>Your Order Total:</b></td>
+    <td colspan="3"><b><%=number_to_currency @consignment.consign_total %></b></td>
   </tr>
 </table>
     <td><%= f.submit %></td>
