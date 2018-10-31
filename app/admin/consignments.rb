@@ -1,5 +1,5 @@
 ActiveAdmin.register Consignment do
-  permit_params :shipped_at, :tracking_no, :user, :order, :notes, :boxes
+  permit_params :shipped_at, :tracking_no, :user, :order, :notes, :boxes, :created_at
   menu parent: "Orders"
 
   # For MySQL Database - searches with LIKE which works fine when searching using equal(eq) in the search
