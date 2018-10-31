@@ -19,7 +19,9 @@ ActiveAdmin.register Product do
     end
     column :current_stock
     column "Stock", :id do |p|
-      link_to 'Add Stock', new_admin_product_stock_path(p)
+      if p.non_stock == false
+        link_to 'Add Stock', new_admin_product_stock_path(p)
+      end
     end
     column :active
     column :non_stock
