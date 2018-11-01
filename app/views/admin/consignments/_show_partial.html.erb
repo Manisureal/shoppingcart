@@ -39,7 +39,7 @@
   <tr>
     <%= simple_form_for [:admin, @consignment] do |f|  %>
     <td><b>Shipping Date:</b></td>
-    <td><%= f.datetime_field :shipped_at %></td>
+    <td><%= f.text_field :shipped_at %></td>
     <td colspan="1"><b>Tracking No:</b></td>
     <td colspan="1"><%= f.input_field :tracking_no, placeholder: "IB1533597344K" %></td>
     <td><b>Admin Notes:</td>
@@ -163,3 +163,11 @@
       background-color: #dddddd;
   }
 </style>
+
+<script>
+  $('#consignment_shipped_at').datetimepicker({
+    step:15,
+    defaultTime: new Date()
+    // minTime:0
+  })
+</script>
