@@ -3,7 +3,7 @@
 //= require active_material
 //= require select2
 //= require chosen-jquery
-
+//= require datetimepicker/jquery.datetimepicker.full.min
 
 #$ ($) ->
   #$('#selecttwo').select2()
@@ -106,6 +106,6 @@ $ ->
   # $('.stock-panel-contents').hide()
   # $('#stock-panel h3').on 'click', ->
   #   $('.stock-panel-contents').toggle '700'
-  #   return
+    # return
 
 
