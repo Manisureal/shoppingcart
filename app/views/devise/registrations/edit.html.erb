@@ -1,4 +1,4 @@
-<%= provide(:title, 'Edit Profile') %>
+<%= provide(:title, 'Caremeds | Edit Profile') %>
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-4 col-sm-offset-4">
@@ -34,6 +34,19 @@
   </div>
 </div>
 
+
+<% if current_user.sign_in_count == 1 %>
+  <script>
+    window.onload = function() {
+      $(document).ready(function () {
+        <%= raw render partial: "first_login_notice.js" %>
+        // $("#myModal").modal();
+      });
+    };
+  </script>
+<% end %>
+
+
 <style>
   .form-login {
   background: white;
@@ -51,5 +64,11 @@
   .btn {
     width: 100%;
     margin-bottom: 20px
+  }
+
+  .bb-display-position {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
   }
 </style>

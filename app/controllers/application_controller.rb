@@ -38,6 +38,8 @@ class ApplicationController < ActionController::Base
     #     admin_root_path
     #   when current_user.sales?
     #     admin_sales_dashboard_path
+    #   when current_user.sign_in_count == 1
+    #     edit_user_registration_path
     #   else
     #     root_path
     # end
