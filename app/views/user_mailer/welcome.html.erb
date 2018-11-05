@@ -1,0 +1,26 @@
+<% @day = Time.now.strftime("%H:%M:%S").to_i %>
+<p>Good <%= (@day < 12) ? "Morning" : (@day >= 17) ? "Evening" : "Afternoon" %>,</p>
+
+<p>
+  We would like to confirm that your <b>Caremeds Ordering Account</b> has successfully been created and can be accessed through the following:
+</p>
+
+<p><b>Portal Link:</b> <u>orders.caremeds.co.uk</u></p>
+
+<p><b>Email:</b> <u><%= @user.email %></u></p>
+
+<p><b>Password:</b> PharmaTempPass</p>
+
+<p>
+  <i><b>Please Note:</b></i><br>
+  <i> We have provided you with a temporary default password but it is highly recommended to change this.
+  On your first login, you will be prompted to change your password. If you do not wish to change your password at this stage, you can always revist by clicking on your 'logo' in the right top hand corner and choosing 'edit profile'.</i>
+</p>
+
+<p>Regards,</p>
+<p>
+  Caremeds Ordering System<br>
+  CareMeds Ltd<br>
+  Tel: +44 1794 400 100<br>
+  Web: www.caremeds.co.uk
+</p>
