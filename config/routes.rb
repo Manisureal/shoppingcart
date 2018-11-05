@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
   ActiveAdmin.routes(self)
-  # All Routes for devise users
-  devise_for :users
+  # All Routes for devise users and modifying devise registration controller update method with custom update
+  devise_for :users, controllers: { registrations: :custom_registrations }
   # To help signout admin users
   devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
