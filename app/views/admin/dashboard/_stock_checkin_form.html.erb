@@ -1,0 +1,65 @@
+<table>
+  <tr>
+    <th>Product Description</th>
+    <th>Product Code</th>
+    <th>Current Stock</th>
+    <th>Stock Change</th>
+    <th>Stock Message</th>
+  </tr>
+<%= form_tag(create_multiple_admin_stocks_path, method: :post) do %>
+<% Product.all.where(active: true).sort { |x,y| x.current_stock_level <=> y.current_stock_level }.each do |product| %>
+  <tr>
+    <td><%= product.description %></td>
+    <td><%= product.product_code %></td>
+
+    <% if product.current_stock_level > product.minimum_stock.to_i  %>
+      <td class="status good-level"><%= product.current_stock_level %></td>
+    <% elsif product.current_stock_level == 0 || product.current_stock_level < 0 %>
+      <td class="status bad-level"><%= product.current_stock_level %></td>
+    <% elsif product.current_stock_level.to_i <= product.minimum_stock.to_i  %>
+      <td class="status okay-level"><%= product.current_stock_level %></td>
+    <% end %>
+
+    <%= hidden_field_tag "stocks[]product_id", "#{product.id}" %>
+    <!-- <input type="hidden" name="stocks[]product_id" value="<%= product.id %>"> -->
+    <td><%= number_field_tag "stocks[]stock_change" %></td>
+    <!-- <td><input type="number" name="stocks[]stock_change"></td> -->
+    <td><%= select_tag "stocks[]stock_message", options_for_select(["Delivery", "Returned", "Stock Check"]), class: "chosen-select", prompt: "Select One" %></td>
+    <!-- <td><input type="input" name="stocks[]stock_message" value="Delivery"></td> -->
+  </tr>
+<% end %>
+<tr><td colspan="4"></td><td id="submit-btn"><%= submit_tag "Submit" %></td></tr>
+<% end %>
+</table>
+
+<style>
+  table {
+    border-collapse: collapse;
+    max-width: 100%;
+    table-layout: fixed;
+    word-wrap:break-all;
+    box-shadow: 0px 4px 8px 0px rgba(176,176,176,1)
+  }
+
+  td, th {
+    text-align: left;
+    white-space: normal;
+    word-wrap:break-all;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  .panel_contents {
+    padding-bottom: 5px;
+  }
+
+  #submit-btn input {
+    width:75%;
+  }
+
+  .status {
+    color:white !important;
+  }
+</style>

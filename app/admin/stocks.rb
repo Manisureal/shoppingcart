@@ -1,6 +1,7 @@
 ActiveAdmin.register Stock do
-  belongs_to :product #optional: true
-  permit_params :stock_change, :stock_message, :cost_price
+  menu parent: "Products"
+  belongs_to :product, optional: true
+  permit_params :stock_change, :stock_message, :cost_price, :stocks
 
   # index do
   #   selectable_column
@@ -65,6 +66,21 @@ ActiveAdmin.register Stock do
       #   format.html { redirect_to admin_products_path }
       # end
     end
+
+
+    def permitted_params_multiple_stocks(stock)
+      stock.permit(:product_id, :stock_change, :stock_message)
+    end
+  end
+
+  # Checkin Mutliple Products Stocks at once
+  collection_action :create_multiple, method: :post do
+    params[:stocks].each do |stock|
+      next if stock[:stock_change].blank?
+      newstock = Stock.new(permitted_params_multiple_stocks(stock))
+      newstock.save
+    end
+    redirect_to admin_root_path, notice: "Stocks have been added for products successfully!"
   end
 
 end

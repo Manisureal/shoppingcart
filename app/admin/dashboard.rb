@@ -32,6 +32,16 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
 
+      tab :stock_check_in do
+        columns class: "cols-adjust" do
+          column do
+            panel "STOCK CHECK INs" do
+              render partial: "stock_checkin_form"
+            end
+          end
+        end
+      end
+
       tab :stocks_levels do
         columns class: "cols-adjust" do
           column do
