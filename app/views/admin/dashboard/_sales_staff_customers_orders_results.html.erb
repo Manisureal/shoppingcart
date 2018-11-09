@@ -26,7 +26,7 @@
         <td class="status_tag Cancelled"><%= orders.status.upcase %></td>
         <% end %>
         <td><%= orders.created_at.strftime("%A, %b %d - %H:%M:%S") %></td>
-        <td><%= orders.user.forname + " " + orders.user.surname %></td>
+        <td><%= orders.user.forname.to_s + " " + orders.user.surname.to_s %></td>
         <td><%= orders.company.name %></td>
         <td><%= orders.taken_by %></td>
         <td><%= number_to_currency orders.total_price %></td>
