@@ -90,7 +90,7 @@ ActiveAdmin.register Company do
   end
 
   form do |f|
-    # f.semantic_errors
+    f.semantic_errors *f.object.errors.keys
     f.inputs "Details" do
       f.input :name
       f.input :address, as: :text
@@ -111,6 +111,36 @@ ActiveAdmin.register Company do
   end
 
   controller do
+    def new
+      @company = Company.new
+      unless params[:go_cardless_reference].blank?
+        if Rails.env == "development"
+          client = GoCardlessPro::Client.new(
+            access_token: "sandbox_HF_Aa3qDC9x2Ie6EQJ-YVIQ0o4GMarEtpur6whQ7",
+            environment: :sandbox
+          )
+        else
+          client = GoCardlessPro::Client.new(
+            access_token: "sandbox_HF_Aa3qDC9x2Ie6EQJ-YVIQ0o4GMarEtpur6whQ7"
+          )
+        end
+
+        begin
+          customer = client.customers.get(params[:go_cardless_reference])
+          @company.name = customer.company_name
+          @company.address = customer.address_line1.to_s + ' ' + customer.address_line2.to_s + ' ' + customer.address_line3.to_s
+          @company.postcode = customer.postal_code
+          @company.contact_name = customer.given_name + ' ' + customer.family_name
+          # @company.phone = customer[phone_number]
+          @company.email = customer.email
+        rescue GoCardlessPro::InvalidApiUsageError => e
+          e.error['errors'].each do |error|
+            @company.errors.add('GoCardless Import Error:', error['reason'])
+          end
+        end
+      end
+    end
+
     def create
       @company = Company.new(permitted_params[:company])
       if @company.save
@@ -125,6 +155,17 @@ ActiveAdmin.register Company do
         render :new
       end
     end
+
   end
+
+  collection_action :import_company do
+    render partial: "import_company_modal"
+  end
+
+  action_item :import_company_button do
+    link_to "Import Company", import_company_admin_companies_path, remote: true
+  end
+
+
 end
 
