@@ -116,12 +116,12 @@ ActiveAdmin.register Company do
       unless params[:go_cardless_reference].blank?
         if Rails.env == "development"
           client = GoCardlessPro::Client.new(
-            access_token: "sandbox_HF_Aa3qDC9x2Ie6EQJ-YVIQ0o4GMarEtpur6whQ7",
+            access_token: ENV['GC_ACCESS_TOKEN'],
             environment: :sandbox
           )
         else
           client = GoCardlessPro::Client.new(
-            access_token: "sandbox_HF_Aa3qDC9x2Ie6EQJ-YVIQ0o4GMarEtpur6whQ7"
+            access_token: ENV['GC_ACCESS_TOKEN']
           )
         end
 
