@@ -8,6 +8,12 @@
 #$ ($) ->
   #$('#selecttwo').select2()
   #return
+$ ->
+  $('.import-company-btn').click () ->
+    if $('.import-form').is(":visible") == true
+      # $('.import-form').addClass "hid"
+      $('.import-form').remove()
+      console.log "hidden"
 
 $ ->
   # enable chosen js
