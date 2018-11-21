@@ -12,6 +12,7 @@ ActiveAdmin.register Company do
   # filter :phone, as: :select, label: "Search by Phone Number", prompt: "Select or Type", collection: Company.all.collect { |c| c.phone }, input_html: { class: 'chosen-select2' }
   # filter :email, as: :select, label: "Search by Email", prompt: "Select or Type", collection: Company.all.collect { |c| c.email }, input_html: { class: 'chosen-select2' }
 
+
   index do
     selectable_column
     column :id do |c|
@@ -116,21 +117,21 @@ ActiveAdmin.register Company do
       unless params[:go_cardless_reference].blank?
         if Rails.env == "development"
           client = GoCardlessPro::Client.new(
-            access_token: ENV['GC_ACCESS_TOKEN'],
+            access_token: ENV["GOCARDLESS_SANDBOX_TOKEN"],
             environment: :sandbox
           )
         else
           client = GoCardlessPro::Client.new(
-            access_token: ENV['GC_ACCESS_TOKEN']
+            access_token: ENV["GOCARDLESS_PROD_TOKEN"]
           )
         end
 
         begin
           customer = client.customers.get(params[:go_cardless_reference])
-          @company.name = customer.company_name
+          @company.name = customer.company_name.to_s
           @company.address = customer.address_line1.to_s + ' ' + customer.address_line2.to_s + ' ' + customer.address_line3.to_s
           @company.postcode = customer.postal_code
-          @company.contact_name = customer.given_name + ' ' + customer.family_name
+          @company.contact_name = customer.given_name.to_s + ' ' + customer.family_name.to_s
           # @company.phone = customer[phone_number]
           @company.email = customer.email
         rescue GoCardlessPro::InvalidApiUsageError => e
@@ -163,7 +164,7 @@ ActiveAdmin.register Company do
   end
 
   action_item :import_company_button do
-    link_to "Import Company", import_company_admin_companies_path, remote: true
+    link_to "Import Company", import_company_admin_companies_path, remote: true, class: "import-company-btn"
   end
 
 
