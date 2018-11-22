@@ -12,7 +12,6 @@ ActiveAdmin.register Company do
   # filter :phone, as: :select, label: "Search by Phone Number", prompt: "Select or Type", collection: Company.all.collect { |c| c.phone }, input_html: { class: 'chosen-select2' }
   # filter :email, as: :select, label: "Search by Email", prompt: "Select or Type", collection: Company.all.collect { |c| c.email }, input_html: { class: 'chosen-select2' }
 
-
   index do
     selectable_column
     column :id do |c|
@@ -160,13 +159,14 @@ ActiveAdmin.register Company do
   end
 
   collection_action :import_company do
-    render partial: "import_company_modal"
+    # render partial: "import_company_modal"
+    render partial: "import_company_form"
   end
 
   action_item :import_company_button do
-    link_to "Import Company", import_company_admin_companies_path, remote: true, class: "import-company-btn"
+    # link_to "Import Company", import_company_admin_companies_path, remote: true, class: "import-company-btn"
+    link_to "Import Company", "#", class: "import-company-btn"
   end
-
 
 end
 
