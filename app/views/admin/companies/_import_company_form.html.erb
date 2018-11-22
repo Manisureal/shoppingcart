@@ -1,5 +1,6 @@
-<%= form_tag(new_admin_company_path, method: :get) do %>
-  <br><p style="color:#5E6469;padding-left: 20px;">Import Contact From GoCardless</p><br>
+<%= form_tag(new_admin_company_path, method: :get, class: "import-form") do %>
+  <p><i class="fa fa-lg fa-times-circle"></i></p>
+  <br><p style="color:#5E6469;padding-left: 20px;">Import Contact From GoCardless</i></p><br>
   <div id="form-body">
     <%= text_field_tag 'go_cardless_reference', @import, placeholder: "Enter a GoCardless Ref No..." %>
     <%= submit_tag 'Import', id: "stock-submit-btn" %>
@@ -26,4 +27,23 @@
     box-shadow: inset 1px 1px 1px rgba(34, 34, 34, 0.08);
     padding:10px;
   }
+
+  .fa-times-circle {
+    float:right;
+    /*color:red;*/
+    margin:10px;
+  }
+
+  .fa-times-circle:hover {
+    cursor:pointer;
+  }
+
+
 </style>
+
+
+<script>
+  $('.fa-times-circle').click(function() {
+    $('.import-form').remove()
+  })
+</script>

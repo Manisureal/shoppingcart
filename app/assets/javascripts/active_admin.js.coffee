@@ -8,12 +8,14 @@
 #$ ($) ->
   #$('#selecttwo').select2()
   #return
+
+# Stop the Import Company from rendering too many times and rendering too many import company forms
 $ ->
-  $('.import-company-btn').click () ->
-    if $('.import-form').is(":visible") == true
-      # $('.import-form').addClass "hid"
-      $('.import-form').remove()
-      console.log "hidden"
+  $('.import-company-btn').on 'click', (evt) ->
+    if $('.import-form').is(":visible") == false
+      $.get '/admin/companies/import_company', (data) ->
+        $('#main_content_wrapper').prepend data
+        return
 
 $ ->
   # enable chosen js
