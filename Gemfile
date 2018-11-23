@@ -18,6 +18,7 @@ gem 'trackerific'
 gem 'audited', '~> 4.7'
 gem 'chosen-rails'
 gem 'gocardless_pro'
+gem 'geocoder'
 
 gem 'autoprefixer-rails'
 gem 'bootstrap-sass', '~> 3.3'
