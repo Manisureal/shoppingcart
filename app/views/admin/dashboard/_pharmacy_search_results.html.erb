@@ -11,7 +11,9 @@
     <tr><th></th><th style="text-align:center;font-size:1.6em;">Nearby Pharmacies</th><th></th></tr>
     <tr>
       <th scope="col">Pharmacy</th>
-      <th scope="col">Distance</th>
+      <% if params[:search].present? %>
+        <th scope="col">Distance</th>
+      <% end %>
       <th scope="col">Postcode</th>
     </tr>
   </thead>
@@ -19,7 +21,9 @@
 <% @pharmacy.each do |pharmacy| %>
     <tr>
       <td><%= pharmacy.name %></td>
-      <td><%= pharmacy.distance.round(2) %> miles</td>
+      <% if params[:search].present? %>
+        <td><%= pharmacy.distance.round(2) %> miles</td>
+      <% end %>
       <td><%= pharmacy.postcode %></td>
     </tr>
 <% end %>
