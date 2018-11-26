@@ -84,6 +84,16 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
 
+      tab :pharmacy_search do
+        columns class: "cols-adjust" do
+          column do
+            panel "FIND A NEARBY PHARMACY" do
+              render partial: "pharmacy_search"
+            end
+          end
+        end
+      end
+
       # tab :customers do
       #   columns class: "cols-adjust" do
       #     column do
@@ -127,7 +137,7 @@ ActiveAdmin.register_page "Dashboard" do
       #     end
       #   end
       # end
-      if current_user.id == 100 || current_user.id == 102
+      if current_user.id == 100 || current_user.id == 102 || current_user.id == 105
         tab :sales_staff_reports do
           columns class: "cols-adjust" do
             column do
@@ -170,6 +180,17 @@ ActiveAdmin.register_page "Dashboard" do
         headers['Content-Type'] ||= 'text/csv'
       end
       format.js # actually means: if the client ask for js -> return file.js
+    end
+  end
+
+  page_action :pharmacy_search do
+    if params[:search].present?
+      @pharmacy = Company.near(params[:search], 50)
+    else
+      @pharmacy = Company.all
+    end
+    respond_to do |format|
+      format.js
     end
   end
   # member_actions are only to be created under specific Models as they need to be prepended with an id for a specific model item CRUD action

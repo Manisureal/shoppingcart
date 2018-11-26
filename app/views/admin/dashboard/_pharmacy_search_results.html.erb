@@ -1,0 +1,27 @@
+
+  <%# pharmacy.nearbys(20).each do |nearby_pharmacy| %>
+   <!-- <ul> -->
+      <!-- <li><b>Nearby Pharmacies:</b> <%#= nearby_pharmacy.name %> <%#= nearby_pharmacy.distance.round(2) %></li> -->
+   <!-- </ul> -->
+  <%# end %>
+
+
+<table>
+  <thead>
+    <tr><th></th><th style="text-align:center;font-size:1.6em;">Nearby Pharmacies</th><th></th></tr>
+    <tr>
+      <th scope="col">Pharmacy</th>
+      <th scope="col">Distance</th>
+      <th scope="col">Postcode</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @pharmacy.each do |pharmacy| %>
+    <tr>
+      <td><%= pharmacy.name %></td>
+      <td><%= pharmacy.distance.round(2) %> miles</td>
+      <td><%= pharmacy.postcode %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
