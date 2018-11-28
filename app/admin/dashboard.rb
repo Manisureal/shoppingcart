@@ -91,6 +91,11 @@ ActiveAdmin.register_page "Dashboard" do
               render partial: "pharmacy_search"
             end
           end
+          column do
+            panel "PHARMACY RESULTS MAP", id: "pharmacy-map" do
+              render partial: "pharmacy_search_map"
+            end
+          end
         end
       end
 
@@ -186,6 +191,8 @@ ActiveAdmin.register_page "Dashboard" do
   page_action :pharmacy_search do
     if params[:search].present?
       @pharmacy = Company.near(params[:search], 50)
+      @geocode_postcode = Geocoder.search(params[:search])
+      @result = @geocode_postcode.first.coordinates
     else
       @pharmacy = Company.all
     end
