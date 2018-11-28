@@ -1,12 +1,15 @@
 $('#result').html("<%= escape_javascript(render(:partial => "pharmacy_search_results")).html_safe %>");
 
-var locations = {}
-<% @pharmacy.each do |p| %>
-  <% next if p.latitude.to_f == 0.0 and p.longitude.to_f == 0.0 %>
-  locations[<%= raw p.name.to_json %>] = ({lat: <%= p.latitude.to_f %>, lng: <%= p.longitude.to_f %>})
-<% end %>
+function pharmacyLocations(){
+  locations = {}
+  <% @pharmacy.each do |p| %>
+    <% next if p.latitude.to_f == 0.0 and p.longitude.to_f == 0.0 %>
+    locations[<%= raw p.name.to_json %>] = ({lat: <%= p.latitude.to_f %>, lng: <%= p.longitude.to_f %>})
+  <% end %>
+}
 
 function initMap() {
+  pharmacyLocations();
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 8,
     center:Object.values(locations)[0]
@@ -32,7 +35,7 @@ function initMap() {
     icon: 'http://maps.google.com/mapfiles/ms/micons/blue-dot.png'
   })
 
-  document.getElementById('pharmacy-map').style.display = "block"
+  document.getElementById('pharmacy-map-column').style.display = "inline-grid"
 }
 
 initMap();
