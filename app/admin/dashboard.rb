@@ -84,21 +84,6 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
 
-      tab :pharmacy_search do
-        columns class: "cols-adjust" do
-          column do
-            panel "FIND A NEARBY PHARMACY" do
-              render partial: "pharmacy_search"
-            end
-          end
-          column id: "pharmacy-map-column" do
-            panel "PHARMACY RESULTS MAP" do
-              render partial: "pharmacy_search_map"
-            end
-          end
-        end
-      end
-
       # tab :customers do
       #   columns class: "cols-adjust" do
       #     column do
@@ -149,6 +134,21 @@ ActiveAdmin.register_page "Dashboard" do
               panel "SALES STAFF REPORTS" do
                 render partial: "sales_staff_query"
               end
+            end
+          end
+        end
+      end
+
+      tab :pharmacy_search do
+        columns class: "cols-adjust" do
+          column do
+            panel "FIND A NEARBY PHARMACY" do
+              render partial: "pharmacy_search"
+            end
+          end
+          column id: "pharmacy-map-column" do
+            panel "PHARMACY RESULTS MAP" do
+              render partial: "pharmacy_search_map"
             end
           end
         end
