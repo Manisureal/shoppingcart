@@ -91,8 +91,8 @@ ActiveAdmin.register_page "Dashboard" do
               render partial: "pharmacy_search"
             end
           end
-          column do
-            panel "PHARMACY RESULTS MAP", id: "pharmacy-map" do
+          column id: "pharmacy-map-column" do
+            panel "PHARMACY RESULTS MAP" do
               render partial: "pharmacy_search_map"
             end
           end
