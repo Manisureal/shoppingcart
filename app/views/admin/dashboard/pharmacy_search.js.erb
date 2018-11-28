@@ -1,62 +1,36 @@
 $('#result').html("<%= escape_javascript(render(:partial => "pharmacy_search_results")).html_safe %>");
 
-
-var locations = []
+var locations = {}
 <% @pharmacy.each do |p| %>
   <% next if p.latitude.to_f == 0.0 and p.longitude.to_f == 0.0 %>
-  locations.push({lat: <%= p.latitude.to_f %>, lng: <%= p.longitude.to_f %>})
+  locations[<%= raw p.name.to_json %>] = ({lat: <%= p.latitude.to_f %>, lng: <%= p.longitude.to_f %>})
 <% end %>
 
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 6,
-    center:locations[0]
+    zoom: 8,
+    center:Object.values(locations)[0]
   });
 
-  locations.forEach(function(location){
+  Object.entries(locations).forEach(function(location){
     var resultsMarker = new google.maps.Marker({
-      position: location,
+      position: location[1],
       map: map,
-      title: 'Hello World!'
+      icon: 'http://maps.google.com/mapfiles/ms/micons/red-dot.png',
+    });
+    var infowindow = new google.maps.InfoWindow({
+      content: location[0]
+    });
+    resultsMarker.addListener('click', function() {
+      infowindow.open(map, resultsMarker);
     });
   })
 
   var searchMarker = new google.maps.Marker({
     position: {lat: <%= @result[0] %>, lng: <%= @result[1] %>},
     map: map,
-    label: {
-      text: 'S',
-      color: 'blue',
-    },
-    // icon: {
-    //   url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"                           }
-    // });,
-    icon: {
-      BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
-    }
-
-  // setMarkers(map, bounds, locations, 'http://maps.google.com/mapfiles/ms/icons/red-dot.png');
-  // map.fitBounds(bounds);
+    icon: 'http://maps.google.com/mapfiles/ms/micons/blue-dot.png'
+  })
 }
 
-
-
-// setMarkers = function(map, bounds, locations, icon) {
-//   $.each(locations, function(index, value) {
-//     var infowindow, lat, latlngset, long, marker;
-//     lat = value[0];
-//     long = value[1];
-//     latlngset = new google.maps.LatLng(lat, long);
-//     marker = new google.maps.Marker({
-//       map: map,
-//       position: latlngset,
-//       icon: icon
-//     });
-//     infowindow = new google.maps.InfoWindow;
-//     google.maps.event.addListener(marker, 'click', function() {
-//       infowindow.setContent(value[2]);
-//       infowindow.open(map, marker);
-//     });
-//     return bounds.extend(marker.position);
-//   });
-// };
+initMap();
