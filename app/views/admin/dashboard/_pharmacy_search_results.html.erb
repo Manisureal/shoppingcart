@@ -4,8 +4,6 @@
       <!-- <li><b>Nearby Pharmacies:</b> <%#= nearby_pharmacy.name %> <%#= nearby_pharmacy.distance.round(2) %></li> -->
    <!-- </ul> -->
   <%# end %>
-
-
 <table>
   <thead>
     <tr><th></th><th style="text-align:center;font-size:1.6em;">Nearby Pharmacies</th><th></th></tr>
@@ -18,7 +16,7 @@
     </tr>
   </thead>
   <tbody>
-<% @pharmacy.each do |pharmacy| %>
+  <% @pharmacy.each do |pharmacy| %>
     <tr>
       <td><%= pharmacy.name %></td>
       <% if params[:search].present? %>
@@ -26,6 +24,8 @@
       <% end %>
       <td><%= pharmacy.postcode %></td>
     </tr>
-<% end %>
+  <% end %>
   </tbody>
 </table>
+
+<!-- https://maps.googleapis.com/maps/api/staticmap?size=640x640&sensor=false&zoom=15&markers=#{pharmacy.latitude}%2C#{pharmacy.longitude}&key=AIzaSyCz4f6u-XZHqsLCluoDm8GJmer8NPr1W7o&signature=UY_azJ870FoT2rhgT2mB4_Dsvts= -->
