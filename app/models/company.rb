@@ -7,7 +7,7 @@ class Company < ApplicationRecord
 
   # geocoded_by :geocoder_address
   geocoded_by :postcode
-  after_validation :geocode#, if: :address_changed?
+  after_validation :geocode, if: :postcode_changed?
 
   # def geocoder_address
   #   [address, postcode].compact.join(', ')
