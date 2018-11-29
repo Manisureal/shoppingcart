@@ -1,6 +1,12 @@
 <table>
   <thead>
-    <tr><th></th><th style="text-align:center;font-size:1.6em;">Nearby Pharmacies</th><th></th></tr>
+    <tr>
+      <% if params[:search].present? %>
+        <th colspan="3" style="text-align:center;font-size:1.6em;">Nearby Pharmacies</th>
+      <% else %>
+        <th colspan="2" style="text-align:center;font-size:1.6em;">Nearby Pharmacies</th>
+      <% end %>
+    </tr>
     <tr>
       <th scope="col">Pharmacy</th>
       <% if params[:search].present? %>
