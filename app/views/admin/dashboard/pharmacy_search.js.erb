@@ -29,11 +29,13 @@ function initMap() {
     });
   })
 
-  var searchMarker = new google.maps.Marker({
-    position: {lat: <%= @result[0] %>, lng: <%= @result[1] %>},
-    map: map,
-    icon: 'http://maps.google.com/mapfiles/ms/micons/blue-dot.png'
-  })
+  <% if !@result.blank? %>
+    var searchMarker = new google.maps.Marker({
+      position: {lat: <%= @result[0] %>, lng: <%= @result[1] %>},
+      map: map,
+      icon: 'http://maps.google.com/mapfiles/ms/micons/blue-dot.png'
+    })
+  <% end %>
 
   document.getElementById('pharmacy-map-column').style.display = "inline-grid"
 }
