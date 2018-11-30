@@ -29,7 +29,7 @@ function initMap() {
     });
   })
 
-  <% if @result.class != String %>
+  <% if @result.present? && @result.class != String %>
     var searchMarker = new google.maps.Marker({
       position: {lat: <%= @result[0] %>, lng: <%= @result[1] %>},
       map: map,
@@ -37,7 +37,14 @@ function initMap() {
     })
   <% end %>
 
-  document.getElementById('pharmacy-map-column').style.display = "inline-grid"
+  <% if !@pharmacy.empty? %>
+    document.getElementById('pharmacy-map-column').style.display = "inline-grid"
+  <% end %>
 }
 
+function hideMap() {
+  document.getElementById('pharmacy-map-column').style.display = "none"
+}
+
+hideMap();
 initMap();

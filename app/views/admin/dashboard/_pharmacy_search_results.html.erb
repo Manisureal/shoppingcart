@@ -1,11 +1,13 @@
-<% if @geocode_postcode.empty? %>
-  <div class="flash">
-    <%= @result %>
-  </div>
-<% elsif !@geocode_postcode.empty? && @pharmacy.empty? %>
-  <div class="flash">
-    Oops! No nearby pharmacys found, please widen your search!
-  </div>
+<% if params[:search].present? %>
+  <% if @geocode_postcode.empty? %>
+    <div class="flash">
+      <%= @result %>
+    </div>
+  <% elsif !@geocode_postcode.empty? && @pharmacy.empty? %>
+    <div class="flash">
+      Oops! No nearby pharmacys found, please widen your search!
+    </div>
+  <% end %>
 <% end %>
 
 <table>
