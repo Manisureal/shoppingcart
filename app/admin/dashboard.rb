@@ -190,7 +190,7 @@ ActiveAdmin.register_page "Dashboard" do
 
   page_action :pharmacy_search do
     if params[:search].present?
-      @pharmacy = Company.near(params[:search], 50)
+      @pharmacy = Company.near(params[:search], params[:distance].blank? ? 50 : params[:distance])
       @geocode_postcode = Geocoder.search(params[:search])
       @result = @geocode_postcode.any? ? @geocode_postcode.first.coordinates : @error_message = "Incorrect Postcode Format! Try: e.g. 'Southampton' or 'SO53 4DR'"
     else

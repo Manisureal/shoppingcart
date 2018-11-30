@@ -1,14 +1,15 @@
 <%= form_tag admin_dashboard_pharmacy_search_path, remote: true, method: :get do %>
   <p style="padding-left:20px;">
-    <%= text_field_tag :search, params[:search], placeholder: "Enter a Postcode..." %>
-    <%= submit_tag "Search Near", name: nil %>
+    <%= text_field_tag :search, params[:search], placeholder: "Enter a Postcode or Town..." %>
+    <%= number_field_tag :distance, params[:distance], placeholder: "Specify Distance(miles)..." %>
+    <%= submit_tag "Search Nearby Pharmacies", name: nil %>
   </p>
 <% end %>
 
 <div id="result"></div>
 
 <style>
-  #search {
+  #search, #distance {
     width: 25%;
     padding: 12px 20px;
     margin: 8px 0;
