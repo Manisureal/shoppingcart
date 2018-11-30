@@ -29,7 +29,7 @@ function initMap() {
     });
   })
 
-  <% if !@result.blank? %>
+  <% if @result.class != String %>
     var searchMarker = new google.maps.Marker({
       position: {lat: <%= @result[0] %>, lng: <%= @result[1] %>},
       map: map,
