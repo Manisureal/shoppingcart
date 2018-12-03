@@ -8,7 +8,7 @@ ActiveAdmin.register_page "Dashboard" do
         columns class: "cols-adjust" do
           column do
             panel "RECENT ORDERS", class: "orders" do
-              table_for Order.where(status: ["Ordered", "Incomplete"]).order("id desc").limit(10) do
+              table_for Order.where(status: ["Ordered", "Incomplete"]).order("id desc").limit(20) do
                 column("Order#") { |order| link_to(order.id, admin_order_path(order)) }
                 column("Ordered Date") { |order| order.created_at }
                 column("Updated Date") { |order| (order.updated_at == order.created_at) ? "Not Updated" : order.updated_at }
