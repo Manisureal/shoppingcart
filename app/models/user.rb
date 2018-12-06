@@ -8,6 +8,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   audited
 
+  def full_name
+    self.forname.to_s + " " + self.surname.to_s
+  end
+
   private
 
   def send_welcome_email
