@@ -146,7 +146,7 @@ ActiveAdmin.register Order do
   controller do
     def new
       @order = Order.new
-      6.times { order_item = @order.order_items.build }
+      10.times { order_item = @order.order_items.build }
       #*** To dynamically add order items use this ***#
       # @order_items = @order.order_items << OrderItem.new
     end
