@@ -178,7 +178,7 @@ ActiveAdmin.register Order do
     def edit
       @order = Order.find(params[:id])
       @order_items = @order.order_items
-      (6 - @order.order_items.count).times do
+      (10 - @order.order_items.count).times do
         @order.order_items.new
       end
     end
