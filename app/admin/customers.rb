@@ -45,6 +45,7 @@ ActiveAdmin.register User, as: "Customer" do
   end
 
   form do |f|
+    f.semantic_errors *f.object.errors.keys
     f.inputs "Identity" do
       f.label :company, class: "f-label"
       f.select :company_id,
