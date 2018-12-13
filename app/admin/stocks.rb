@@ -1,7 +1,7 @@
 ActiveAdmin.register Stock do
   menu parent: "Products"
   belongs_to :product, optional: true
-  permit_params :stock_change, :stock_message, :cost_price, :stocks
+  permit_params :stock_change, :stock_message, :cost_price, :stocks, :created_at
 
   # index do
   #   selectable_column
@@ -44,6 +44,7 @@ ActiveAdmin.register Stock do
       f.input :stock_change
       f.input :stock_message, as: :select, collection: ["Delivery", "Returned", "Stock Check"], input_html: { class: 'chosen-select' }
       f.input :cost_price
+      f.input :created_at, as: :date_picker
       # f.semantic_errors
     end
     actions
