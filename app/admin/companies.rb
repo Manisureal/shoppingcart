@@ -95,7 +95,7 @@ ActiveAdmin.register Company do
       f.input :name
       f.input :address, as: :text
       f.input :postcode
-      f.input :contact_name
+      f.input :contact_name, required: true
       f.input :phone
       f.input :fax
       f.input :email
