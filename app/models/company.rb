@@ -16,8 +16,10 @@ class Company < ApplicationRecord
   private
 
   def check_contact_name
-    if contact_name.split.length > 0 && contact_name.split.length < 2
-      errors.add(:contact_name, "Must include both Forenames and Surnames")
+    if contact_name.empty?
+      errors.add(:contact_name, "can't be blank")
+    elsif contact_name.split.length > 0 && contact_name.split.length < 2
+      errors.add(:contact_name, "must include both Forenames and Surnames")
     end
   end
 end
