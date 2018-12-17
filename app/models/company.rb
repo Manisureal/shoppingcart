@@ -2,7 +2,8 @@ class Company < ApplicationRecord
   has_many :users, dependent: :destroy
   has_many :orders
   has_many :consignments, through: :orders
-  validates :email, format: { with: /\A.*@.*\.com\z/ }, presence: true
+  # validates :email, format: { with: /\A.*@.*\.com\z/ }, presence: true
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, presence: true
   validate :check_contact_name
   audited
 
