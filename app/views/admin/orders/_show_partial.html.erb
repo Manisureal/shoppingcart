@@ -35,7 +35,15 @@
 
 <%= form_for [:admin, @order] do |f| %>
 <!-- <h1 style="color:#696969;">Order# <%#= @order.id %> Summary</h1> -->
-
+<% if @order.errors.any? %>
+  <div class="flash">
+    <ul>
+      <% @order.errors.each do |attr,message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 <table style="color:#696969;">
   <tr>
     <th>Product Code</th>
