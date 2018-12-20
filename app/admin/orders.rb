@@ -2,7 +2,8 @@ ActiveAdmin.register Order do
   menu priority: 2, if: proc{ current_user.admin? }
   actions :index, :show, :new, :create, :update, :edit
   permit_params :status, :total_price, :notes, :name, :address, :phone, :delivery_date, :company_id, :taken_by, :admin_notes, :boxes, :user_id,
-    order_items_attributes: [:id, :_destroy, :product_id, :quantity, :to_dispatch]
+    order_items_attributes: [:id, :_destroy, :product_id, :quantity, :to_dispatch, :to_dispatch_direct]
+    # order_items_attributes: [:id, :_destroy, :product_id, :quantity, :to_dispatch, consignment_items_attributes: [:to_dispatch_direct]]
   # For MySQL Database - searches with LIKE which works fine when searching using equal(eq) in the search
   # filter :status_or_user_forname_or_user_surname_or_company_name_or_taken_by_or_id_or_total_price_eq, as: :string, label: "Search Order", placeholder: "e.g. Status, Customer, Company, Admin, Price"
   filter :user_forname_or_user_surname_or_company_name_cont, as: :string, label: "Search User or Company", placeholder: "e.g. Customer, Company..."
@@ -184,40 +185,11 @@ ActiveAdmin.register Order do
     end
 
     def update
-      @consignment = Consignment.last
       @order = Order.find(params[:id])
       if @order.update_attributes(permitted_params[:order])
-        # @check_oi_quantities_disp = @order.order_items.each { |oi| @res = !oi.quantity_dispatched.blank?  }
-        if params[:commit] == 'Dispatch Order'
-          if @order.status == "Incomplete" #and @res
-            @new_consignment_for_incmp = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: "", status: @order.status)
-            @new_consignment_for_incmp.order.order_items.each do |oi|
-              nci = @new_consignment_for_incmp.consignment_items.new
-              nci.quantity = oi.incomplete_quantity
-              nci.order_item_id = oi.id
-              @new_consignment_for_incmp.consignment_items << nci
-            end
-            OrderMailer.order_dispatched(@order).deliver_now
-            redirect_to admin_root_path, alert: "Order# #{@order.id} has been marked as Incomplete"
-
-          elsif @order.status == "Dispatched"
-            @new_consignment_for_disptch = Consignment.create!(user: current_user, order: @order, shipped_at: Time.now, tracking_no: "", status: @order.status)
-            @new_consignment_for_disptch.order.order_items.each do |ci|
-              nci = @new_consignment_for_disptch.consignment_items.new
-              nci.quantity = ci.incomplete_quantity
-              nci.order_item_id = ci.id
-              @new_consignment_for_disptch.consignment_items << nci
-            end
-            OrderMailer.order_dispatched(@order).deliver_now
-            redirect_to admin_root_path, notice: "Order# #{@order.id} was successfully marked as Dispatched"
-          end
-        end
-        if params[:commit] == 'Update Order'
-          @order.total_price = @order.calculate_total
-          @order.save
-          redirect_to admin_root_path, notice: "Order# #{@order.id} was successfully Updated"
-        end
-
+        @order.total_price = @order.calculate_total
+        @order.save
+        redirect_to admin_root_path, notice: "Order# #{@order.id} was successfully Updated"
       else
         @order_errors = @order.errors.full_messages
         @order_items = @order.order_items
@@ -225,6 +197,31 @@ ActiveAdmin.register Order do
           @order.order_items.new
         end
         render :edit
+      end
+    end
+  end
+
+  member_action :dispatch_order, method: :patch do
+    @order = Order.find(params[:id])
+    if params[:commit] == 'Dispatch Order'
+      if @order.update_attributes(permitted_params[:order])
+        @new_consignment = @order.consignments.build(user: current_user, shipped_at: Time.now, tracking_no: "", status: @order.status)
+        @new_consignment.save
+
+        @new_consignment.order.order_items.each_with_index do |oi, index|
+          nci = @new_consignment.consignment_items.build(order_item_id: oi.id, quantity: oi.incomplete_quantity)
+          nci.order_item.to_dispatch_direct = params[:order][:order_items_attributes][index.to_s][:to_dispatch_direct] === "1"
+          nci.save
+          # nci.to_dispatch_direct = params[:order][:order_items_attributes][index.to_s][:to_dispatch_direct] === "1"
+          # nci.to_dispatch_direct = params[:order][:order_items_attributes][index.to_s][:consignment_items_attributes][0.to_s][:to_dispatch_direct] === "1"
+          # @new_consignment.consignment_items << nci
+        end
+        redirect_to admin_root_path, alert: "Order# #{@order.id} has been marked as Incomplete" if @order.status == "Incomplete"
+        redirect_to admin_root_path, notice: "Order# #{@order.id} was successfully marked as Dispatched" if @order.status == "Dispatched"
+        OrderMailer.order_dispatched(@order).deliver_now
+      else
+        @order_errors = @order.errors.full_messages
+        render :show
       end
     end
   end

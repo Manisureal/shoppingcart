@@ -33,7 +33,7 @@
 
 </table>
 
-<%= form_for [:admin, @order] do |f| %>
+<%= form_for [:admin, @order], url: dispatch_order_admin_order_path(@order) do |f| %>
 <!-- <h1 style="color:#696969;">Order# <%#= @order.id %> Summary</h1> -->
 <% if @order.errors.any? %>
   <div class="flash">
@@ -49,11 +49,12 @@
     <th>Product Code</th>
     <th>Description</th>
     <th>Unit Price</th>
-    <th>Quantity</th>
+    <th>Qty</th>
     <th>Pack Size</th>
     <th>Total Price</th>
-    <th>Quantity Disptached</th>
-    <th>Quantity To Dispatch</th>
+    <th>Qty Dispatched</th>
+    <th>Qty to Dispatch</th>
+    <th>Direct Dispatch</th>
   </tr>
 <%= f.fields_for :order_items do |oi| %>
   <tr>
@@ -65,13 +66,17 @@
     <td><%= number_to_currency oi.object.product.price * oi.object.quantity.to_i %></td>
     <td><%= oi.object.quantity_dispatched %></td>
     <td><%= oi.number_field :to_dispatch %></td>
+    <td><%= oi.check_box :to_dispatch_direct %></td>
     <%= oi.hidden_field :product_id %>
+    <%#= oi.fields_for :consignment_items, oi.object.consignment_items.build do |ci| %>
+      <!-- <td><%#= ci.check_box :to_dispatch_direct %></td> -->
+    <%# end %>
   </tr>
 <% end %>
   <tr>
     <td><%= f.submit "Dispatch Order" %></td>
-    <td colspan="6" style="text-align:right;"><b>Your Order Total:</b></td>
-    <td colspan="7"><b> <%=number_to_currency @order.calculate_total %></b></td>
+    <td colspan="7" style="text-align:right;"><b>Your Order Total:</b></td>
+    <td colspan="8"><b> <%=number_to_currency @order.calculate_total %></b></td>
   </tr>
 </table>
 <% end %>
