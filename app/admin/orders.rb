@@ -93,6 +93,7 @@ ActiveAdmin.register Order do
   end
 
   form do |f|
+    f.semantic_errors *f.object.errors.keys
     f.inputs "Order" do
       if f.object.new_record?
         f.input :company, as: :select, collection: Company.all.collect { |c| [c.name,c.id]}, input_html: { class: "chosen-select company-select" }
