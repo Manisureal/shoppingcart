@@ -1,5 +1,5 @@
 <% if !@date_from.blank? %>
-<table style="color:#696969;" class="results-table">
+<table class="results-table">
   <tr>
     <th>Description</th>
     <!-- <th>Pack Size</th>
@@ -9,7 +9,7 @@
     <th>Total Sale Value</th>
     <th>Total Cost Value</th>
   </tr>
-  <% Product.all.limit(12).each do |p| %>
+  <% Product.all.where(active: true).each do |p| %>
     <tr>
      <td><%= p.description %></td>
      <!-- <td><%#= p.pack_size %></td>
