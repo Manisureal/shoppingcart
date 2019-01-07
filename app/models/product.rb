@@ -2,6 +2,7 @@ class Product < ApplicationRecord
   has_many :order_items
   has_many :stocks
   # after_initialize :current_stock_level
+  after_initialize :update_current_stock_levels
   audited
 
   def self.grand_total_calc(date,column_name)
@@ -54,7 +55,15 @@ class Product < ApplicationRecord
 
   def current_stock_level
     self.stocks.sum(:stock_change)
+
     # self.current_stock = self.stocks.sum(:stock_change)
+    # self.save
+  end
+
+  private
+
+  def update_current_stock_levels
+    self.current_stock = self.stocks.sum(:stock_change)
     # self.save
   end
 end

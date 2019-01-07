@@ -17,7 +17,10 @@ ActiveAdmin.register Product do
     column "Sale Price", :price do |p|
       number_to_currency p.price
     end
-    column :current_stock
+    # column :current_stock_level
+    column :current_stock_level do |p|
+      p.current_stock
+    end
     column "Stock", :id do |p|
       if p.non_stock == false
         link_to 'Add Stock', new_admin_product_stock_path(p)
