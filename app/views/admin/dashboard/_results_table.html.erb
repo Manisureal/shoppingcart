@@ -11,7 +11,7 @@
   </tr>
   <% Product.all.where(active: true).each do |p| %>
     <tr>
-     <td><%= p.description %></td>
+     <td><%= link_to p.description, admin_product_stocks_path(p.id) %></td>
      <!-- <td><%#= p.pack_size %></td>
      <td><%#= number_to_currency p.price %></td>
      <td><%#= number_to_currency p.buy_price %></td> -->
